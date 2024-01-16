@@ -1,4 +1,4 @@
-package com.smunity.graduation.accounts.service;
+package com.smunity.graduation.domain.accounts.service;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -6,7 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-@Transactional(readOnly = true)
+@Transactional
 @Service
-public class AccountsQueryService {
+public class AccountsService {
 }

@@ -1,4 +1,4 @@
-package com.smunity.graduation.accounts.entity;
+package com.smunity.graduation.domain.accounts.entity;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;

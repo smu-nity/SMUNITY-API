@@ -1,9 +1,9 @@
-package com.smunity.graduation.accounts.controller;
+package com.smunity.graduation.domain.accounts.controller;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.smunity.graduation.accounts.service.AccountsService;
+import com.smunity.graduation.domain.accounts.service.AccountsService;
 
 import lombok.RequiredArgsConstructor;
 
