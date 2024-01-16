@@ -18,7 +18,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 import com.smunity.graduation.global.common.ApiResponse;
 import com.smunity.graduation.global.common.code.ErrorReasonDTO;
-import com.smunity.graduation.global.common.code.status.ErrorStatus;
+import com.smunity.graduation.global.common.code.status.ErrorCode;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.ConstraintViolationException;
@@ -35,7 +35,7 @@ public class ExceptionAdvice extends ResponseEntityExceptionHandler {
 			.findFirst()
 			.orElseThrow(() -> new RuntimeException("ConstraintViolationException 추출 도중 에러 발생"));
 
-		return handleExceptionInternalConstraint(e, ErrorStatus.valueOf(errorMessage), HttpHeaders.EMPTY, request);
+		return handleExceptionInternalConstraint(e, ErrorCode.valueOf(errorMessage), HttpHeaders.EMPTY, request);
 	}
 
 	// @Valid 통해 MethodArgumentNotValidException 감지
@@ -54,15 +54,15 @@ public class ExceptionAdvice extends ResponseEntityExceptionHandler {
 			});
 		// 필드명 : ex.getBindingResult().getFieldError().getField(), 각 필드에 대한 에러 : ex.getBindingResult().getFieldError().getDefaultMessage()
 
-		return handleExceptionInternalArgs(ex, HttpHeaders.EMPTY, ErrorStatus.valueOf("_BAD_REQUEST"), request, errors);
+		return handleExceptionInternalArgs(ex, HttpHeaders.EMPTY, ErrorCode.valueOf("_BAD_REQUEST"), request, errors);
 	}
 
 	@ExceptionHandler
 	public ResponseEntity<Object> exception(Exception e, WebRequest request) {
 		e.printStackTrace();
 
-		return handleExceptionInternalFalse(e, ErrorStatus._INTERNAL_SERVER_ERROR, HttpHeaders.EMPTY,
-			ErrorStatus._INTERNAL_SERVER_ERROR.getHttpStatus(), request, e.getMessage());
+		return handleExceptionInternalFalse(e, ErrorCode._INTERNAL_SERVER_ERROR, HttpHeaders.EMPTY,
+			ErrorCode._INTERNAL_SERVER_ERROR.getHttpStatus(), request, e.getMessage());
 	}
 
 	@ExceptionHandler(value = GeneralException.class)
@@ -87,7 +87,7 @@ public class ExceptionAdvice extends ResponseEntityExceptionHandler {
 		);
 	}
 
-	private ResponseEntity<Object> handleExceptionInternalFalse(Exception e, ErrorStatus errorCommonStatus,
+	private ResponseEntity<Object> handleExceptionInternalFalse(Exception e, ErrorCode errorCommonStatus,
 		HttpHeaders headers, HttpStatus status, WebRequest request, String errorPoint) {
 		ApiResponse<Object> body = ApiResponse.onFailure(errorCommonStatus.getCode(), errorCommonStatus.getMessage(),
 			errorPoint);
@@ -102,7 +102,7 @@ public class ExceptionAdvice extends ResponseEntityExceptionHandler {
 
 	// @Valid 관련
 	private ResponseEntity<Object> handleExceptionInternalArgs(Exception e, HttpHeaders headers,
-		ErrorStatus errorCommonStatus,
+		ErrorCode errorCommonStatus,
 		WebRequest request, Map<String, String> errorArgs) {
 		ApiResponse<Object> body = ApiResponse.onFailure(errorCommonStatus.getCode(), errorCommonStatus.getMessage(),
 			errorArgs);
@@ -115,7 +115,7 @@ public class ExceptionAdvice extends ResponseEntityExceptionHandler {
 		);
 	}
 
-	private ResponseEntity<Object> handleExceptionInternalConstraint(Exception e, ErrorStatus errorCommonStatus,
+	private ResponseEntity<Object> handleExceptionInternalConstraint(Exception e, ErrorCode errorCommonStatus,
 		HttpHeaders headers, WebRequest request) {
 		ApiResponse<Object> body = ApiResponse.onFailure(errorCommonStatus.getCode(), errorCommonStatus.getMessage(),
 			null);
