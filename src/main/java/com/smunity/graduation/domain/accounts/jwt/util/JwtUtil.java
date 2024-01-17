@@ -49,8 +49,9 @@ public class JwtUtil {
 	}
 
 	public String getUsername(String token) throws SignatureException {
-		return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload()
-			.get("auth", CustomUserDetails.class).getUsername();
+		// return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload()
+		// 	.get("auth", CustomUserDetails.class).getUsername();
+		return (String)Jwts.parser().setSigningKey(secretKey).build().parseClaimsJws(token).getBody().get("username");
 	}
 
 	public String getRole(String token) throws SignatureException {
@@ -74,7 +75,8 @@ public class JwtUtil {
 			.add("alg", "HS256")
 			.add("typ", "JWT")
 			.and()
-			.claim("auth", customUserDetails)
+			// .claim("auth", customUserDetails)
+			.claim("username", customUserDetails.getUsername())
 			.issuedAt(new Date(System.currentTimeMillis()))
 			.expiration(new Date(System.currentTimeMillis() + accessExpMs))
 			.signWith(secretKey)
@@ -90,7 +92,8 @@ public class JwtUtil {
 			.add("alg", "HS256")
 			.add("typ", "JWT")
 			.and()
-			.claim("auth", customUserDetails)
+			// .claim("auth", customUserDetails)
+			.claim("username", customUserDetails.getUsername())
 			.issuedAt(Date.from(issuedAt))
 			.expiration(Date.from(expiration))
 			.signWith(secretKey)
