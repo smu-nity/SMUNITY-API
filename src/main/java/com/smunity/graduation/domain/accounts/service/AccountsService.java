@@ -12,8 +12,8 @@ import com.smunity.graduation.domain.accounts.entity.Year;
 import com.smunity.graduation.domain.accounts.exception.AccountsExceptionHandler;
 import com.smunity.graduation.domain.accounts.repository.DepartmentJpaRepository;
 import com.smunity.graduation.domain.accounts.repository.ProfileJpaRepository;
-import com.smunity.graduation.domain.accounts.repository.UserJpaRepository;
 import com.smunity.graduation.domain.accounts.repository.YearJpaRepository;
+import com.smunity.graduation.domain.accounts.repository.user.UserJpaRepository;
 import com.smunity.graduation.global.common.code.status.ErrorCode;
 
 import lombok.RequiredArgsConstructor;

@@ -40,7 +40,7 @@ public class User {
 	private Long id;
 
 	@Column(name = "username", nullable = false, unique = true)
-	private String userName;
+	private String userName; // 학번
 
 	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	@Column(name = "password", nullable = false)

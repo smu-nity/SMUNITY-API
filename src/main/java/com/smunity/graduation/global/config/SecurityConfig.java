@@ -10,8 +10,18 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.logout.LogoutFilter;
+
+import com.smunity.graduation.domain.accounts.jwt.filter.CustomLoginFilter;
+import com.smunity.graduation.domain.accounts.jwt.filter.CustomLogoutHandler;
+import com.smunity.graduation.domain.accounts.jwt.filter.JwtExceptionFilter;
+import com.smunity.graduation.domain.accounts.jwt.filter.JwtFilter;
+import com.smunity.graduation.domain.accounts.jwt.util.JwtUtil;
+import com.smunity.graduation.domain.accounts.jwt.util.RedisUtil;
 
 import lombok.RequiredArgsConstructor;
 
@@ -21,9 +31,13 @@ import lombok.RequiredArgsConstructor;
 public class SecurityConfig {
 
 	private final String[] swaggerUrls = {"/swagger-ui/**", "/v3/**"};
-	private final String[] authUrls = {"/", "/api/v1/accounts/register/**"};
+	private final String[] authUrls = {"/", "/api/v1/accounts/register/**", "/api/v1/accounts/login/**"};
 	private final String[] allowedUrls = Stream.concat(Arrays.stream(swaggerUrls), Arrays.stream(authUrls))
 		.toArray(String[]::new);
+
+	private final AuthenticationConfiguration authenticationConfiguration;
+	private final JwtUtil jwtUtil;
+	private final RedisUtil redisUtil;
 
 	@Bean
 	public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
@@ -60,6 +74,36 @@ public class SecurityConfig {
 				.requestMatchers(allowedUrls).permitAll()
 				.requestMatchers("/").permitAll()
 				.anyRequest().authenticated()
+			);
+
+		// Jwt Filter (with login)
+		CustomLoginFilter loginFilter = new CustomLoginFilter(
+			authenticationManager(authenticationConfiguration), jwtUtil
+		);
+		loginFilter.setFilterProcessesUrl("/api/v1/accounts/login");
+
+		http
+			.addFilterAt(loginFilter, UsernamePasswordAuthenticationFilter.class);
+
+		http
+			.addFilterBefore(new JwtFilter(jwtUtil, redisUtil), CustomLoginFilter.class);
+
+		// Exception Handle filter
+		http
+			.addFilterBefore(new JwtExceptionFilter(), LogoutFilter.class);
+
+		// 세션 설정
+		http
+			.sessionManagement((session) -> session
+				.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+			);
+
+		// Logout Filter
+		http
+			.logout((logout) -> logout
+				.logoutUrl("/api/v1/accounts/logout")
+				.logoutSuccessUrl("/")
+				.addLogoutHandler(new CustomLogoutHandler(redisUtil, jwtUtil))
 			);
 
 		return http.build();

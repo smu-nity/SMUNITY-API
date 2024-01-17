@@ -40,7 +40,6 @@ public record UserRegisterRequest(
 
 	}
 
-	// TODO .name 빌더 패턴에 추가해야
 	// Profile 만드는 부분은 record 분리해야??
 	public Profile toProfile(User user, Year year, Department department) {
 		return Profile.builder()
