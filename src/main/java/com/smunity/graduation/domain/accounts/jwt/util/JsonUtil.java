@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 public class JsonUtil {
 
 	public static Map<String, Object> getBody(HttpServletRequest request) throws IOException {
-		return convertJonsnToMap(
+		return convertJsonToMap(
 			readRequestBody(request)
 		);
 	}
@@ -36,7 +36,7 @@ public class JsonUtil {
 		return stringBuilder.toString();
 	}
 
-	private static Map<String, Object> convertJonsnToMap(String json) throws JsonProcessingException {
+	private static Map<String, Object> convertJsonToMap(String json) throws JsonProcessingException {
 		return new ObjectMapper().readValue(json, new TypeReference<>() {
 		});
 	}
