@@ -1,9 +1,8 @@
 package com.smunity.graduation.domain.smu.controller;
 
 import com.smunity.graduation.domain.smu.dto.AuthRequestDto;
-import com.smunity.graduation.domain.smu.dto.AuthResponseDto;
 import com.smunity.graduation.domain.smu.dto.CourseResponseDto;
-import com.smunity.graduation.domain.smu.service.SmuService;
+import com.smunity.graduation.domain.smu.service.CourseService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -16,17 +15,12 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/smu")
-public class SmuController {
-    private final SmuService smuService;
+@RequestMapping("/api/v1/courses")
+public class CourseController {
+    private final CourseService courseService;
 
-    @PostMapping("/auth")
-    public ResponseEntity<AuthResponseDto> authenticate(@RequestBody @Valid AuthRequestDto requestDto) {
-        return smuService.getUserInfo(requestDto);
-    }
-
-    @PostMapping("/courses")
-    public ResponseEntity<List<CourseResponseDto>> getCourses(@RequestBody @Valid AuthRequestDto requestDto) {
-        return smuService.getCourses(requestDto);
+    @PostMapping("/update")
+    public ResponseEntity<List<CourseResponseDto>> updateCourses(@RequestBody @Valid AuthRequestDto requestDto) {
+        return courseService.updateCourses(requestDto);
     }
 }

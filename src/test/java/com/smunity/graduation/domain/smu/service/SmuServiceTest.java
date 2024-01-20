@@ -13,7 +13,7 @@ import java.util.List;
 @SpringBootTest
 public class SmuServiceTest {
     @Autowired
-    private SmuService smuService;
+    private AuthService authService;
 
     @Test
     public void getUserInfoTest() throws Exception {
@@ -21,7 +21,7 @@ public class SmuServiceTest {
         AuthRequestDto requestDto = new AuthRequestDto("201911019", "password");
 
         //when
-        ResponseEntity<AuthResponseDto> response = smuService.getUserInfo(requestDto);
+        ResponseEntity<AuthResponseDto> response = authService.authenticate(requestDto);
 
         //then
         System.out.println(response.getBody());
@@ -33,7 +33,7 @@ public class SmuServiceTest {
         AuthRequestDto requestDto = new AuthRequestDto("201911019", "password");
 
         //when
-        ResponseEntity<List<CourseResponseDto>> response = smuService.getCourses(requestDto);
+        ResponseEntity<List<CourseResponseDto>> response = authService.getCourses(requestDto);
 
         //then
         System.out.println(response.getBody());
