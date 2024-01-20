@@ -18,11 +18,11 @@ public class QuestionController {
     private final QuestionService questionService;
     private final QuestionQueryService questionQueryService;
 
-//    @PostMapping("/")
-//    public ApiResponse<QuestionResponseDto> createQuestion(
-//            @RequestBody QuestionRequestDto requestDto) {
-//        return ApiResponse.onSuccess(questionService.createQuestion(requestDto));
-//    }
+    @PostMapping("/")
+    public ApiResponse<QuestionResponseDto> createQuestion(
+            @RequestBody QuestionRequestDto requestDto) {
+        return ApiResponse.onSuccess(questionService.createQuestion(requestDto));
+    }
 
     @PutMapping("/{questionId}")
     public ApiResponse<QuestionResponseDto> updateQuestion(

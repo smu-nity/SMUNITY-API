@@ -1,6 +1,8 @@
 package com.smunity.graduation.domain.qna.service;
 
+import com.smunity.graduation.domain.accounts.entity.User;
 import com.smunity.graduation.domain.accounts.exception.AccountsExceptionHandler;
+import com.smunity.graduation.domain.accounts.repository.user.UserRepository;
 import com.smunity.graduation.domain.qna.dto.QuestionRequestDto;
 import com.smunity.graduation.domain.qna.dto.QuestionResponseDto;
 import com.smunity.graduation.domain.qna.entity.Question;
@@ -15,12 +17,14 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class QuestionService {
     private final QuestionJpaRepository questionJpaRepository;
+    private final UserRepository userRepository;
 
-//    public QuestionResponseDto createQuestion(QuestionRequestDto requestDto) {
-//
-////        Question saveQuestion = questionJpaRepository.save(requestDto.toEntity());
-////        return QuestionResponseDto.from(saveQuestion);
-//    }
+    public QuestionResponseDto createQuestion(QuestionRequestDto requestDto) {
+        User author = userRepository.findByUserName("admin")
+                .orElseThrow(() -> new AccountsExceptionHandler(ErrorCode.USER_NOT_FOUND));
+        Question saveQuestion = questionJpaRepository.save(requestDto.toEntity(author));
+        return QuestionResponseDto.from(saveQuestion);
+    }
 
     public QuestionResponseDto updateQuestion(Long questionId, QuestionRequestDto requestDto) {
         Question existingQuestion  = questionJpaRepository.findById(questionId)
