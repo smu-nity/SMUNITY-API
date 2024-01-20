@@ -24,6 +24,9 @@ public enum ErrorCode implements BaseErrorCode {
 	PASSWORD_NOT_EQUAL(HttpStatus.BAD_REQUEST, "USER4003", "비밀번호가 일치하지 않습니다."),
 	SAMNUL_ERROR(HttpStatus.BAD_REQUEST, "SAM4001", "샘물 에러입니다."),
 
+	// qna 관련 에러
+	QUESTION_NOT_FOUND(HttpStatus.NOT_FOUND, "QUESTION4001", "해당 질문이 없습니다."),
+
 	// 예시,,,
 	ARTICLE_NOT_FOUND(HttpStatus.NOT_FOUND, "ARTICLE4001", "게시글이 없습니다."),
 
