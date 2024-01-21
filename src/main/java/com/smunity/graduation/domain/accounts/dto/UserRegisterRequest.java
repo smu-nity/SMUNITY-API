@@ -1,9 +1,6 @@
 package com.smunity.graduation.domain.accounts.dto;
 
-import com.smunity.graduation.domain.accounts.entity.Department;
-import com.smunity.graduation.domain.accounts.entity.Profile;
 import com.smunity.graduation.domain.accounts.entity.User;
-import com.smunity.graduation.domain.accounts.entity.Year;
 
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
@@ -35,18 +32,10 @@ public record UserRegisterRequest(
 			.userName(username)
 			.password(encodedPw)
 			.email(email)
-			.profile(null) // TODO 양방향 설정
-			.build();
-
-	}
-
-	// Profile 만드는 부분은 record 분리해야??
-	public Profile toProfile(User user, Year year, Department department) {
-		return Profile.builder()
 			.name(name)
-			.user(user)
-			.year(year)
-			.department(department)
+			.year(null)
+			.department(null)
 			.build();
+
 	}
 }

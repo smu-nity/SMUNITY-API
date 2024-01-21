@@ -8,14 +8,20 @@ import lombok.Builder;
 public record UserRegisterResponse(
 	Long id,
 	String email,
-	String userName
+	String userName,
+	String name,
+	String year,
+	String department
+
 ) {
 
 	public static UserRegisterResponse from(User user) {
 		return UserRegisterResponse.builder()
-			.id(user.getId())
 			.email(user.getEmail())
 			.userName(user.getUserName())
+			.name(user.getName())
+			.year(user.getYear().getYear())
+			.department(user.getDepartment().getName())
 			.build();
 	}
 }
