@@ -16,7 +16,7 @@ import java.util.List;
 public class CourseService {
     private final WebClient webClient;
 
-    public ResponseEntity<List<CourseResponseDto>> updateCourses(AuthRequestDto requestDto) {
+    public ResponseEntity<List<CourseResponseDto>> uploadCourses(AuthRequestDto requestDto) {
         return webClient.post()
                 .uri("/api/courses")
                 .bodyValue(requestDto)

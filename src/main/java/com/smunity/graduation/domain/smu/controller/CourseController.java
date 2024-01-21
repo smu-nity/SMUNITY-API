@@ -19,8 +19,8 @@ import java.util.List;
 public class CourseController {
     private final CourseService courseService;
 
-    @PostMapping("/update")
-    public ResponseEntity<List<CourseResponseDto>> updateCourses(@RequestBody @Valid AuthRequestDto requestDto) {
-        return courseService.updateCourses(requestDto);
+    @PostMapping("/upload")
+    public ResponseEntity<List<CourseResponseDto>> uploadCourses(@RequestBody @Valid AuthRequestDto requestDto) {
+        return courseService.uploadCourses(requestDto);
     }
 }

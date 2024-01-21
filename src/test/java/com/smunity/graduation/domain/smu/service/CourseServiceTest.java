@@ -20,7 +20,7 @@ public class CourseServiceTest {
         AuthRequestDto requestDto = new AuthRequestDto("201911019", "password");
 
         //when
-        ResponseEntity<List<CourseResponseDto>> response = courseService.updateCourses(requestDto);
+        ResponseEntity<List<CourseResponseDto>> response = courseService.uploadCourses(requestDto);
 
         //then
         System.out.println(response.getBody());
