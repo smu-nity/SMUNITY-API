@@ -1,9 +1,8 @@
-package com.smunity.graduation.domain.smu.service;
+package com.smunity.graduation.domain.auth.service;
 
 import com.smunity.graduation.domain.auth.dto.AuthCourseResponseDto;
 import com.smunity.graduation.domain.auth.dto.AuthRequestDto;
 import com.smunity.graduation.domain.auth.dto.AuthResponseDto;
-import com.smunity.graduation.domain.auth.service.AuthService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
