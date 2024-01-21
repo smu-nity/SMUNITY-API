@@ -18,15 +18,19 @@ public class Culture {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(name = "type" ,nullable = false)
+    //이수구분
+    @Column(name = "type", nullable = false)
     private SubjectType type;
 
-    @Column(name = "domain" ,nullable = false)
+    //영역명
+    @Column(name = "domain", nullable = false)
     private CultureType cultureType;
 
-    @Column(name = "subdomain" ,nullable = false)
+    //세부영역명
+    @Column(name = "subdomain", nullable = false)
     private CultureSubType cultureSubType;
 
+    //과목
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "subject_id", nullable = false)
     private Subject subject;
