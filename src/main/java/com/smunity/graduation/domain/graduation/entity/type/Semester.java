@@ -8,12 +8,12 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum Semester {
 
-    FIRST(1, "1학기"),
-    SECOND(2, "2학기"),
-    SUMMER(3, "하계"),
-    WINTER(4, "동계");
+    FIRST("1학기"),
+    SECOND("2학기"),
+    SUMMER("하계"),
+    WINTER("동계");
 
-    private final Integer value;
+
     private final String semester;
 
     @JsonValue

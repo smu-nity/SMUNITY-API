@@ -1,5 +1,6 @@
 package com.smunity.graduation.domain.graduation.entity;
 
+import com.smunity.graduation.domain.graduation.entity.type.SubjectType;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -7,12 +8,12 @@ import lombok.*;
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-@Table(name = "graduations_major")
+@Table(name = "graduations_subject")
 @Entity
 public class Subject {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     //학수 번호
@@ -32,9 +33,9 @@ public class Subject {
     private String dept;
 
     //이수구분
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "subject_id", nullable = false)
-    private Subject subject;
+    @Enumerated(EnumType.STRING)
+    @JoinColumn(name = "type", nullable = false)
+    private SubjectType type;
 
 
 }

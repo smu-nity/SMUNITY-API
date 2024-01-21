@@ -22,7 +22,7 @@ public record GraduationResponseDto(
 
         //TODO : 예외처리
         //TOTAL (전체)
-        subjects.add(SubjectResponseDto.builder()
+        subjects.add(TotalSubjectResponseDto.builder()
                 .name("total")
                 //총 기준 학점
                 .total(year.getAll())
@@ -104,7 +104,8 @@ public record GraduationResponseDto(
 
         //기초 포함 domain 추출
         List<CourseTemporary> courseWithBasic = courses.stream()
-                .filter(course -> course.getDomain().contains("기초"))
+                .filter(course -> course.getDomain() != null &&
+                        course.getDomain().contains("기초"))
                 .toList();
         log.info("[ 기초 교양 계산 ] domain 기초 포함 과목 수 : {}", courseWithBasic.size());
 
@@ -137,10 +138,10 @@ public record GraduationResponseDto(
                 .filter(course -> course.getDomain().contains("컴퓨팅사고와데이터의이해"))
                 .limit(1)
                 .count() + 1;
-        log.info("[ 기초 교양 계산 ] 교양과 인성 value : {}", val2);
+        log.info("[ 기초 교양 계산 ] 교양과 인성 value : {}", val4);
 
 
-        return (int) (val1 + val2 + val3);
+        return (int) (val1 + val2 + val3 + val4);
     }
 
     //상명핵심역량교양(CULTURE_E) 계산
@@ -148,7 +149,8 @@ public record GraduationResponseDto(
 
         //핵심 포함 domain 추출
         List<CourseTemporary> courseWithEssential = courses.stream()
-                .filter(course -> course.getDomain().contains("핵심"))
+                .filter(course -> course.getDomain() != null &&
+                        course.getDomain().contains("핵심"))
                 .toList();
         log.info("[ 상명핵심역량 교양 계산 ] domain 기초 포함 과목 수 : {}", courseWithEssential.size());
 
@@ -176,7 +178,8 @@ public record GraduationResponseDto(
 
         //균형 포함 domain 추출
         List<CourseTemporary> courseWithBalance = courses.stream()
-                .filter(course -> course.getDomain().contains("균형"))
+                .filter(course -> course.getDomain() != null &&
+                        course.getDomain().contains("균형"))
                 .toList();
         log.info("[ 균형 교양 계산 ] domain 기초 포함 과목 수 : {}", courseWithBalance.size());
 
@@ -225,37 +228,6 @@ public record GraduationResponseDto(
         return courses.stream()
                 .mapToInt(CourseTemporary::getCredit)
                 .sum();
-    }
-
-    @Builder
-    public record SubjectResponseDto(
-            String name,
-            //총 기준 학점
-            int total,
-
-            //총 이수 학점
-            int count,
-
-            //전공
-            int major,
-
-            //교양
-            int culture,
-
-            //일반
-            int common,
-
-            //필요 학점
-            int lack
-    ) {
-        public static SubjectResponseDto to(String name, int total, int count) {
-            return SubjectResponseDto.builder()
-                    .name(name)
-                    .total(total)
-                    .count(count)
-                    .lack(total - count)
-                    .build();
-        }
     }
 
 }

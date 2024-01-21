@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class GraduationController {
 
-    GraduationService graduationService;
+    private final GraduationService graduationService;
 
     @GetMapping("")
     public ApiResponse<GraduationResponseDto> getGraduationCriteria() {

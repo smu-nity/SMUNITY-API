@@ -11,22 +11,25 @@ import lombok.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Table(name = "graduations_culture")
-@Entity //교양 엔티티
+@Entity
 public class Culture {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     //이수구분
+    @Enumerated(EnumType.STRING)
     @Column(name = "type", nullable = false)
     private SubjectType type;
 
     //영역명
+    @Enumerated(EnumType.STRING)
     @Column(name = "domain", nullable = false)
     private CultureType cultureType;
 
     //세부영역명
+    @Enumerated(EnumType.STRING)
     @Column(name = "subdomain", nullable = false)
     private CultureSubType cultureSubType;
 

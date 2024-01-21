@@ -16,7 +16,7 @@ import lombok.*;
 public class Major {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     //학년
