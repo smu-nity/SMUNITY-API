@@ -6,8 +6,11 @@ import com.smunity.graduation.domain.accounts.repository.YearJpaRepository;
 import com.smunity.graduation.domain.accounts.repository.user.UserRepository;
 import com.smunity.graduation.domain.graduation.dto.GraduationResponseDto;
 import com.smunity.graduation.domain.graduation.repository.CourseTemporaryRepository;
+import com.smunity.graduation.domain.graduation.temporary.CourseTemporary;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Transactional(readOnly = true)
 @Service
@@ -33,7 +36,7 @@ public class GraduationService {
 
     private GraduationResponseDto calculateCriteria(User user, Year year) {
         //TODO : 사용자 들은 과목 조회 -> Course Entity, Repository 필요
-
-        return null;
+        List<CourseTemporary> courses = courseTemporaryRepository.findAllById(user.getId());
+        return GraduationResponseDto.from(courses, year);
     }
 }
