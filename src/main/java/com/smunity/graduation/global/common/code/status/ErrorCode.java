@@ -24,7 +24,7 @@ public enum ErrorCode implements BaseErrorCode {
 
     // 샘물 인증 관련 에러
     SMU_UNAUTHORIZED(HttpStatus.UNAUTHORIZED, "SMU401", "아이디 및 비밀번호가 일치하지 않습니다."),
-    SMU_INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "SMU500", "모듈의 형식이 예상한 형식과 일치하지 않습니다. 관리자에게 문의해주세요!"),
+    SMU_INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "SMU500", "인증 서버 에러, 관리자에게 문의 바랍니다."),
 
     // 예시,,,
     ARTICLE_NOT_FOUND(HttpStatus.NOT_FOUND, "ARTICLE4001", "게시글이 없습니다."),
