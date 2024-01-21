@@ -21,7 +21,7 @@ public class AuthServiceTest {
     @BeforeEach
     public void setUp() {
         //given
-        requestDto = new AuthRequestDto("201911019", "1q2w3e4r!!!");
+        requestDto = new AuthRequestDto("username", "password");
     }
 
     @Test
