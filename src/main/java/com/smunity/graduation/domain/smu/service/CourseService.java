@@ -1,28 +1,27 @@
 package com.smunity.graduation.domain.smu.service;
 
-import com.smunity.graduation.domain.smu.dto.AuthRequestDto;
-import com.smunity.graduation.domain.smu.dto.CourseResponseDto;
-import com.smunity.graduation.domain.smu.exception.AuthExceptionHandler;
+import com.smunity.graduation.domain.smu.dto.CourseRequestDto;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatusCode;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class CourseService {
-    private final WebClient webClient;
+    // TODO return 타입 CourseRequestDto -> CourseResponseDto
+    public CourseRequestDto createCourse(CourseRequestDto requestDto) {
+        // TODO requestDto -> entity (toEntity)
 
-    public ResponseEntity<List<CourseResponseDto>> uploadCourses(AuthRequestDto requestDto) {
-        return webClient.post()
-                .uri("/api/courses")
-                .bodyValue(requestDto)
-                .retrieve()
-                .onStatus(HttpStatusCode::isError, AuthExceptionHandler::handleError)
-                .toEntityList(CourseResponseDto.class)
-                .block();
+        // TODO entity save
+
+        // TODO entity -> responseDto (from)
+
+        return requestDto;
+    }
+
+    public List<CourseRequestDto> createCourses(List<CourseRequestDto> requestDtoList) {
+        return requestDtoList.stream().map(this::createCourse).collect(Collectors.toList());
     }
 }
