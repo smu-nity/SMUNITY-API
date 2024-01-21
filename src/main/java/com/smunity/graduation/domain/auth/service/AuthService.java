@@ -1,9 +1,9 @@
-package com.smunity.graduation.domain.smu.service;
+package com.smunity.graduation.domain.auth.service;
 
-import com.smunity.graduation.domain.smu.dto.AuthRequestDto;
-import com.smunity.graduation.domain.smu.dto.AuthResponseDto;
-import com.smunity.graduation.domain.smu.dto.CourseRequestDto;
-import com.smunity.graduation.domain.smu.exception.AuthExceptionHandler;
+import com.smunity.graduation.domain.auth.dto.AuthCourseResponseDto;
+import com.smunity.graduation.domain.auth.dto.AuthRequestDto;
+import com.smunity.graduation.domain.auth.dto.AuthResponseDto;
+import com.smunity.graduation.domain.auth.exception.AuthExceptionHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
@@ -27,13 +27,13 @@ public class AuthService {
                 .getBody();
     }
 
-    public List<CourseRequestDto> getCourses(AuthRequestDto requestDto) {
+    public List<AuthCourseResponseDto> getCourses(AuthRequestDto requestDto) {
         return webClient.post()
                 .uri("/api/courses")
                 .bodyValue(requestDto)
                 .retrieve()
                 .onStatus(HttpStatusCode::isError, AuthExceptionHandler::handleError)
-                .toEntityList(CourseRequestDto.class)
+                .toEntityList(AuthCourseResponseDto.class)
                 .block()
                 .getBody();
     }

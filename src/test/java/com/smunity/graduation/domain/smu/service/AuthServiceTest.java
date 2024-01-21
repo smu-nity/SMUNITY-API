@@ -1,8 +1,9 @@
 package com.smunity.graduation.domain.smu.service;
 
-import com.smunity.graduation.domain.smu.dto.AuthRequestDto;
-import com.smunity.graduation.domain.smu.dto.AuthResponseDto;
-import com.smunity.graduation.domain.smu.dto.CourseRequestDto;
+import com.smunity.graduation.domain.auth.dto.AuthCourseResponseDto;
+import com.smunity.graduation.domain.auth.dto.AuthRequestDto;
+import com.smunity.graduation.domain.auth.dto.AuthResponseDto;
+import com.smunity.graduation.domain.auth.service.AuthService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +36,7 @@ public class AuthServiceTest {
     @Test
     public void getCoursesTest() throws Exception {
         //when
-        List<CourseRequestDto> response = authService.getCourses(requestDto);
+        List<AuthCourseResponseDto> response = authService.getCourses(requestDto);
 
         //then
         System.out.println(response);

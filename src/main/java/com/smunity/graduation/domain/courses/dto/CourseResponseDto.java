@@ -1,4 +1,4 @@
-package com.smunity.graduation.domain.smu.dto;
+package com.smunity.graduation.domain.courses.dto;
 
 public record CourseResponseDto(
         Long id,

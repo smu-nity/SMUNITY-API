@@ -1,6 +1,6 @@
-package com.smunity.graduation.domain.smu.service;
+package com.smunity.graduation.domain.courses.service;
 
-import com.smunity.graduation.domain.smu.dto.CourseRequestDto;
+import com.smunity.graduation.domain.auth.dto.AuthCourseResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -10,8 +10,8 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class CourseService {
-    // TODO return 타입 CourseRequestDto -> CourseResponseDto
-    public CourseRequestDto createCourse(CourseRequestDto requestDto) {
+    // TODO return 타입 AuthCourseResponseDto -> CourseResponseDto
+    public AuthCourseResponseDto createCourse(AuthCourseResponseDto requestDto) {
         // TODO requestDto -> entity (toEntity)
 
         // TODO entity save
@@ -21,7 +21,7 @@ public class CourseService {
         return requestDto;
     }
 
-    public List<CourseRequestDto> createCourses(List<CourseRequestDto> requestDtoList) {
+    public List<AuthCourseResponseDto> createCourses(List<AuthCourseResponseDto> requestDtoList) {
         return requestDtoList.stream().map(this::createCourse).collect(Collectors.toList());
     }
 }

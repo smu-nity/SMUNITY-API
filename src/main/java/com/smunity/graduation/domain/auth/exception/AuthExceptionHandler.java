@@ -1,4 +1,4 @@
-package com.smunity.graduation.domain.smu.exception;
+package com.smunity.graduation.domain.auth.exception;
 
 import com.smunity.graduation.global.common.code.BaseErrorCode;
 import com.smunity.graduation.global.common.code.status.ErrorCode;
@@ -8,7 +8,7 @@ import reactor.core.publisher.Mono;
 
 public class AuthExceptionHandler {
     public static Mono<? extends Throwable> handleError(ClientResponse response) {
-        BaseErrorCode code = (response.statusCode().value() == 401) ? ErrorCode.SMU_UNAUTHORIZED : ErrorCode.SMU_INTERNAL_SERVER_ERROR;
+        BaseErrorCode code = (response.statusCode().value() == 401) ? ErrorCode.AUTH_UNAUTHORIZED : ErrorCode.AUTH_INTERNAL_SERVER_ERROR;
         return Mono.error(new GeneralException(code));
     }
 }

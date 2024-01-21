@@ -1,6 +1,6 @@
-package com.smunity.graduation.domain.smu.dto;
+package com.smunity.graduation.domain.auth.dto;
 
-public record CourseRequestDto(
+public record AuthCourseResponseDto(
         String number,
         String name,
         String type,

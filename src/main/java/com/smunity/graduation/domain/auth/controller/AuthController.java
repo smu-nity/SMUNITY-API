@@ -1,8 +1,8 @@
-package com.smunity.graduation.domain.smu.controller;
+package com.smunity.graduation.domain.auth.controller;
 
-import com.smunity.graduation.domain.smu.dto.AuthRequestDto;
-import com.smunity.graduation.domain.smu.dto.AuthResponseDto;
-import com.smunity.graduation.domain.smu.service.AuthService;
+import com.smunity.graduation.domain.auth.dto.AuthRequestDto;
+import com.smunity.graduation.domain.auth.dto.AuthResponseDto;
+import com.smunity.graduation.domain.auth.service.AuthService;
 import com.smunity.graduation.global.common.ApiResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
