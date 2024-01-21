@@ -1,4 +1,4 @@
-package com.smunity.graduation.domain.courses.dto;
+package com.smunity.graduation.domain.course.dto;
 
 import jakarta.validation.constraints.NotBlank;
 

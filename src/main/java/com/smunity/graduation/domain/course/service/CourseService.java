@@ -1,4 +1,4 @@
-package com.smunity.graduation.domain.courses.service;
+package com.smunity.graduation.domain.course.service;
 
 import com.smunity.graduation.domain.auth.dto.AuthCourseResponseDto;
 import lombok.RequiredArgsConstructor;
