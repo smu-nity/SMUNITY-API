@@ -13,7 +13,7 @@ public class CourseRepositoryTest {
     CourseRepository courseRepository;
 
     @Test
-    public void CourseRepositoryTest() throws Exception {
+    public void findAllTest() throws Exception {
         //when
         List<Course> courseList = courseRepository.findAll();
 
