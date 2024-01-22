@@ -1,6 +1,6 @@
-package com.smunity.graduation.domain.smu.dto;
+package com.smunity.graduation.domain.auth.dto;
 
-public record CourseResponseDto(
+public record AuthCourseResponseDto(
         String number,
         String name,
         String type,
@@ -10,4 +10,5 @@ public record CourseResponseDto(
         String domain,
         int credit
 ) {
+
 }

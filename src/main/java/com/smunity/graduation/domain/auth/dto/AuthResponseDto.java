@@ -1,8 +1,9 @@
-package com.smunity.graduation.domain.smu.dto;
+package com.smunity.graduation.domain.auth.dto;
 
 public record AuthResponseDto(
         String name,
         String department,
         String email
 ) {
+    
 }
