@@ -77,7 +77,7 @@ public record GraduationResponseDto(
                         SubjectType.CULTURE_S.getType())))
                 //일반 = 이수 과목 - 전공 심화(MAJOR_I) - 전공 선택(MAJOR_S) -  교양 필수(CULTURE_E) - 교양 선택(CULTURE_S)
                 .common(getCreditsWithOutSubjectType(courses,
-                        List.of(SubjectType.MAJOR_I.getType(), SubjectType.CULTURE_S.getType(),
+                        List.of(SubjectType.MAJOR_I.getType(), SubjectType.MAJOR_S.getType(),
                                 SubjectType.CULTURE_E.getType(), SubjectType.CULTURE_S.getType()))) //TODO : 로직 수정 (결과 안맞음)
                 .lack(Math.max(total - count, 0))
                 .build());
