@@ -7,7 +7,6 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 public record UserRegisterRequest(
-
 	@NotBlank(message = "[ERROR] 이름 입력은 필수 입니다.")
 	String name,
 	@NotBlank(message = "[ERROR] 학번 입력은 필수 입니다.")
@@ -27,6 +26,7 @@ public record UserRegisterRequest(
 	@NotBlank(message = "[ERROR] 비밀번호 재확인 입력은 필수 입니다.")
 	String passwordCheck
 ) {
+	
 	public User toEntity(String encodedPw) {
 		return User.builder()
 			.userName(username)
