@@ -12,9 +12,9 @@ import java.util.List;
 
 @SpringBootTest
 public class AuthServiceTest {
+
     @Autowired
     private AuthService authService;
-
     private AuthRequestDto requestDto;
 
     @BeforeEach
