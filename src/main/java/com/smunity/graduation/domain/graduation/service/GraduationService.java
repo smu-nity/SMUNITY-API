@@ -43,6 +43,6 @@ public class GraduationService {
 
         //TODO : 사용자 들은 과목 조회 -> Course Entity, Repository 필요
         List<CourseTemporary> courses = courseTemporaryRepository.findAllByUser_Id(user.getId());
-        return GraduationResponseDto.from(courses, year);
+        return GraduationResponseDto.to(courses, year, user);
     }
 }
