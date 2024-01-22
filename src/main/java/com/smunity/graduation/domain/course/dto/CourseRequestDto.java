@@ -11,7 +11,6 @@ public record CourseRequestDto(
         String semester,
         @NotBlank(message = "[ERROR] 이수구분 입력은 필수 입니다.")
         String type,
-        @NotBlank(message = "[ERROR] 교양 영역명 입력은 필수 입니다.")
         String domain,
         @NotBlank(message = "[ERROR] 학점 입력은 필수 입니다.")
         int credit
