@@ -29,4 +29,8 @@ public class Answer extends BaseEntity {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "question_id")
     private Question question;
+
+    public void setContent(String content) {
+        content = content;
+    }
 }
