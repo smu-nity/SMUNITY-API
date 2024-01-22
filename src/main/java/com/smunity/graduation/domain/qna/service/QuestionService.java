@@ -16,9 +16,11 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 @Service
 public class QuestionService {
+
     private final QuestionJpaRepository questionJpaRepository;
     private final UserRepository userRepository;
 
+    //ToDo: 인증된 사용자 가져 오기
     public QuestionResponseDto createQuestion(QuestionRequestDto requestDto) {
         User author = userRepository.findByUserName("admin")
                 .orElseThrow(() -> new AccountsExceptionHandler(ErrorCode.USER_NOT_FOUND));

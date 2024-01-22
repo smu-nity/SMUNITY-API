@@ -15,9 +15,11 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/questions")
 public class QuestionController {
+
     private final QuestionService questionService;
     private final QuestionQueryService questionQueryService;
 
+    //ToDo: 프로필 합쳐 지면 사용자 이름을 가져오기
     @PostMapping("/")
     public ApiResponse<QuestionResponseDto> createQuestion(
             @RequestBody QuestionRequestDto requestDto) {
@@ -31,6 +33,7 @@ public class QuestionController {
         return ApiResponse.onSuccess(questionService.updateQuestion(questionId, requestDto));
     }
 
+    //ToDo: 페이징
     @GetMapping("/")
     public ApiResponse<List<QuestionListResponseDto>> getQuestionList() {
         List<QuestionListResponseDto> questions = questionQueryService.getQuestionList();
