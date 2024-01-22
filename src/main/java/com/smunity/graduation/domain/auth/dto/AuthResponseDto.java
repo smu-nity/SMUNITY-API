@@ -5,4 +5,5 @@ public record AuthResponseDto(
         String department,
         String email
 ) {
+    
 }

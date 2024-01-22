@@ -18,6 +18,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/courses")
 public class CourseController {
+    
     private final AuthService authService;
     private final CourseService courseService;
 

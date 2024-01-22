@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class CourseService {
+    
     // TODO return 타입 AuthCourseResponseDto -> CourseResponseDto
     public AuthCourseResponseDto createCourse(AuthCourseResponseDto requestDto) {
         // TODO requestDto -> entity (toEntity)

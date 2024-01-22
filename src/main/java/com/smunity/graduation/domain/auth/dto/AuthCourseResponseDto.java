@@ -10,4 +10,5 @@ public record AuthCourseResponseDto(
         String domain,
         int credit
 ) {
+
 }

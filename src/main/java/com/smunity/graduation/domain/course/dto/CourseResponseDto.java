@@ -11,4 +11,5 @@ public record CourseResponseDto(
         int credit,
         boolean custom
 ) {
+    
 }

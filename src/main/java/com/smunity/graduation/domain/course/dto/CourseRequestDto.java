@@ -15,4 +15,5 @@ public record CourseRequestDto(
         @NotBlank(message = "[ERROR] 학점 입력은 필수 입니다.")
         int credit
 ) {
+        
 }
