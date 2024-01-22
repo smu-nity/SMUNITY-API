@@ -1,6 +1,5 @@
 package com.smunity.graduation.domain.graduation.entity;
 
-import com.smunity.graduation.domain.graduation.entity.type.SubjectType;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -33,9 +32,9 @@ public class Subject {
     private String dept;
 
     //이수구분
-    @Enumerated(EnumType.STRING)
+//    @Enumerated(EnumType.STRING)
     @JoinColumn(name = "type", nullable = false)
-    private SubjectType type;
+    private String type;
 
 
 }
