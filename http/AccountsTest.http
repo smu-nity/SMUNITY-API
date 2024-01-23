@@ -23,3 +23,8 @@ Content-Type: application/json
 ### 로그아웃
 GET {{api}}/api/v1/accounts/logout
 Authorization: Bearer "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IjIwMTkxMTExMSIsImlhdCI6MTcwNTk4MDExNywiZXhwIjoxNzA1OTgwMTYwfQ.2KyPxjJqrBH6Z_MlNRfyEBl5KlwCOHBY6_9KjS-VdRQ"
+
+// TODO 어노테이션 테스트 -> 작동 안 함
+### 테스트
+GET {{api}}/api/v1/accounts/test
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IjIwMTkxMTExMSIsImlzX3N0YWZmIjpmYWxzZSwiaWF0IjoxNzA1OTg4NTMyLCJleHAiOjE3MDU5ODg1NzV9.dJmIWSU1DuU1Og7BkSaaGY2pHZFnYTwMknSE3JrH4Y0
