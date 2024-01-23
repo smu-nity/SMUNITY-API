@@ -5,7 +5,7 @@ import com.smunity.graduation.domain.accounts.entity.User;
 import lombok.Builder;
 
 @Builder
-public record UserRegisterResponse(
+public record UserRegisterResponseDto(
 	Long id,
 	String email,
 	String userName,
@@ -15,8 +15,8 @@ public record UserRegisterResponse(
 
 ) {
 
-	public static UserRegisterResponse from(User user) {
-		return UserRegisterResponse.builder()
+	public static UserRegisterResponseDto from(User user) {
+		return UserRegisterResponseDto.builder()
 			.email(user.getEmail())
 			.userName(user.getUserName())
 			.name(user.getName())

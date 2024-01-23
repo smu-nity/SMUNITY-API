@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.smunity.graduation.domain.accounts.annotation.Accounts;
-import com.smunity.graduation.domain.accounts.dto.UserRegisterRequest;
-import com.smunity.graduation.domain.accounts.dto.UserRegisterResponse;
+import com.smunity.graduation.domain.accounts.dto.UserRegisterRequestDto;
+import com.smunity.graduation.domain.accounts.dto.UserRegisterResponseDto;
 import com.smunity.graduation.domain.accounts.entity.User;
 import com.smunity.graduation.domain.accounts.jwt.util.JwtUtil;
 import com.smunity.graduation.domain.accounts.service.AccountsService;
@@ -30,7 +30,7 @@ public class AccountsController {
 	private final JwtUtil jwtUtil;
 
 	@PostMapping("/register")
-	public ApiResponse<UserRegisterResponse> register(@Valid @RequestBody UserRegisterRequest request) {
+	public ApiResponse<UserRegisterResponseDto> register(@Valid @RequestBody UserRegisterRequestDto request) {
 		return ApiResponse.onSuccess(accountsService.register(request));
 	}
 
