@@ -5,10 +5,10 @@ import java.time.LocalDateTime;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
-import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.smunity.graduation.global.common.BaseEntity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -17,7 +17,8 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -32,9 +33,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @EntityListeners(AuditingEntityListener.class)
-@Table(name = "auth_user")
+@Table(name = "accounts_user")
 @Entity
-public class User {
+public class User extends BaseEntity {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -49,15 +51,8 @@ public class User {
 	@Column(name = "email", nullable = false)
 	private String email;
 
-	// @Column(name = "first_name")
-	// private String firstName;
-	//
-	// @Column(name = "last_name")
-	// private String lastName;
-
-	@Column(name = "is_superuser", nullable = false)
-	@ColumnDefault("false")
-	private Boolean isSuperUser;
+	@Column(name = "name", nullable = false)
+	private String name;
 
 	@Column(name = "is_staff", nullable = false)
 	@ColumnDefault("false")
@@ -70,12 +65,13 @@ public class User {
 	@Column(name = "last_login")
 	private LocalDateTime lastLogin;
 
-	@Column(name = "date_joined")
-	@CreatedDate
-	private LocalDateTime dateJoined;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "year_id")
+	private Year year;
 
-	@OneToOne(mappedBy = "user", fetch = FetchType.LAZY)
-	private Profile profile;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "department_id")
+	private Department department;
 
 	// @OneToMany(mappedBy = "author")
 	// private List<Respond> responds;
@@ -90,7 +86,11 @@ public class User {
 	// @Builder.Default
 	// private List<String> roles = new ArrayList<>();
 
-	public void setProfile(Profile profile) {
-		profile = profile;
+	public void setYear(Year year) {
+		this.year = year;
+	}
+
+	public void setDepartment(Department department) {
+		this.department = department;
 	}
 }

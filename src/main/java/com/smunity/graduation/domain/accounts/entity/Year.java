@@ -1,13 +1,10 @@
 package com.smunity.graduation.domain.accounts.entity;
 
-import java.util.List;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Getter;
 
@@ -37,7 +34,4 @@ public class Year {
 	// TODO MySQL의 keyword와 충돌. 컬럼명 수정 필요
 	@Column(name = "allScore")
 	private int all;
-
-	@OneToMany(mappedBy = "year")
-	private List<Profile> profiles;
 }
