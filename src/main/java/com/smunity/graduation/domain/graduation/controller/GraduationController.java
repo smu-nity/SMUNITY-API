@@ -25,8 +25,14 @@ public class GraduationController {
     }
 
     //추천 과목 조회
-    @GetMapping("")
+    @GetMapping("/recommend")
     public ApiResponse<?> getRecommendSubjects(@PathVariable("type") String type) {
         return ApiResponse.onSuccess(graduationService.getGraduationCriteria());
+    }
+
+    //Culture 통합용
+    @GetMapping("/organize")
+    public void organize() {
+        graduationService.organizeSubjects();
     }
 }

@@ -1,8 +1,5 @@
 package com.smunity.graduation.domain.graduation.entity;
 
-import com.smunity.graduation.domain.graduation.entity.type.CultureSubType;
-import com.smunity.graduation.domain.graduation.entity.type.CultureType;
-import com.smunity.graduation.domain.graduation.entity.type.SubjectType;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -19,19 +16,19 @@ public class Culture {
     private Long id;
 
     //이수구분
-    @Enumerated(EnumType.STRING)
+//    @Enumerated(EnumType.STRING)
     @Column(name = "type", nullable = false)
-    private SubjectType type;
+    private String type;
 
     //영역명
-    @Enumerated(EnumType.STRING)
+//    @Enumerated(EnumType.STRING)
     @Column(name = "domain", nullable = false)
-    private CultureType cultureType;
+    private String cultureType;
 
     //세부영역명
-    @Enumerated(EnumType.STRING)
+//    @Enumerated(EnumType.STRING)
     @Column(name = "subdomain", nullable = false)
-    private CultureSubType cultureSubType;
+    private String cultureSubType;
 
     //과목
     @ManyToOne(fetch = FetchType.LAZY)

@@ -1,9 +1,6 @@
 package com.smunity.graduation.domain.graduation.entity;
 
 import com.smunity.graduation.domain.accounts.entity.Department;
-import com.smunity.graduation.domain.graduation.entity.type.Grade;
-import com.smunity.graduation.domain.graduation.entity.type.Semester;
-import com.smunity.graduation.domain.graduation.entity.type.SubjectType;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -20,19 +17,19 @@ public class Major {
     private Long id;
 
     //학년
-    @Enumerated(EnumType.STRING)
+//    @Enumerated(EnumType.STRING)
     @Column(name = "grade", nullable = false)
-    private Grade grade;
+    private String grade;
 
     //학기
-    @Enumerated(EnumType.STRING)
+//    @Enumerated(EnumType.STRING)
     @Column(name = "semester", nullable = false)
-    private Semester semester;
+    private String semester;
 
     //이수구분
-    @Enumerated(EnumType.STRING)
+//    @Enumerated(EnumType.STRING)
     @Column(name = "type", nullable = false)
-    private SubjectType type;
+    private String type;
 
     //학과
     @ManyToOne(fetch = FetchType.LAZY)
