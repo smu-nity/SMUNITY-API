@@ -311,7 +311,7 @@ public record GraduationResponseDto(
     private static List<SubjectWithDomainDto> getBalanceCultureSubjects(List<CourseTemporary> courses, User user, SubjectJpaRepository subjectJpaRepository) {
 
         List<SubjectWithDomainDto> result = new ArrayList<>();
-        String userType = user.getProfile().getDepartment().getType();
+        String userType = user.getDepartment().getType();
 
         //균형 포함 domain 추출
         List<CourseTemporary> courseWithBalance = courses.stream()
