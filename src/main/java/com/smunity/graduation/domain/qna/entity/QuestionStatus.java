@@ -13,6 +13,6 @@ public enum QuestionStatus {
     private final String value;
 
     public static QuestionStatus from(Question question) {
-        return question.getAnswer() != null ? COMPLETE : COMPLETE;
+        return question.getAnswer() != null ? COMPLETE : RECEIPT;
     }
 }
