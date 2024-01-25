@@ -30,6 +30,9 @@ public class Culture {
     @Column(name = "subdomain", nullable = false)
     private String cultureSubType;
 
+    @Column(name = "count")
+    private Integer count;
+    
     //과목
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "subject_id", nullable = false)

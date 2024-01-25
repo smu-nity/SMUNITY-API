@@ -47,9 +47,12 @@ public class Subject {
     @Column(name = "sub_domain")
     private String subDomain;
 
+    @Column(name = "count")
+    private Integer count;
+
     //이수구분
 //    @Enumerated(EnumType.STRING)
-    @JoinColumn(name = "type", nullable = false)
+    @Column(name = "type", nullable = false)
     private String type;
 
 

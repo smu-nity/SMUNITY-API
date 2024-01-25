@@ -14,6 +14,7 @@ import com.smunity.graduation.domain.graduation.repository.CultureRepository;
 import com.smunity.graduation.domain.graduation.repository.MajorRepository;
 import com.smunity.graduation.domain.graduation.repository.SubjectRepository;
 import com.smunity.graduation.domain.graduation.temporary.CourseTemporary;
+import com.smunity.graduation.domain.graduation.utils.GraduationUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -37,6 +38,8 @@ public class GraduationService {
 
     private final SubjectRepository subjectRepository;
 
+    private final GraduationUtil graduationUtil;
+
 
     public GraduationResponseDto getGraduationCriteria() {
         //TODO : 유저 가져오기 -> SecurityContextHolder 필요
@@ -50,12 +53,38 @@ public class GraduationService {
         return calculateCriteria(user, year);
     }
 
-    public SubjectResponseDto getRecommendSubjects(String type) {
+    public List<SubjectResponseDto> getRecommendSubjects(String type, int credit) {
         //TODO : 유저 가져오기 -> SecurityContextHolder 필요
         User user = userRepository.findByUserName("201910926").orElseThrow();
         log.info("[ Graduation Service ] user name : {}", user.getUserName());
 
-        return null;
+        List<CourseTemporary> courses = courseTemporaryRepository.findAllByUser_Id(user.getId());
+
+        switch (type) {
+            case "major_i":
+                //전공심화인 경우
+
+            case "major_s":
+                //전공선택인 경우
+
+            case "culture":
+                //교양인 경우
+                return graduationUtil.getRecommendCultureSubjects
+                        ("culture", credit, null, null, courses);
+            case "culture_b":
+                //기초교양인 경우
+                return graduationUtil.getRecommendCultureSubjects
+                        ("culture_b", credit, null, null, courses);
+            case "culture_e":
+                //상명핵심역량교양인 경우
+                return graduationUtil.getRecommendCultureSubjects
+                        ("culture_e", credit, null, null, courses);
+            case "culture_s":
+                //균형교양인 경우
+                return graduationUtil.getRecommendCultureSubjects
+                        ("culture_s", credit, null, null, courses);
+        }
+        throw new RuntimeException(); //type 잘못됐을 경우
     }
 
     //일회성 Culture, Major -> Subject 통합용

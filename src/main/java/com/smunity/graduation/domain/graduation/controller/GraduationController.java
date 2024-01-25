@@ -26,8 +26,8 @@ public class GraduationController {
 
     //추천 과목 조회
     @GetMapping("/recommend")
-    public ApiResponse<?> getRecommendSubjects(@PathVariable("type") String type) {
-        return ApiResponse.onSuccess(graduationService.getGraduationCriteria());
+    public ApiResponse<?> getRecommendSubjects(@PathVariable("type") String type, @PathVariable("credit") int credit) {
+        return ApiResponse.onSuccess(graduationService.getRecommendSubjects(type, credit));
     }
 
     //Culture 통합용
