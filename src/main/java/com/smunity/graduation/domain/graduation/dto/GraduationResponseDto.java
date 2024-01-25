@@ -168,7 +168,7 @@ public record GraduationResponseDto(
                 .filter(course -> course.getDomain() != null &&
                         (course.getDomain().contains("기초") ||
                                 course.getDomain().contains("컴퓨팅")
-                        ))사
+                        ))
                 .toList();
         log.info("[ 기초 교양 계산 ] domain 기초 포함 과목 수 : {}", courseWithBasic.size());
 
@@ -218,7 +218,7 @@ public record GraduationResponseDto(
                     .filter(course -> course.getDomain().contains("컴퓨팅사고와데이터의이해") ||
                             course.getDomain().contains("컴퓨팅사고와게임디자인") || // 컴퓨팅사고와데이터의이해 개편 전
                             course.getDomain().contains("컴퓨팅사고와문제해결") // 컴퓨팅사고와데이터의이해 개편 전
-                            )
+                    )
                     .limit(1)
                     .map(course -> {
                         Subject subject = subjectRepository.findById(course.getSubject().getId()).orElseThrow();
