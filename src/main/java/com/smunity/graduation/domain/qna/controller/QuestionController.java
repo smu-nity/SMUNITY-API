@@ -12,7 +12,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -37,7 +36,7 @@ public class QuestionController {
     }
 
     @GetMapping("/")
-    public ApiResponse<Page<QuestionsResponseDto>> getQuestionList(@PageableDefault(size = 10) Pageable pageable) {
+    public ApiResponse<Page<QuestionsResponseDto>> getQuestionList(@PageableDefault() Pageable pageable) {
         Page<QuestionsResponseDto> questions = questionQueryService.getQuestionList(pageable);
         return ApiResponse.onSuccess(questions);
     }
