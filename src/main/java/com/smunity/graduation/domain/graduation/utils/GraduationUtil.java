@@ -27,22 +27,23 @@ public class GraduationUtil {
      * * * * * * * * * * * * * * 핵심 - 전문지식탐구역량/창의적문제해결역량/융복합역량/다양성존중역량/윤리실천역량
      * * * * * * * * * * * * * * 균형 - 인문/사회/자연/공학/예술
      * * * * * * * * * * * * * * )
+     * Param excludeCourses : 제외할 과목 (사용자가 이수한 과목)
      */
     public List<SubjectResponseDto> getRecommendCultureSubjects
-    (String type, int credit, String domain, String subdomain, List<CourseTemporary> courses) {
+    (String type, int credit, String domain, String subdomain, List<CourseTemporary> excludeCourses) {
+
         List<SubjectResponseDto> result = new ArrayList<>();
+
         switch (type) {
             case "culture":
                 //일반 교양
                 List<Subject> queryResults = subjectRepository.findAllCulturesWithCredit(credit);
-                return excludeCompletedCourses(queryResults, courses).stream()
+                return excludeCompletedCourses(queryResults, excludeCourses).stream()
                         .map(SubjectResponseDto::from)
                         .collect(Collectors.toList());
-            case "culture_b":
-                //기초 교양
-                List<Subject> queryResults = subjectRepository.findAllCulturesWithCredit(credit);
-                return excludeCompletedCourses(queryResults, courses).stream()
-                        .map(SubjectResponseDto::from)
+            case "culture_b", "culture_e", "culture_s":
+                return subjectRepository.findCulturesWithDomain(domain, subdomain)
+                        .stream().map(SubjectResponseDto::from)
                         .collect(Collectors.toList());
 
         }

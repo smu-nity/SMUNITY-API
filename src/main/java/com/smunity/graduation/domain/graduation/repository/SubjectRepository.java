@@ -11,5 +11,8 @@ import java.util.List;
 public interface SubjectRepository extends JpaRepository<Subject, Long> {
 
     @Query(value = "select * from graduations_subject where ((type= \"교선\" or type = \"교필\") and domain IS NULL) ORDER BY count DESC", nativeQuery = true)
-    public List<Subject> findAllCulturesWithCredit(int credit);
+    List<Subject> findAllCulturesWithCredit(int credit);
+
+    @Query(value = "select * from graduations_subject where domain=:domain and sub_domain=:subDomain ", nativeQuery = true)
+    List<Subject> findCulturesWithDomain(String domain, String subDomain);
 }
