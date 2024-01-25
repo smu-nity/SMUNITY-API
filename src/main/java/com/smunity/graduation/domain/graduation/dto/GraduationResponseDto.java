@@ -10,6 +10,7 @@ import lombok.Builder;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Slf4j
@@ -167,7 +168,7 @@ public record GraduationResponseDto(
                 .filter(course -> course.getDomain() != null &&
                         (course.getDomain().contains("기초") ||
                                 course.getDomain().contains("컴퓨팅")
-                        ))
+                        ))사
                 .toList();
         log.info("[ 기초 교양 계산 ] domain 기초 포함 과목 수 : {}", courseWithBasic.size());
 
@@ -213,6 +214,18 @@ public record GraduationResponseDto(
                     .forEach(result::add);
         } else {
             //그 외 20학번 이상 : 컴퓨팅사고와데이터의이해와 알고리즘과게임콘텐츠 각각 이수
+            courseWithBasic.stream()
+                    .filter(course -> course.getDomain().contains("컴퓨팅사고와데이터의이해") ||
+                            course.getDomain().contains("컴퓨팅사고와게임디자인") || // 컴퓨팅사고와데이터의이해 개편 전
+                            course.getDomain().contains("컴퓨팅사고와문제해결") // 컴퓨팅사고와데이터의이해 개편 전
+                            )
+                    .limit(1)
+                    .map(course -> {
+                        Subject subject = subjectRepository.findById(course.getSubject().getId()).orElseThrow();
+                        return SubjectWithDomainDto.to(subject, "알고리즘과게임콘텐츠");
+                    })
+                    .forEach(result::add);
+
             courseWithBasic.stream()
                     .filter(course -> course.getDomain().contains("알고리즘과게임콘텐츠"))
                     .limit(1)
@@ -311,7 +324,6 @@ public record GraduationResponseDto(
     private static List<SubjectWithDomainDto> getBalanceCultureSubjects(List<CourseTemporary> courses, User user, SubjectRepository subjectRepository) {
 
         List<SubjectWithDomainDto> result = new ArrayList<>();
-        String userType = user.getDepartment().getType();
 
         //균형 포함 domain 추출
         List<CourseTemporary> courseWithBalance = courses.stream()
@@ -321,64 +333,23 @@ public record GraduationResponseDto(
         log.info("[ 균형 교양 계산 ] domain 기초 포함 과목 수 : {}", courseWithBalance.size());
 
         //균형(인문)
-        if (!userType.equals("인문")) {
-            courseWithBalance.stream()
-                    .filter(course -> course.getDomain().contains("인문"))
-                    .limit(1)
-                    .map(course -> {
-                        Subject subject = subjectRepository.findById(course.getSubject().getId()).orElseThrow();
-                        return SubjectWithDomainDto.to(subject, "인문");
-                    })
-                    .forEach(result::add);
-        }
+        String[] cultures = {"인문", "사회", "자연", "공학", "예술"};
+        List<String> balanceCultures = Arrays.asList(cultures);
 
-        //균형(사회)
-        if (!userType.equals("사회")) {
-            courseWithBalance.stream()
-                    .filter(course -> course.getDomain().contains("사회"))
-                    .limit(1)
-                    .map(course -> {
-                        Subject subject = subjectRepository.findById(course.getSubject().getId()).orElseThrow();
-                        return SubjectWithDomainDto.to(subject, "사회");
-                    })
-                    .forEach(result::add);
-        }
+        String userType = user.getDepartment().getType();
+        balanceCultures.remove(userType);
 
-        //균형(자연)
-        if (!userType.equals("자연")) {
-            courseWithBalance.stream()
-                    .filter(course -> course.getDomain().contains("자연"))
-                    .limit(1)
-                    .map(course -> {
-                        Subject subject = subjectRepository.findById(course.getSubject().getId()).orElseThrow();
-                        return SubjectWithDomainDto.to(subject, "자연");
-                    })
-                    .forEach(result::add);
-        }
-
-        //균형(공학)
-        if (!userType.equals("공학")) {
-            courseWithBalance.stream()
-                    .filter(course -> course.getDomain().contains("공학"))
-                    .limit(1)
-                    .map(course -> {
-                        Subject subject = subjectRepository.findById(course.getSubject().getId()).orElseThrow();
-                        return SubjectWithDomainDto.to(subject, "공학");
-                    })
-                    .forEach(result::add);
-        }
-
-        //균형(예술)
-        if (!userType.equals("예술")) {
-            courseWithBalance.stream()
-                    .filter(course -> course.getDomain().contains("예술"))
-                    .limit(1)
-                    .map(course -> {
-                        Subject subject = subjectRepository.findById(course.getSubject().getId()).orElseThrow();
-                        return SubjectWithDomainDto.to(subject, "예술");
-                    })
-                    .forEach(result::add);
-        }
+        balanceCultures
+                .forEach(balanceCultureDomain -> {
+                    courseWithBalance.stream()
+                            .filter(course -> course.getDomain().contains(balanceCultureDomain))
+                            .limit(1)
+                            .map(course -> {
+                                Subject subject = subjectRepository.findById(course.getSubject().getId()).orElseThrow();
+                                return SubjectWithDomainDto.to(subject, balanceCultureDomain);
+                            })
+                            .forEach(result::add);
+                });
 
         return result;
     }
