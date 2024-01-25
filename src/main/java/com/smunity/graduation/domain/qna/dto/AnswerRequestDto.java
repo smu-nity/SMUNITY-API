@@ -10,11 +10,4 @@ public record AnswerRequestDto(
         @NotBlank(message = "[ERROR] 내용은 필수 입력 항목 입니다.")
         String content
 ) {
-    public Answer toEntity(User author, Question question) {
-        return new Answer(null, content(), author, question);
-    }
-
-    public void updateFromDto(Answer answer) {
-        answer.setContent(content());
-    }
 }
