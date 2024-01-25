@@ -263,6 +263,9 @@ public record GraduationResponseDto(
         //TODO : 「상명CareerStart」 2020학년도부터 폐지됨, 미수강 및 재수강의 경우 소급 적용하여 이수 의무 없음
         List<SubjectWithDomainDto> result = new ArrayList<>();
 
+        String[] cultures_essential = {"전문지식탐구역량", "창의적문제해결역량", "융복합역량", "다양성존중역량", "윤리실천역량"};
+        List<String> essentialCultures = Arrays.asList(cultures_essential);
+
         //핵심 포함 domain 추출
         List<CourseTemporary> courseWithEssential = courses.stream()
                 .filter(course -> course.getDomain() != null &&
@@ -270,52 +273,18 @@ public record GraduationResponseDto(
                 .toList();
         log.info("[ 상명핵심역량 교양 계산 ] domain 기초 포함 과목 수 : {}", courseWithEssential.size());
 
-        courseWithEssential.stream()
-                .filter(course -> course.getDomain().contains("전문지식탐구역량"))
-                .limit(1)
-                .map(course -> {
-                    Subject subject = subjectRepository.findById(course.getSubject().getId()).orElseThrow();
-                    return SubjectWithDomainDto.to(subject, "전문지식탐구역량");
-                })
-                .forEach(result::add);
 
-        courseWithEssential.stream()
-                .filter(course -> course.getDomain().contains("창의적문제해결역량"))
-                .limit(1)
-                .map(course -> {
-                    Subject subject = subjectRepository.findById(course.getSubject().getId()).orElseThrow();
-                    return SubjectWithDomainDto.to(subject, "창의적문제해결역량");
-                })
-                .forEach(result::add);
-
-
-        courseWithEssential.stream()
-                .filter(course -> course.getDomain().contains("융복합역량"))
-                .limit(1)
-                .map(course -> {
-                    Subject subject = subjectRepository.findById(course.getSubject().getId()).orElseThrow();
-                    return SubjectWithDomainDto.to(subject, "융복합역량");
-                })
-                .forEach(result::add);
-
-        courseWithEssential.stream()
-                .filter(course -> course.getDomain().contains("다양성존중역량"))
-                .limit(1)
-                .map(course -> {
-                    Subject subject = subjectRepository.findById(course.getSubject().getId()).orElseThrow();
-                    return SubjectWithDomainDto.to(subject, "다양성존중역량");
-                })
-                .forEach(result::add);
-
-
-        courseWithEssential.stream()
-                .filter(course -> course.getDomain().contains("윤리실천역량"))
-                .limit(1)
-                .map(course -> {
-                    Subject subject = subjectRepository.findById(course.getSubject().getId()).orElseThrow();
-                    return SubjectWithDomainDto.to(subject, "윤리실천역량");
-                })
-                .forEach(result::add);
+        essentialCultures
+                .forEach(essentialCultureDomain -> {
+                    courseWithEssential.stream()
+                            .filter(course -> course.getDomain().contains(essentialCultureDomain))
+                            .limit(1)
+                            .map(course -> {
+                                Subject subject = subjectRepository.findById(course.getSubject().getId()).orElseThrow();
+                                return SubjectWithDomainDto.to(subject, essentialCultureDomain);
+                            })
+                            .forEach(result::add);
+                });
 
         return result;
     }
