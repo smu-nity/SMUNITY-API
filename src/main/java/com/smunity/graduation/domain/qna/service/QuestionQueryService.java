@@ -1,6 +1,6 @@
 package com.smunity.graduation.domain.qna.service;
 
-import com.smunity.graduation.domain.qna.dto.QuestionListResponseDto;
+import com.smunity.graduation.domain.qna.dto.QuestionsResponseDto;
 import com.smunity.graduation.domain.qna.entity.Question;
 import com.smunity.graduation.domain.qna.repository.QuestionJpaRepository;
 import lombok.RequiredArgsConstructor;
@@ -15,9 +15,9 @@ import java.util.List;
 public class QuestionQueryService {
     private final QuestionJpaRepository questionJpaRepository;
 
-    public List<QuestionListResponseDto> getQuestionList() {
+    public List<QuestionsResponseDto> getQuestionList() {
         List<Question> questions = questionJpaRepository.findAll();
-        return QuestionListResponseDto.from(questions);
+        return QuestionsResponseDto.from(questions);
     }
 
 }
