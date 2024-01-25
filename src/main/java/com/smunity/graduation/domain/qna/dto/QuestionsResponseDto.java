@@ -2,7 +2,6 @@ package com.smunity.graduation.domain.qna.dto;
 
 import com.smunity.graduation.domain.qna.entity.Question;
 import com.smunity.graduation.domain.qna.entity.QuestionStatus;
-import com.smunity.graduation.domain.qna.service.QuestionQueryService;
 import lombok.Builder;
 
 import java.time.LocalDateTime;
