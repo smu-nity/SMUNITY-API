@@ -4,8 +4,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.smunity.graduation.domain.accounts.dto.UserRegisterRequest;
-import com.smunity.graduation.domain.accounts.dto.UserRegisterResponse;
+import com.smunity.graduation.domain.accounts.dto.UserRegisterRequestDto;
+import com.smunity.graduation.domain.accounts.dto.UserRegisterResponseDto;
 import com.smunity.graduation.domain.accounts.entity.Department;
 import com.smunity.graduation.domain.accounts.entity.User;
 import com.smunity.graduation.domain.accounts.entity.Year;
@@ -27,7 +27,7 @@ public class AccountsService {
 	private final DepartmentJpaRepository departmentJpaRepository;
 	private final PasswordEncoder passwordEncoder;
 
-	public UserRegisterResponse register(UserRegisterRequest request) {
+	public UserRegisterResponseDto register(UserRegisterRequestDto request) {
 
 		if (!request.password().equals(request.passwordCheck()))
 			throw new AccountsExceptionHandler(ErrorCode.PASSWORD_NOT_EQUAL);
@@ -44,6 +44,6 @@ public class AccountsService {
 		newUser.setYear(year);
 		newUser.setDepartment(department);
 
-		return UserRegisterResponse.from(userJpaRepository.save(newUser));
+		return UserRegisterResponseDto.from(userJpaRepository.save(newUser));
 	}
 }

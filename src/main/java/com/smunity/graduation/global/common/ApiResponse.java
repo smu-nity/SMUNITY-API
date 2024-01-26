@@ -9,6 +9,7 @@ import com.smunity.graduation.global.common.code.status.SuccessStatus;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import org.springframework.http.HttpStatus;
 
 @Getter
 @AllArgsConstructor
@@ -34,6 +35,12 @@ public class ApiResponse<T> {
 	public static <T> ApiResponse<T> onFailure(String code, String message, T data) {
 		return new ApiResponse<>(code, message, data);
 	}
+
+	// 삭제된 경우 응답 생성
+	public static <T> ApiResponse<T> noContent() {
+		return new ApiResponse<>(HttpStatus.NO_CONTENT.getReasonPhrase(), "", null);
+	}
+
 
 	// Json Serialize
 	public String toJsonString() throws JsonProcessingException {

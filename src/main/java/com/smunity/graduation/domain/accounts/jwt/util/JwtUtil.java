@@ -54,9 +54,10 @@ public class JwtUtil {
 		return (String)Jwts.parser().setSigningKey(secretKey).build().parseClaimsJws(token).getBody().get("username");
 	}
 
-	public String getRole(String token) throws SignatureException {
-		return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload()
-			.get("auth", CustomUserDetails.class).getAuthorities().toString();
+	public Boolean isStaff(String token) throws SignatureException {
+		// return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload()
+		// 	.get("auth", CustomUserDetails.class).getAuthorities().toString();
+		return (Boolean)Jwts.parser().setSigningKey(secretKey).build().parseClaimsJws(token).getBody().get("is_staff");
 	}
 
 	public Boolean isExpired(String token) throws SignatureException {
@@ -77,6 +78,7 @@ public class JwtUtil {
 			.and()
 			// .claim("auth", customUserDetails)
 			.claim("username", customUserDetails.getUsername())
+			.claim("is_staff", customUserDetails.getStaff())
 			.issuedAt(new Date(System.currentTimeMillis()))
 			.expiration(new Date(System.currentTimeMillis() + accessExpMs))
 			.signWith(secretKey)
@@ -94,6 +96,7 @@ public class JwtUtil {
 			.and()
 			// .claim("auth", customUserDetails)
 			.claim("username", customUserDetails.getUsername())
+			.claim("is_staff", customUserDetails.getStaff())
 			.issuedAt(Date.from(issuedAt))
 			.expiration(Date.from(expiration))
 			.signWith(secretKey)

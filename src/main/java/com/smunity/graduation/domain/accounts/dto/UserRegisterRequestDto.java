@@ -6,7 +6,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
-public record UserRegisterRequest(
+public record UserRegisterRequestDto(
 	@NotBlank(message = "[ERROR] 이름 입력은 필수 입니다.")
 	String name,
 	@NotBlank(message = "[ERROR] 학번 입력은 필수 입니다.")
