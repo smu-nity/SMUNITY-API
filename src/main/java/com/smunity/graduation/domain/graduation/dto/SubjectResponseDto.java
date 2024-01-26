@@ -24,4 +24,14 @@ public record SubjectResponseDto(
                 .build();
 
     }
+
+    @Override
+    public String toString() {
+        return "학수번호 : " + number + "\n" +
+                "이름 : " + name + "\n" +
+                "힉기 : " + semester + "\n" +
+                "학년 : " + grade + "\n" +
+                "학점 : " + credit + "\n" +
+                "이수구분 : " + type + "\n";
+    }
 }

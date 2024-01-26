@@ -57,7 +57,7 @@ public class GraduationService {
 
     public List<SubjectResponseDto> getRecommendSubjects(String type, int credit) {
         //TODO : 유저 가져오기 -> SecurityContextHolder 필요
-        User user = userRepository.findByUserName("201910926").orElseThrow();
+        User user = userRepository.findByUserName("201900000").orElseThrow();
         log.info("[ Graduation Service ] user name : {}", user.getUserName());
 
         List<CourseTemporary> courses = courseTemporaryRepository.findAllByUser_Id(user.getId());
@@ -159,16 +159,21 @@ public class GraduationService {
                 //5개 영역 중 사용자가 듣지 않은 영역을 반환, 2개 이상 들었으면 빈 리스트를 반환
                 String[] cultures_essential = {"전문지식탐구역량", "창의적문제해결역량", "융복합역량", "다양성존중역량", "윤리실천역량"};
                 List<String> essentialCultures = new ArrayList<>(Arrays.asList(cultures_essential));
+                List<String> excludeEssentialSubjects = new ArrayList<>();
 
-                essentialCultures.stream()
+                essentialCultures
                         .forEach(essentialCultureDomain -> {
                             if (courses.stream()
                                     .filter(course -> course.getDomain() != null)
                                     .anyMatch(course -> course.getDomain().contains("핵심") &&
-                                            course.getDomain().contains(essentialCultureDomain))) {
-                                essentialCultures.remove(essentialCultureDomain); //사용자가 들은 영역 제외
+                                            course.getDomain().contains(essentialCultureDomain)
+                                    )
+                            ) {
+                                excludeEssentialSubjects.add(essentialCultureDomain);
                             }
                         });
+
+                excludeEssentialSubjects.forEach(essentialCultures::remove);
 
                 //2개가 충족되지 않았을 경우 (들은 영역 제외가 2개 이상일 경우)
                 if (essentialCultures.size() >= 4) {
@@ -177,7 +182,7 @@ public class GraduationService {
                                 result.addAll(graduationUtil.getRecommendCultureSubjects
                                         ("culture_e", credit, "핵심", balanceCultureDomain, null));
                             });
-                }
+                } else log.info("[ 교양 추천 ] 모든 상명핵심역량 교양을 만족했습니다.");
                 break;
 
             case "culture_s":
@@ -185,6 +190,8 @@ public class GraduationService {
                 //사용자가 들어야 하는 영역 제외 4개 중 사용자가 듣지 않은 영역 과목들을 반환, 3개 이상 들었으면 빈 리스트를 반환
                 String[] cultures_balance = {"인문", "사회", "자연", "공학", "예술"};
                 List<String> balanceCultures = new ArrayList<>(Arrays.asList(cultures_balance));
+                List<String> excludeBalanceSubjects = new ArrayList<>();
+
 
                 String userType = user.getDepartment().getType();
                 balanceCultures.remove(userType); //사용자 영역 제외
@@ -195,9 +202,11 @@ public class GraduationService {
                                     .filter(course -> course.getDomain() != null)
                                     .anyMatch(course -> course.getDomain().contains("균형") &&
                                             course.getDomain().contains(balanceCultureDomain))) {
-                                balanceCultures.remove(balanceCultureDomain); //사용자가 들은 영역 제외
+                                excludeBalanceSubjects.add(balanceCultureDomain);
                             }
                         });
+
+                excludeBalanceSubjects.forEach(balanceCultures::remove);
 
                 //3개가 충족되지 않았을 경우 (들은 영역 제외가 2개 이상일 경우)
                 if (balanceCultures.size() >= 2) {
@@ -207,7 +216,7 @@ public class GraduationService {
                                 result.addAll(graduationUtil.getRecommendCultureSubjects
                                         ("culture_s", credit, "균형", balanceCultureDomain, null));
                             });
-                }
+                } else log.info("[ 교양 추천 ] 모든 균형 교양을 만족했습니다.");
                 break;
 
         }

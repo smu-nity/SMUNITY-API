@@ -51,5 +51,17 @@ public class SubjectResultResponseDto {
                 .build();
     }
 
+    @Override
+    public String toString() {
+        return "이름 : " + name + "\n" +
+                "기준 학점 : " + total + "\n" +
+                "이수 학점 : " + count + "\n" +
+                "전공 : " + major + "\n" +
+                "교양 : " + culture + "\n" +
+                "일반 : " + common + "\n" +
+                "부족 : " + lack + "\n"
+                ;
+    }
+
 }
 
