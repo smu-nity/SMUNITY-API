@@ -63,36 +63,53 @@ public class GraduationService {
         List<CourseTemporary> courses = courseTemporaryRepository.findAllByUser_Id(user.getId());
 
         List<SubjectResponseDto> result = new ArrayList<>();
+        log.info("[ Recommend Subject ] type --> {}", type);
         switch (type) {
             case "major_i":
                 //전공심화인 경우
-
+                //TODO : 학년과 학기 User에서 가져오기
+                result.addAll(
+                        graduationUtil.getRecommendMajorSubjects
+                                ("major_i", "1학년", "1학기", user.getDepartment().getName())
+                );
+                break;
             case "major_s":
                 //전공선택인 경우
-
+                //TODO : 학년과 학기 User에서 가져오기
+                result.addAll(
+                        graduationUtil.getRecommendMajorSubjects
+                                ("major_s", "1학년", "1학기", user.getDepartment().getName())
+                );
+                break;
             case "culture":
+                log.info("[ Recommend Subject ] 일반 교양 검색");
                 //교양인 경우
                 result.addAll(graduationUtil.getRecommendCultureSubjects
                         ("culture", credit, null, null, courses));
-
+                break;
             case "culture_b":
                 //기초교양인 경우
+                log.info("[ Recommend Subject ] 기초 교양 검색");
 
                 //사고와 표현 검사
                 if (courses.stream()
+                        .filter(course -> course.getDomain() != null)
                         .noneMatch(course -> course.getDomain().contains("사고와표현"))) {
+                    log.info("[ Recommend Subject ] 사고와 표현 과목 필요");
                     result.addAll(graduationUtil.getRecommendCultureSubjects
                             ("culture_b", credit, "기초", "사고와표현", null));
                 }
 
                 //EnglishforAcademicPurposes or 기초수학 검사
                 if (courses.stream()
+                        .filter(course -> course.getDomain() != null)
                         .noneMatch(course -> course.getDomain().contains("EnglishFoundation") || // 기초교양 1. EnglishforAcademicPurposes
                                 course.getDomain().contains("영어1") || // EnglishFoundation
                                 course.getDomain().contains("영어2") || // EnglishFoundation
                                 course.getDomain().contains("기초수학") ||
                                 course.getDomain().contains("기초미적분학") // 기초교양 2. 기초수학 개편 전
                         )) {
+                    log.info("[ Recommend Subject ] English or 기초수학 과목 필요");
                     result.addAll(graduationUtil.getRecommendCultureSubjects
                             ("culture_b", credit, "기초", "EnglishforAcademicPurposes", null));
                     result.addAll(graduationUtil.getRecommendCultureSubjects
@@ -102,11 +119,13 @@ public class GraduationService {
                 //컴퓨팅사고 or 알고리즘과게임 : 18, 19학번의 경우 택1, 20학번 부터는 각각 따로 이수 필요
                 if (user.getUserName().startsWith("2019") || user.getUserName().startsWith("2018")) {
                     if (courses.stream()
+                            .filter(course -> course.getDomain() != null)
                             .noneMatch(course -> course.getDomain().contains("컴퓨팅사고와데이터의이해") ||
                                     course.getDomain().contains("컴퓨팅사고와게임디자인") || // 컴퓨팅사고와데이터의이해 개편 전
                                     course.getDomain().contains("컴퓨팅사고와문제해결") || // 컴퓨팅사고와데이터의이해 개편 전
                                     course.getDomain().contains("알고리즘과게임콘텐츠")
                             )) {
+                        log.info("[ Recommend Subject ] 18,19학번 : 컴퓨팅 or 알고리즘 과목 필요");
                         result.addAll(graduationUtil.getRecommendCultureSubjects
                                 ("culture_b", credit, "기초", "컴퓨팅사고와데이터의이해", null));
                         result.addAll(graduationUtil.getRecommendCultureSubjects
@@ -114,32 +133,39 @@ public class GraduationService {
                     }
                 } else {
                     if (courses.stream()
+                            .filter(course -> course.getDomain() != null)
                             .noneMatch(course -> course.getDomain().contains("컴퓨팅사고와데이터의이해") ||
                                     course.getDomain().contains("컴퓨팅사고와게임디자인") || // 컴퓨팅사고와데이터의이해 개편 전
                                     course.getDomain().contains("컴퓨팅사고와문제해결") // 컴퓨팅사고와데이터의이해 개편 전
                             )) {
+                        log.info("[ Recommend Subject ] 20번 이상 : 컴퓨팅 과목 필요");
                         result.addAll(graduationUtil.getRecommendCultureSubjects
                                 ("culture_b", credit, "기초", "컴퓨팅사고와데이터의이해", null));
                     }
 
                     if (courses.stream()
+                            .filter(course -> course.getDomain() != null)
                             .noneMatch(course -> course.getDomain().contains("알고리즘과게임콘텐츠")
                             )) {
+                        log.info("[ Recommend Subject ] 20학번 이상 : 알고리즘 과목 필요");
                         result.addAll(graduationUtil.getRecommendCultureSubjects
                                 ("culture_b", credit, "기초", "알고리즘과게임콘텐츠", null));
                     }
                 }
+                break;
 
             case "culture_e":
                 //상명핵심역량교양인 경우
                 //5개 영역 중 사용자가 듣지 않은 영역을 반환, 2개 이상 들었으면 빈 리스트를 반환
                 String[] cultures_essential = {"전문지식탐구역량", "창의적문제해결역량", "융복합역량", "다양성존중역량", "윤리실천역량"};
-                List<String> essentialCultures = Arrays.asList(cultures_essential);
+                List<String> essentialCultures = new ArrayList<>(Arrays.asList(cultures_essential));
 
-                essentialCultures
+                essentialCultures.stream()
                         .forEach(essentialCultureDomain -> {
-                            if (courses.stream().anyMatch(course -> course.getDomain().contains("핵심") &&
-                                    course.getDomain().contains(essentialCultureDomain))) {
+                            if (courses.stream()
+                                    .filter(course -> course.getDomain() != null)
+                                    .anyMatch(course -> course.getDomain().contains("핵심") &&
+                                            course.getDomain().contains(essentialCultureDomain))) {
                                 essentialCultures.remove(essentialCultureDomain); //사용자가 들은 영역 제외
                             }
                         });
@@ -152,20 +178,23 @@ public class GraduationService {
                                         ("culture_e", credit, "핵심", balanceCultureDomain, null));
                             });
                 }
+                break;
 
             case "culture_s":
                 //균형교양인 경우
                 //사용자가 들어야 하는 영역 제외 4개 중 사용자가 듣지 않은 영역 과목들을 반환, 3개 이상 들었으면 빈 리스트를 반환
                 String[] cultures_balance = {"인문", "사회", "자연", "공학", "예술"};
-                List<String> balanceCultures = Arrays.asList(cultures_balance);
+                List<String> balanceCultures = new ArrayList<>(Arrays.asList(cultures_balance));
 
                 String userType = user.getDepartment().getType();
                 balanceCultures.remove(userType); //사용자 영역 제외
 
                 balanceCultures
                         .forEach(balanceCultureDomain -> {
-                            if (courses.stream().anyMatch(course -> course.getDomain().contains("균형") &&
-                                    course.getDomain().contains(balanceCultureDomain))) {
+                            if (courses.stream()
+                                    .filter(course -> course.getDomain() != null)
+                                    .anyMatch(course -> course.getDomain().contains("균형") &&
+                                            course.getDomain().contains(balanceCultureDomain))) {
                                 balanceCultures.remove(balanceCultureDomain); //사용자가 들은 영역 제외
                             }
                         });
@@ -179,6 +208,7 @@ public class GraduationService {
                                         ("culture_s", credit, "균형", balanceCultureDomain, null));
                             });
                 }
+                break;
 
         }
 

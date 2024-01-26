@@ -37,12 +37,12 @@ public class GraduationUtil {
         switch (type) {
             case "culture":
                 //일반 교양
-                List<Subject> queryResults = subjectRepository.findAllCulturesWithCredit(credit);
+                List<Subject> queryResults = subjectRepository.findAllCulturesByCredit(credit);
                 return excludeCompletedCourses(queryResults, excludeCourses).stream()
                         .map(SubjectResponseDto::from)
                         .collect(Collectors.toList());
             case "culture_b", "culture_e", "culture_s":
-                return subjectRepository.findCulturesWithDomain(domain, subdomain)
+                return subjectRepository.findCulturesByDomainAndSubDomain(domain, subdomain)
                         .stream().map(SubjectResponseDto::from)
                         .collect(Collectors.toList());
 
@@ -59,8 +59,20 @@ public class GraduationUtil {
      * Param dept : 학과
      */
     public List<SubjectResponseDto> getRecommendMajorSubjects
-    (String type, String grade, String semester, int credit, String dept) {
+    (String type, String grade, String semester, String dept) {
         List<SubjectResponseDto> result = new ArrayList<>();
+
+        //TODO : 학년과 학기 고려
+        switch (type) {
+            case "major_i" -> result.addAll(subjectRepository.findMajorByTypeAndDept("1전심", dept)
+                    .stream().map(SubjectResponseDto::from)
+                    .toList()
+            );
+            case "major_s" -> result.addAll(subjectRepository.findMajorByTypeAndDept("1전선", dept)
+                    .stream().map(SubjectResponseDto::from)
+                    .toList()
+            );
+        }
 
         return result;
     }
@@ -68,7 +80,7 @@ public class GraduationUtil {
     private List<Subject> excludeCompletedCourses(List<Subject> data, List<CourseTemporary> userData) {
         return data.stream()
                 .filter(subject -> userData.stream()
-                        .noneMatch(completedSubject -> completedSubject.getSubject().getId() == subject.getId()))
+                        .noneMatch(completedSubject -> completedSubject.getSubject().getId().equals(subject.getId())))
                 .collect(Collectors.toList());
     }
 }

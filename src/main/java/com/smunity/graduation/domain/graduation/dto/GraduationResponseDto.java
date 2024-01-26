@@ -264,7 +264,7 @@ public record GraduationResponseDto(
         List<SubjectWithDomainDto> result = new ArrayList<>();
 
         String[] cultures_essential = {"전문지식탐구역량", "창의적문제해결역량", "융복합역량", "다양성존중역량", "윤리실천역량"};
-        List<String> essentialCultures = Arrays.asList(cultures_essential);
+        List<String> essentialCultures = new ArrayList<>(Arrays.asList(cultures_essential));
 
         //핵심 포함 domain 추출
         List<CourseTemporary> courseWithEssential = courses.stream()
@@ -303,7 +303,7 @@ public record GraduationResponseDto(
 
         //균형(인문)
         String[] cultures = {"인문", "사회", "자연", "공학", "예술"};
-        List<String> balanceCultures = Arrays.asList(cultures);
+        List<String> balanceCultures = new ArrayList<>(Arrays.asList(cultures));
 
         String userType = user.getDepartment().getType();
         balanceCultures.remove(userType);
