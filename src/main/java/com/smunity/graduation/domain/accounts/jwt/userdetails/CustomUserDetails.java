@@ -1,6 +1,5 @@
 package com.smunity.graduation.domain.accounts.jwt.userdetails;
 
-import java.util.ArrayList;
 import java.util.Collection;
 
 import org.springframework.security.core.GrantedAuthority;
@@ -20,13 +19,19 @@ public class CustomUserDetails implements UserDetails {
 		isStaff = user.getIsStaff();
 	}
 
+	public CustomUserDetails(String username, String password, Boolean isStaff) {
+		this.username = username;
+		this.password = password;
+		this.isStaff = isStaff;
+	}
+
+	public Boolean getStaff() {
+		return isStaff;
+	}
+
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		Collection<GrantedAuthority> collection = new ArrayList<>();
-
-		collection.add((GrantedAuthority)() -> String.valueOf(isStaff));
-
-		return collection;
+		return null;
 	}
 
 	@Override
