@@ -7,6 +7,7 @@ import com.smunity.graduation.domain.qna.service.QuestionQueryService;
 import com.smunity.graduation.domain.qna.service.QuestionService;
 import com.smunity.graduation.global.common.ApiResponse;
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;

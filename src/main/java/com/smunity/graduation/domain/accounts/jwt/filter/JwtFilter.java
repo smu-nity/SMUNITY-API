@@ -99,15 +99,19 @@ public class JwtFilter extends OncePerRequestFilter {
 	}
 
 	private void authenticateAccessToken(String accessToken) {
-		CustomUserDetails authInfo = (CustomUserDetails)jwtUtil.getAuthInfo(accessToken);
+		CustomUserDetails userDetails = new CustomUserDetails(
+			jwtUtil.getUsername(accessToken),
+			null,
+			jwtUtil.isStaff(accessToken)
+		);
 
 		log.info("[*] Authority Registration");
 
 		// 스프링 시큐리티 인증 토큰 생성
 		Authentication authToken = new UsernamePasswordAuthenticationToken(
-			authInfo,
+			userDetails,
 			null,
-			authInfo.getAuthorities());
+			null);
 
 		// 세션에 사용자 등록
 		SecurityContextHolder.getContext().setAuthentication(authToken);
