@@ -5,7 +5,7 @@ import lombok.experimental.SuperBuilder;
 
 @Getter
 @SuperBuilder
-public class TotalSubjectResponseDto extends SubjectResponseDto {
+public class TotalSubjectResultResponseDto extends SubjectResultResponseDto {
 
     String name;
 
