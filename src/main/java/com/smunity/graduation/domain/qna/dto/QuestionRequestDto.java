@@ -20,11 +20,4 @@ public record QuestionRequestDto(
                         .author(author)
                         .build();
         }
-
-        public void updateFromDto(Question question) {
-                question.setTitle(title);
-                question.setContent(content);
-                question.setAnonymous(anonymous);
-        }
-
 }
