@@ -22,7 +22,6 @@ public class QuestionController {
     private final QuestionService questionService;
     private final QuestionQueryService questionQueryService;
 
-    //ToDo: 프로필 합쳐 지면 사용자 이름을 가져오기
     @PostMapping("/")
     public ApiResponse<QuestionResponseDto> createQuestion(
             @RequestBody QuestionRequestDto requestDto) {
