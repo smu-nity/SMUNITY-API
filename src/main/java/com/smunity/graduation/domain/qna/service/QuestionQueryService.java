@@ -1,13 +1,13 @@
 package com.smunity.graduation.domain.qna.service;
 
-import com.smunity.graduation.domain.qna.dto.QuestionListResponseDto;
+import com.smunity.graduation.domain.qna.dto.QuestionsResponseDto;
 import com.smunity.graduation.domain.qna.entity.Question;
 import com.smunity.graduation.domain.qna.repository.QuestionJpaRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -15,9 +15,9 @@ import java.util.List;
 public class QuestionQueryService {
     private final QuestionJpaRepository questionJpaRepository;
 
-    public List<QuestionListResponseDto> getQuestionList() {
-        List<Question> questions = questionJpaRepository.findAll();
-        return QuestionListResponseDto.from(questions);
+    public Page<QuestionsResponseDto> getQuestionList(Pageable pageable) {
+        Page<Question> questions = questionJpaRepository.findAll(pageable);
+        return questions.map(QuestionsResponseDto::from);
     }
 
 }

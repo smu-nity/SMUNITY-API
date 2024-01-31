@@ -1,55 +1,37 @@
 package com.smunity.graduation.domain.graduation.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.experimental.SuperBuilder;
+import com.smunity.graduation.domain.graduation.entity.Subject;
+import lombok.Builder;
 
-import java.util.List;
+@Builder
+public record SubjectResponseDto(
+        String number, //학수번호
+        String name, //이름
+        String semester, //학기
+        String grade, //학년
+        int credit, //학점
+        String type //이수구분
 
-@Getter
-@AllArgsConstructor
-@SuperBuilder
-public class SubjectResponseDto {
-    String name;
-
-    //총 기준 학점
-    int total;
-
-    //총 이수 학점
-    int count;
-
-    //전공
-    int major;
-
-    //교양
-    int culture;
-
-    //일반
-    int common;
-
-    //필요 학점
-    int lack;
-
-    List<SubjectWithDomainDto> subjects;
-
-    public static SubjectResponseDto to(String name, int total, int count) {
+) {
+    public static SubjectResponseDto from(Subject subject) {
         return SubjectResponseDto.builder()
-                .name(name)
-                .total(total)
-                .count(count)
-                .lack(Math.max(total - count, 0))
+                .number(subject.getNumber())
+                .name(subject.getName())
+                .semester(subject.getSemester())
+                .grade(subject.getGrade())
+                .credit(subject.getCredit())
+                .type(subject.getType())
                 .build();
+
     }
 
-    public static SubjectResponseDto to(String name, int total, int count, List<SubjectWithDomainDto> subjects) {
-        return SubjectResponseDto.builder()
-                .name(name)
-                .total(total)
-                .count(count)
-                .lack(Math.max(total - count, 0))
-                .subjects(subjects)
-                .build();
+    @Override
+    public String toString() {
+        return "학수번호 : " + number + "\n" +
+                "이름 : " + name + "\n" +
+                "힉기 : " + semester + "\n" +
+                "학년 : " + grade + "\n" +
+                "학점 : " + credit + "\n" +
+                "이수구분 : " + type + "\n";
     }
-
 }
-
