@@ -20,11 +20,11 @@ public class Subject {
     private String number;
 
     //학년 -> 교양은 전체학년
-    @Column(name = "grade", nullable = false)
+    @Column(name = "grade")
     private String grade;
 
     //학년 -> 전공인 경우만, 교양은 0
-    @Column(name = "semester", nullable = false)
+    @Column(name = "semester")
     private String semester;
 
     //이름
