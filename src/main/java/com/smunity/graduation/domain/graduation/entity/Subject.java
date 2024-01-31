@@ -1,7 +1,10 @@
 package com.smunity.graduation.domain.graduation.entity;
 
+import com.smunity.graduation.domain.course.entity.Course;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.List;
 
 @Getter
 @Builder
@@ -55,6 +58,8 @@ public class Subject {
     @Column(name = "type", nullable = false)
     private String type;
 
+    @OneToMany(mappedBy = "subject")
+    private List<Course> courses;
 
     public void setGrade(String grade) {
         this.grade = grade;

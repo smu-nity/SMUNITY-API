@@ -3,10 +3,13 @@ package com.smunity.graduation.domain.course.entity;
 import com.smunity.graduation.domain.accounts.entity.User;
 import com.smunity.graduation.domain.graduation.entity.Subject;
 import jakarta.persistence.*;
-import lombok.Getter;
+import lombok.*;
 
 @Entity
 @Getter
+@Builder
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Table(name = "core_course")
 public class Course {
 
@@ -14,16 +17,13 @@ public class Course {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "subject_id")
     private Subject subject;
-
-    @Column(nullable = false)
-    private Long subjectId;
 
     @Column(nullable = false)
     private String year;
@@ -41,4 +41,14 @@ public class Course {
 
     @Column(nullable = false)
     private boolean custom;
+
+    public void setUser(User user) {
+        user = user;
+        user.getCourses().add(this);
+    }
+
+    public void setSubject(Subject subject) {
+        subject = subject;
+        subject.getCourses().add(this);
+    }
 }
