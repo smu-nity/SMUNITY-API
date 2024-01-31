@@ -1,6 +1,7 @@
 package com.smunity.graduation.domain.course.entity;
 
 import com.smunity.graduation.domain.accounts.entity.User;
+import com.smunity.graduation.domain.graduation.entity.Subject;
 import jakarta.persistence.*;
 import lombok.Getter;
 
@@ -8,7 +9,7 @@ import lombok.Getter;
 @Getter
 @Table(name = "core_course")
 public class Course {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -17,10 +18,9 @@ public class Course {
     @JoinColumn(name = "user_id")
     private User user;
 
-//    TODO Subject 엔티티가 생성된 후 FK 연결
-//    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-//    @JoinColumn(name = "subject_id")
-//    private Subject subject;
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "subject_id")
+    private Subject subject;
 
     @Column(nullable = false)
     private Long subjectId;
