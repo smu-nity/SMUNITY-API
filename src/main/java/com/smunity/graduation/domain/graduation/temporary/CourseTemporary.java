@@ -33,7 +33,7 @@ public class CourseTemporary {
 
     //과목
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "subject_id", nullable = false)
+    @JoinColumn(name = "subjectId", nullable = false)
     private Subject subject;
 
     @ManyToOne(fetch = FetchType.LAZY)
