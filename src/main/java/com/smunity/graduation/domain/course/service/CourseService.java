@@ -12,31 +12,37 @@ import com.smunity.graduation.global.common.code.status.ErrorCode;
 import com.smunity.graduation.global.common.exception.GeneralException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class CourseService {
     private final UserRepository userRepository;
     private final SubjectRepository subjectRepository;
     private final CourseRepository courseRepository;
 
-    public CourseResponseDto createCourse(AuthCourseResponseDto requestDto) {
-        // TODO 사용자 인증 적용
-        User user = userRepository.findByUserName("201911019")
+    public List<CourseResponseDto> createCourses(List<AuthCourseResponseDto> requestDtoList, String username) {
+        return requestDtoList.stream().map(dto -> createCourse(dto, username)).toList();
+    }
+
+    // TODO 사용자 인증 적용
+    private CourseResponseDto createCourse(AuthCourseResponseDto requestDto, String username) {
+        User user = userRepository.findByUserName(username)
                 .orElseThrow(() -> new GeneralException(ErrorCode._UNAUTHORIZED));
         Subject subject = subjectRepository.findByNumber(requestDto.number())
                 .orElseThrow(() -> new GeneralException(ErrorCode.SUBJECT_NOT_FOUND));
-        Course course = requestDto.toEntity();
-        course.setUser(user);
-        course.setSubject(subject);
-        Course saved = courseRepository.save(course);
-        return CourseResponseDto.from(saved);
-    }
-
-    public List<CourseResponseDto> createCourses(List<AuthCourseResponseDto> requestDtoList) {
-        return requestDtoList.stream().map(this::createCourse).collect(Collectors.toList());
+        Optional<Course> exists = courseRepository.findByUserUserNameAndSubjectNumber(username, requestDto.number());
+        return exists.map(CourseResponseDto::from)
+                .orElseGet(() -> {
+                    Course course = requestDto.toEntity();
+                    course.setUser(user);
+                    course.setSubject(subject);
+                    Course saved = courseRepository.save(course);
+                    return CourseResponseDto.from(saved);
+                });
     }
 }
