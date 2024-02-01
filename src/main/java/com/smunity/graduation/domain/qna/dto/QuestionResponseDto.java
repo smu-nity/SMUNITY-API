@@ -1,6 +1,5 @@
 package com.smunity.graduation.domain.qna.dto;
 
-import com.smunity.graduation.domain.accounts.entity.User;
 import com.smunity.graduation.domain.qna.entity.Question;
 import lombok.Builder;
 
@@ -10,7 +9,7 @@ public record QuestionResponseDto(
         Long id,
         String title,
         String content,
-        User author,
+        String name,
         boolean anonymous,
         LocalDateTime timestamp
 ) {
@@ -19,7 +18,7 @@ public record QuestionResponseDto(
                 .id(question.getId())
                 .title(question.getTitle())
                 .content(question.getContent())
-                .author(question.getAuthor())
+                .name(question.getAuthor().getName())
                 .anonymous(question.isAnonymous())
                 .timestamp(question.getCreatedAt())
                 .build();
