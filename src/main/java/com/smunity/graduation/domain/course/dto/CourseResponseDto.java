@@ -3,6 +3,8 @@ package com.smunity.graduation.domain.course.dto;
 import com.smunity.graduation.domain.course.entity.Course;
 import lombok.Builder;
 
+import java.util.List;
+
 @Builder
 public record CourseResponseDto(
         Long id,
@@ -12,8 +14,7 @@ public record CourseResponseDto(
         String name,
         String type,
         String domain,
-        int credit,
-        boolean custom
+        int credit
 ) {
 
     public static CourseResponseDto from(Course course) {
@@ -26,7 +27,10 @@ public record CourseResponseDto(
                 .type(course.getType())
                 .domain(course.getDomain())
                 .credit(course.getCredit())
-                .custom(course.isCustom())
                 .build();
+    }
+
+    public static List<CourseResponseDto> from(List<Course> courses) {
+        return courses.stream().map(CourseResponseDto::from).toList();
     }
 }
