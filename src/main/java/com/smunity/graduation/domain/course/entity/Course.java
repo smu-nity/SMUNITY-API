@@ -43,12 +43,12 @@ public class Course {
     private boolean custom;
 
     public void setUser(User user) {
-        user = user;
+        this.user = user;
         user.getCourses().add(this);
     }
 
     public void setSubject(Subject subject) {
-        subject = subject;
+        this.subject = subject;
         subject.getCourses().add(this);
     }
 }
