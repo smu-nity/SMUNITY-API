@@ -13,16 +13,17 @@ public record QuestionsResponseDto(
         Long id,
         QuestionStatus type,
         String title,
-        String author,
+        String name,
         LocalDateTime timestamp
 ) {
 
     public static QuestionsResponseDto from(Question question) {
+        String authorName = question.isAnonymous() ? "익명" : question.getAuthor().getName();
         return QuestionsResponseDto.builder()
                 .id(question.getId())
                 .type(QuestionStatus.from(question))
                 .title(question.getTitle())
-//                .author(question.getAuthor())   //ToDo: User 수정 후 username을 가져오기
+                .name(authorName)
                 .timestamp(question.getCreatedAt())
                 .build();
     }

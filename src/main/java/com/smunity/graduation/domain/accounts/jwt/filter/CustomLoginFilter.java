@@ -1,14 +1,12 @@
 package com.smunity.graduation.domain.accounts.jwt.filter;
 
-import static com.smunity.graduation.domain.accounts.jwt.util.JsonUtil.*;
-import static com.smunity.graduation.domain.accounts.jwt.util.ResponseUtil.*;
-import static org.springframework.http.HttpStatus.*;
-
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.LockedException;
@@ -18,8 +16,10 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.smunity.graduation.domain.accounts.jwt.dto.JwtDto;
 import com.smunity.graduation.domain.accounts.jwt.userdetails.CustomUserDetails;
+import com.smunity.graduation.domain.accounts.jwt.util.HttpResponseUtil;
 import com.smunity.graduation.domain.accounts.jwt.util.JwtUtil;
 import com.smunity.graduation.global.common.ApiResponse;
 
@@ -37,42 +37,6 @@ public class CustomLoginFilter extends UsernamePasswordAuthenticationFilter {
 	private final AuthenticationManager authenticationManager;
 	private final JwtUtil jwtUtil;
 
-	private static void setFailureResponse(
-		@NonNull HttpServletResponse response,
-		@NonNull String errorMessage) throws
-		IOException {
-		response.setContentType("application/json;charset=UTF-8");
-		response.setStatus(401);
-
-		response.getWriter().print(
-			ApiResponse.onFailure(
-				String.valueOf(HttpStatus.UNAUTHORIZED.value()),
-				HttpStatus.UNAUTHORIZED.name(),
-				errorMessage
-			).toJsonString()
-		);
-
-		closeWriter(response);
-	}
-
-	private static void setSuccessResponse(
-		@NonNull HttpServletResponse response,
-		@NonNull JwtDto jwtDto) throws IOException {
-		response.setContentType("application/json;charset=UTF-8");
-		response.setStatus(200);
-
-		response.getWriter().print(
-			ApiResponse.onSuccess(jwtDto).toJsonString()
-		);
-
-		closeWriter(response);
-	}
-
-	private static void closeWriter(HttpServletResponse response) throws IOException {
-		response.getWriter().flush();
-		response.getWriter().close();
-	}
-
 	@Override
 	public Authentication attemptAuthentication(
 		@NonNull HttpServletRequest request,
@@ -84,13 +48,7 @@ public class CustomLoginFilter extends UsernamePasswordAuthenticationFilter {
 		try {
 			requestBody = getBody(request);
 		} catch (IOException e) {
-			try {
-				// TODO responseUtil 안 쓰고 Apiresponse로 refactor 하기
-				setErrorResponse(response, BAD_REQUEST);
-				return null;
-			} catch (IOException ex) {
-				return null;
-			}
+			throw new AuthenticationServiceException("Error of request body.");
 		}
 
 		log.info("[*] Request Body : " + requestBody);
@@ -100,7 +58,7 @@ public class CustomLoginFilter extends UsernamePasswordAuthenticationFilter {
 
 		UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(username, password,
 			null);
-		
+
 		return authenticationManager.authenticate(authToken);
 	}
 
@@ -121,7 +79,7 @@ public class CustomLoginFilter extends UsernamePasswordAuthenticationFilter {
 			jwtUtil.createJwtRefreshToken(customUserDetails)
 		);
 
-		setSuccessResponse(response, jwtDto);
+		HttpResponseUtil.setSuccessResponse(response, HttpStatus.CREATED, jwtDto);
 	}
 
 	@Override
@@ -129,7 +87,8 @@ public class CustomLoginFilter extends UsernamePasswordAuthenticationFilter {
 		@NonNull HttpServletRequest request,
 		@NonNull HttpServletResponse response,
 		@NonNull AuthenticationException failed) throws IOException {
-		log.info("[*] Login Fail");
+
+		logger.info("[*] Login Fail");
 
 		String errorMessage;
 		if (failed instanceof BadCredentialsException) {
@@ -140,10 +99,35 @@ public class CustomLoginFilter extends UsernamePasswordAuthenticationFilter {
 			errorMessage = "Account is disabled";
 		} else if (failed instanceof UsernameNotFoundException) {
 			errorMessage = "Account not found";
+		} else if (failed instanceof AuthenticationServiceException) {
+			errorMessage = "Error occurred while parsing request body";
 		} else {
 			errorMessage = "Authentication failed";
 		}
+		HttpResponseUtil.setErrorResponse(
+			response, HttpStatus.UNAUTHORIZED,
+			ApiResponse.onFailure(
+				HttpStatus.BAD_REQUEST.name(),
+				errorMessage,
+				null
+			)
+		);
+	}
 
-		setFailureResponse(response, errorMessage);
+	private Map<String, Object> getBody(HttpServletRequest request) throws IOException {
+
+		StringBuilder stringBuilder = new StringBuilder();
+		String line;
+
+		try (BufferedReader bufferedReader = request.getReader()) {
+			while ((line = bufferedReader.readLine()) != null) {
+				stringBuilder.append(line);
+			}
+		}
+
+		String requestBody = stringBuilder.toString();
+		ObjectMapper objectMapper = new ObjectMapper();
+
+		return objectMapper.readValue(requestBody, Map.class);
 	}
 }
