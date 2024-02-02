@@ -44,6 +44,7 @@ public class AccountsArgumentResolver implements HandlerMethodArgumentResolver {
 		log.info("========================== resolveArgument 작동 ===================================");
 
 		String token = webRequest.getHeader("Authorization");
+		log.info(token);
 		String username = jwtUtil.getUsername(token);
 
 		User user = userRepository.findByUserName(username)

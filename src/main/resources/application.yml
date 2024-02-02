@@ -1,3 +1,10 @@
 spring:
   profiles:
     active: local
+
+  sql:
+    init:
+      mode: always
+      data-locations: classpath:department.sql, classpath:year.sql
+  jpa:
+    defer-datasource-initialization: true
