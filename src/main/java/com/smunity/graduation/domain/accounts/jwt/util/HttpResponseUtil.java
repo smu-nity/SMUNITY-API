@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.smunity.graduation.global.common.ApiResponse;
 
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AccessLevel;
@@ -21,8 +22,7 @@ public class HttpResponseUtil {
 	public static void setSuccessResponse(HttpServletResponse response, HttpStatus httpStatus, Object body) throws
 		IOException {
 		log.info("[*] Success Response");
-		// String responseBody = objectMapper.writeValueAsString(ApiResponse.onSuccess(body));
-		String responseBody = objectMapper.writeValueAsString(MediaType.APPLICATION_JSON_VALUE);
+		String responseBody = objectMapper.writeValueAsString(ApiResponse.onSuccess(body));
 		response.setContentType(MediaType.APPLICATION_JSON_VALUE);
 		response.setStatus(httpStatus.value());
 		response.setCharacterEncoding("UTF-8");
