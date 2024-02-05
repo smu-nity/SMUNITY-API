@@ -43,7 +43,7 @@ public class GlobalExceptionHandler {
 	@ExceptionHandler({DataIntegrityViolationException.class})
 	public ApiResponse<Object> handleIntegrityConstraint(DataIntegrityViolationException e) {
 		log.warn(">>>>> Data Integrity Violation Exception : {}", e.getMessage());
-		// TODO 중복 예외 처리
+		// TODO 학번 중복 예외 처리
 		BaseErrorCode errorStatus = ErrorCode.SAMNUL_ERROR;
 		return ApiResponse.onFailure(
 			errorStatus.getCode(),

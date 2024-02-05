@@ -7,7 +7,8 @@ import lombok.Getter;
 @Getter
 public class CustomException extends RuntimeException {
 
-	private final BaseErrorCode errorCode;
+	// TODO transient 테스트
+	private final transient BaseErrorCode errorCode;
 
 	public CustomException(BaseErrorCode errorCode) {
 		this.errorCode = errorCode;

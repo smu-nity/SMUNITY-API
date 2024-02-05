@@ -15,7 +15,6 @@ import com.smunity.graduation.domain.accounts.jwt.dto.JwtDto;
 import com.smunity.graduation.domain.accounts.jwt.exception.AccountsExceptionHandler;
 import com.smunity.graduation.domain.accounts.jwt.exception.TokenErrorCode;
 import com.smunity.graduation.domain.accounts.jwt.userdetails.CustomUserDetails;
-import com.smunity.graduation.domain.accounts.jwt.userdetails.CustomUserDetailsService;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.SignatureException;
@@ -31,22 +30,17 @@ public class JwtUtil {
 	private final Long refreshExpMs;
 	private final RedisUtil redisUtil;
 
-	// TODO 따로 뺄지 고민. 추상화 문제
-	private final CustomUserDetailsService customUserDetailsService;
-
 	public JwtUtil(
 		@Value("${jwt.secret}") String secret,
 		@Value("${jwt.token.access-expiration-time}") Long access,
 		@Value("${jwt.token.refresh-expiration-time}") Long refresh,
-		RedisUtil redis, CustomUserDetailsService customUserDetailsService2) {
+		RedisUtil redis) {
 
 		secretKey = new SecretKeySpec(secret.getBytes(StandardCharsets.UTF_8),
 			Jwts.SIG.HS256.key().build().getAlgorithm());
 		accessExpMs = access;
 		refreshExpMs = refresh;
 		redisUtil = redis;
-
-		this.customUserDetailsService = customUserDetailsService2;
 	}
 
 	public String getUsername(String token) throws SignatureException {
@@ -59,8 +53,6 @@ public class JwtUtil {
 	}
 
 	public Boolean isStaff(String token) throws SignatureException {
-		// return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload()
-		// 	.get("auth", CustomUserDetails.class).getAuthorities().toString();
 		return (Boolean)Jwts.parser().setSigningKey(secretKey).build().parseClaimsJws(token).getBody().get("is_staff");
 	}
 
@@ -83,11 +75,10 @@ public class JwtUtil {
 			.add("alg", "HS256")
 			.add("typ", "JWT")
 			.and()
-			// .claim("auth", customUserDetails)
 			.claim("username", customUserDetails.getUsername())
 			.claim("is_staff", customUserDetails.getStaff())
-			.issuedAt(new Date(System.currentTimeMillis()))
-			.expiration(new Date(System.currentTimeMillis() + accessExpMs))
+			.issuedAt(Date.from(issuedAt))
+			.expiration(Date.from(expiration))
 			.signWith(secretKey)
 			.compact();
 	}
@@ -101,7 +92,6 @@ public class JwtUtil {
 			.add("alg", "HS256")
 			.add("typ", "JWT")
 			.and()
-			// .claim("auth", customUserDetails)
 			.claim("username", customUserDetails.getUsername())
 			.claim("is_staff", customUserDetails.getStaff())
 			.issuedAt(Date.from(issuedAt))
