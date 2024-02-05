@@ -4,9 +4,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.smunity.graduation.domain.accounts.entity.User;
-import com.smunity.graduation.domain.accounts.exception.AccountsExceptionHandler;
+import com.smunity.graduation.domain.accounts.jwt.exception.AccountsExceptionHandler;
 import com.smunity.graduation.domain.accounts.repository.user.UserRepository;
-import com.smunity.graduation.global.common.code.status.ErrorCode;
+import com.smunity.graduation.global.common.ErrorCode;
 
 import lombok.RequiredArgsConstructor;
 

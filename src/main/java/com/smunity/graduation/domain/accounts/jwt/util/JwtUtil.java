@@ -9,11 +9,11 @@ import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import com.smunity.graduation.domain.accounts.jwt.dto.JwtDto;
-import com.smunity.graduation.domain.accounts.jwt.exception.CustomExpiredJwtException;
+import com.smunity.graduation.domain.accounts.jwt.exception.AccountsExceptionHandler;
+import com.smunity.graduation.domain.accounts.jwt.exception.TokenErrorCode;
 import com.smunity.graduation.domain.accounts.jwt.userdetails.CustomUserDetails;
 import com.smunity.graduation.domain.accounts.jwt.userdetails.CustomUserDetailsService;
 
@@ -38,8 +38,7 @@ public class JwtUtil {
 		@Value("${jwt.secret}") String secret,
 		@Value("${jwt.token.access-expiration-time}") Long access,
 		@Value("${jwt.token.refresh-expiration-time}") Long refresh,
-		RedisUtil redis, CustomUserDetailsService customUserDetailsService,
-		CustomUserDetailsService customUserDetailsService1, CustomUserDetailsService customUserDetailsService2) {
+		RedisUtil redis, CustomUserDetailsService customUserDetailsService2) {
 
 		secretKey = new SecretKeySpec(secret.getBytes(StandardCharsets.UTF_8),
 			Jwts.SIG.HS256.key().build().getAlgorithm());
@@ -120,11 +119,15 @@ public class JwtUtil {
 	}
 
 	public JwtDto reissueToken(String refreshToken) throws SignatureException {
-		UserDetails userDetails = customUserDetailsService.loadUserByUsername(getUsername(refreshToken));
+		CustomUserDetails tempCustomUserDetails = new CustomUserDetails(
+			getUsername(refreshToken),
+			null,
+			isStaff(refreshToken)
+		);
 
 		return new JwtDto(
-			createJwtAccessToken((CustomUserDetails)userDetails),
-			createJwtRefreshToken((CustomUserDetails)userDetails)
+			createJwtAccessToken(tempCustomUserDetails),
+			createJwtRefreshToken(tempCustomUserDetails)
 		);
 	}
 
@@ -149,7 +152,7 @@ public class JwtUtil {
 
 		//redis 확인
 		if (!redisUtil.hasKey(username)) {
-			throw new CustomExpiredJwtException();
+			throw new AccountsExceptionHandler(TokenErrorCode.INVALID_TOKEN);
 		}
 		return true;
 	}

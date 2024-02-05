@@ -32,7 +32,8 @@ import lombok.RequiredArgsConstructor;
 public class SecurityConfig {
 
 	private final String[] swaggerUrls = {"/swagger-ui/**", "/v3/**"};
-	private final String[] authUrls = {"/", "/api/v1/accounts/**", "/api/v1/auth"};
+	private final String[] authUrls = {"/", "/api/v1/accounts/register/**", "/api/v1/accounts/register/login/**",
+		"/api/v1/auth/**"};
 	private final String[] allowedUrls = Stream.concat(Arrays.stream(swaggerUrls), Arrays.stream(authUrls))
 		.toArray(String[]::new);
 

@@ -5,10 +5,10 @@ import java.io.IOException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.smunity.graduation.domain.accounts.jwt.exception.SecurityFilterException;
-import com.smunity.graduation.domain.accounts.jwt.exception.status.TokenErrorCode;
+import com.smunity.graduation.domain.accounts.jwt.exception.AccountsExceptionHandler;
+import com.smunity.graduation.domain.accounts.jwt.exception.TokenErrorCode;
 import com.smunity.graduation.domain.accounts.jwt.util.HttpResponseUtil;
-import com.smunity.graduation.global.common.code.BaseErrorCode;
+import com.smunity.graduation.global.common.BaseErrorCode;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.http.HttpServletRequest;
@@ -27,13 +27,13 @@ public class JwtExceptionFilter extends OncePerRequestFilter {
 		throws IOException {
 		try {
 			filterChain.doFilter(request, response);
-		} catch (SecurityFilterException e) {
-			log.info(">>>>> SecurityCustomException : ", e);
-			BaseErrorCode errorCode = e.getCode();
+		} catch (AccountsExceptionHandler e) {
+			log.info(">>>>> AccountsExceptionHandler : ", e);
+			BaseErrorCode errorCode = e.getErrorCode();
 			HttpResponseUtil.setErrorResponse(
 				response,
-				errorCode.getReasonHttpStatus().getHttpStatus(),
-				errorCode.getReason().getMessage()
+				errorCode.getHttpStatus(),
+				errorCode.getMessage()
 			);
 
 		} catch (Exception e) {

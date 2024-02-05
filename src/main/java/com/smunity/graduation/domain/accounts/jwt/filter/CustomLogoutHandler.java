@@ -5,7 +5,8 @@ import java.util.concurrent.TimeUnit;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.logout.LogoutHandler;
 
-import com.smunity.graduation.domain.accounts.jwt.exception.CustomExpiredJwtException;
+import com.smunity.graduation.domain.accounts.jwt.exception.AccountsExceptionHandler;
+import com.smunity.graduation.domain.accounts.jwt.exception.TokenErrorCode;
 import com.smunity.graduation.domain.accounts.jwt.util.JwtUtil;
 import com.smunity.graduation.domain.accounts.jwt.util.RedisUtil;
 
@@ -42,7 +43,7 @@ public class CustomLogoutHandler implements LogoutHandler {
 		} catch (ExpiredJwtException e) {
 			log.warn("[*] case : accessToken expired");
 
-			throw new CustomExpiredJwtException();
+			throw new AccountsExceptionHandler(TokenErrorCode.TOKEN_EXPIRED);
 		}
 	}
 }

@@ -9,11 +9,11 @@ import com.smunity.graduation.domain.accounts.dto.UserRegisterResponseDto;
 import com.smunity.graduation.domain.accounts.entity.Department;
 import com.smunity.graduation.domain.accounts.entity.User;
 import com.smunity.graduation.domain.accounts.entity.Year;
-import com.smunity.graduation.domain.accounts.exception.AccountsExceptionHandler;
+import com.smunity.graduation.domain.accounts.jwt.exception.AccountsExceptionHandler;
 import com.smunity.graduation.domain.accounts.repository.DepartmentJpaRepository;
 import com.smunity.graduation.domain.accounts.repository.YearJpaRepository;
 import com.smunity.graduation.domain.accounts.repository.user.UserJpaRepository;
-import com.smunity.graduation.global.common.code.status.ErrorCode;
+import com.smunity.graduation.global.common.ErrorCode;
 
 import lombok.RequiredArgsConstructor;
 
