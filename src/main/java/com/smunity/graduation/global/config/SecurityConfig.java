@@ -73,8 +73,8 @@ public class SecurityConfig {
 		http
 			.authorizeHttpRequests(auth -> auth
 				.requestMatchers(allowedUrls).permitAll()
-				.requestMatchers("/").permitAll()
-				.anyRequest().authenticated()
+				.requestMatchers("/**").permitAll()
+				.anyRequest().permitAll()
 			);
 
 		// Jwt Filter (with login)

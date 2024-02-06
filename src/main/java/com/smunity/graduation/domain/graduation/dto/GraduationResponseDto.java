@@ -328,6 +328,4 @@ public record GraduationResponseDto(
                 .mapToInt(Course::getCredit)
                 .sum();
     }
-
 }
-

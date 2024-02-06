@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 import com.smunity.graduation.domain.accounts.jwt.dto.JwtDto;
 import com.smunity.graduation.domain.accounts.jwt.exception.CustomExpiredJwtException;
 import com.smunity.graduation.domain.accounts.jwt.userdetails.CustomUserDetails;
+import com.smunity.graduation.domain.accounts.jwt.userdetails.CustomUserDetailsService;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.SignatureException;
@@ -30,28 +31,32 @@ public class JwtUtil {
 	private final Long refreshExpMs;
 	private final RedisUtil redisUtil;
 
+	// TODO 따로 뺄지 고민. 추상화 문제
+	private final CustomUserDetailsService customUserDetailsService;
+
 	public JwtUtil(
 		@Value("${jwt.secret}") String secret,
 		@Value("${jwt.token.access-expiration-time}") Long access,
 		@Value("${jwt.token.refresh-expiration-time}") Long refresh,
-		RedisUtil redis) {
+		RedisUtil redis, CustomUserDetailsService customUserDetailsService,
+		CustomUserDetailsService customUserDetailsService1, CustomUserDetailsService customUserDetailsService2) {
 
 		secretKey = new SecretKeySpec(secret.getBytes(StandardCharsets.UTF_8),
 			Jwts.SIG.HS256.key().build().getAlgorithm());
 		accessExpMs = access;
 		refreshExpMs = refresh;
 		redisUtil = redis;
-	}
 
-	public UserDetails getAuthInfo(String token) {
-		return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload()
-			.get("auth", CustomUserDetails.class);
+		this.customUserDetailsService = customUserDetailsService2;
 	}
 
 	public String getUsername(String token) throws SignatureException {
-		// return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload()
-		// 	.get("auth", CustomUserDetails.class).getUsername();
-		return (String)Jwts.parser().setSigningKey(secretKey).build().parseClaimsJws(token).getBody().get("username");
+		return Jwts.parser()
+			.setSigningKey(secretKey)
+			.build()
+			.parseClaimsJws(token)
+			.getBody()
+			.get("username", String.class);
 	}
 
 	public Boolean isStaff(String token) throws SignatureException {
@@ -71,6 +76,9 @@ public class JwtUtil {
 	}
 
 	public String createJwtAccessToken(CustomUserDetails customUserDetails) {
+		Instant issuedAt = Instant.now();
+		Instant expiration = issuedAt.plusMillis(accessExpMs);
+
 		return Jwts.builder()
 			.header()
 			.add("alg", "HS256")
@@ -112,11 +120,11 @@ public class JwtUtil {
 	}
 
 	public JwtDto reissueToken(String refreshToken) throws SignatureException {
-		UserDetails authInfo = getAuthInfo(refreshToken);
+		UserDetails userDetails = customUserDetailsService.loadUserByUsername(getUsername(refreshToken));
 
 		return new JwtDto(
-			createJwtAccessToken((CustomUserDetails)authInfo),
-			createJwtRefreshToken((CustomUserDetails)authInfo)
+			createJwtAccessToken((CustomUserDetails)userDetails),
+			createJwtRefreshToken((CustomUserDetails)userDetails)
 		);
 	}
 

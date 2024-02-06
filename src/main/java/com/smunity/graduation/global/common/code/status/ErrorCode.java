@@ -31,7 +31,9 @@ public enum ErrorCode implements BaseErrorCode {
 
     // qna 관련 에러
     QUESTION_NOT_FOUND(HttpStatus.NOT_FOUND, "QUESTION4001", "해당 질문이 없습니다."),
+    AUTHOR_NOT_MATCHED(HttpStatus.FORBIDDEN, "QUESTION4002", "작성자가 일치하지 않습니다."),
     ANSWER_NOT_FOUND(HttpStatus.NOT_FOUND, "ANSWER4001", "해당 답변이 없습니다."),
+    AUTHOR_IS_NOT_STAFF(HttpStatus.FORBIDDEN, "ANSWER4002", "스태프가 아닙니다."),
 
     // 예시,,,
     ARTICLE_NOT_FOUND(HttpStatus.NOT_FOUND, "ARTICLE4001", "게시글이 없습니다."),
