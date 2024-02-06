@@ -2,7 +2,6 @@ package com.smunity.graduation.domain.qna.service;
 
 import com.smunity.graduation.domain.accounts.entity.User;
 import com.smunity.graduation.domain.accounts.exception.AccountsExceptionHandler;
-import com.smunity.graduation.domain.accounts.jwt.userdetails.CustomUserDetails;
 import com.smunity.graduation.domain.accounts.repository.user.UserJpaRepository;
 import com.smunity.graduation.domain.qna.entity.Answer;
 import com.smunity.graduation.domain.qna.entity.Question;
@@ -34,8 +33,8 @@ public class QnAServiceUtils {
     }
 
     public User getCurrentUser() {
-        CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return userJpaRepository.findByUserName(userDetails.getUsername())
+        String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return userJpaRepository.findByUserName(username)
                 .orElseThrow(() -> new AccountsExceptionHandler(ErrorCode.USER_NOT_FOUND));
     }
 
