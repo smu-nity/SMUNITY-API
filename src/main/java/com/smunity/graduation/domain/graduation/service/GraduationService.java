@@ -4,16 +4,16 @@ import com.smunity.graduation.domain.accounts.entity.User;
 import com.smunity.graduation.domain.accounts.entity.Year;
 import com.smunity.graduation.domain.accounts.repository.YearJpaRepository;
 import com.smunity.graduation.domain.accounts.repository.user.UserRepository;
+import com.smunity.graduation.domain.course.entity.Course;
+import com.smunity.graduation.domain.course.repository.CourseRepository;
 import com.smunity.graduation.domain.graduation.dto.GraduationResponseDto;
 import com.smunity.graduation.domain.graduation.dto.SubjectResponseDto;
 import com.smunity.graduation.domain.graduation.entity.Culture;
 import com.smunity.graduation.domain.graduation.entity.Major;
 import com.smunity.graduation.domain.graduation.entity.Subject;
-import com.smunity.graduation.domain.graduation.repository.CourseTemporaryRepository;
 import com.smunity.graduation.domain.graduation.repository.CultureRepository;
 import com.smunity.graduation.domain.graduation.repository.MajorRepository;
 import com.smunity.graduation.domain.graduation.repository.SubjectRepository;
-import com.smunity.graduation.domain.graduation.temporary.CourseTemporary;
 import com.smunity.graduation.domain.graduation.utils.GraduationUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -33,7 +33,7 @@ public class GraduationService {
     //-------------------임시 레포지토리
     private final UserRepository userRepository;
     private final YearJpaRepository yearJpaRepository;
-    private final CourseTemporaryRepository courseTemporaryRepository;
+    private final CourseRepository courseRepository;
     private final CultureRepository cultureRepository;
     private final MajorRepository majorRepository;
     //-------------------임시 레포지토리
@@ -60,7 +60,7 @@ public class GraduationService {
         User user = userRepository.findByUserName("201900000").orElseThrow();
         log.info("[ Graduation Service ] user name : {}", user.getUserName());
 
-        List<CourseTemporary> courses = courseTemporaryRepository.findAllByUser_Id(user.getId());
+        List<Course> courses = courseRepository.findAllByUserUserName(user.getUserName());
 
         List<SubjectResponseDto> result = new ArrayList<>();
         log.info("[ Recommend Subject ] type --> {}", type);
@@ -263,7 +263,7 @@ public class GraduationService {
     private GraduationResponseDto calculateCriteria(User user, Year year) {
 
         //TODO : 사용자 들은 과목 조회 -> Course Entity, Repository 필요
-        List<CourseTemporary> courses = courseTemporaryRepository.findAllByUser_Id(user.getId());
+        List<Course> courses = courseRepository.findAllByUserUserName(user.getUserName());
         return GraduationResponseDto.to(courses, year, user, subjectRepository);
     }
 

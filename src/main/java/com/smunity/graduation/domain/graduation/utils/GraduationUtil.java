@@ -1,9 +1,9 @@
 package com.smunity.graduation.domain.graduation.utils;
 
+import com.smunity.graduation.domain.course.entity.Course;
 import com.smunity.graduation.domain.graduation.dto.SubjectResponseDto;
 import com.smunity.graduation.domain.graduation.entity.Subject;
 import com.smunity.graduation.domain.graduation.repository.SubjectRepository;
-import com.smunity.graduation.domain.graduation.temporary.CourseTemporary;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -30,7 +30,7 @@ public class GraduationUtil {
      * Param excludeCourses : 제외할 과목 (사용자가 이수한 과목)
      */
     public List<SubjectResponseDto> getRecommendCultureSubjects
-    (String type, int credit, String domain, String subdomain, List<CourseTemporary> excludeCourses) {
+    (String type, int credit, String domain, String subdomain, List<Course> excludeCourses) {
 
         List<SubjectResponseDto> result = new ArrayList<>();
 
@@ -77,7 +77,7 @@ public class GraduationUtil {
         return result;
     }
 
-    private List<Subject> excludeCompletedCourses(List<Subject> data, List<CourseTemporary> userData) {
+    private List<Subject> excludeCompletedCourses(List<Subject> data, List<Course> userData) {
         return data.stream()
                 .filter(subject -> userData.stream()
                         .noneMatch(completedSubject -> completedSubject.getSubject().getId().equals(subject.getId())))
