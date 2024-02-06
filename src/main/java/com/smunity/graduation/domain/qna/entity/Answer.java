@@ -15,8 +15,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Table(name = "qna_answer")
 public class Answer extends BaseEntity {
+
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)

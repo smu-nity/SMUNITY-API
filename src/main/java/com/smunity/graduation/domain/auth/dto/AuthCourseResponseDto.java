@@ -1,5 +1,7 @@
 package com.smunity.graduation.domain.auth.dto;
 
+import com.smunity.graduation.domain.course.entity.Course;
+
 public record AuthCourseResponseDto(
         String number,
         String name,
@@ -11,4 +13,13 @@ public record AuthCourseResponseDto(
         int credit
 ) {
 
+    public Course toEntity() {
+        return Course.builder()
+                .year(year)
+                .semester(semester)
+                .type(type)
+                .domain(domain)
+                .credit(credit)
+                .build();
+    }
 }

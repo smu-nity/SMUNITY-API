@@ -15,8 +15,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Table(name = "qna_question")
 public class Question extends BaseEntity {
+
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)
@@ -39,15 +40,15 @@ public class Question extends BaseEntity {
         return this.anonymous;
     }
 
+    public void setAnonymous(Boolean anonymous) {
+        anonymous = anonymous;
+    }
+
     public void setTitle(String title) {
         title = title;
     }
 
     public void setContent(String content) {
         content = content;
-    }
-
-    public void setAnonymous(Boolean anonymous) {
-        anonymous = anonymous;
     }
 }

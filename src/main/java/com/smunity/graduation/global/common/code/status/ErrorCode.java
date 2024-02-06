@@ -22,11 +22,14 @@ public enum ErrorCode implements BaseErrorCode {
     PASSWORD_NOT_EQUAL(HttpStatus.BAD_REQUEST, "USER4003", "비밀번호가 일치하지 않습니다."),
     SAMNUL_ERROR(HttpStatus.BAD_REQUEST, "SAM4001", "샘물 에러입니다."),
 
-    // 샘물 인증 관련 에러
+    // auth 관련 에러
     AUTH_UNAUTHORIZED(HttpStatus.UNAUTHORIZED, "AUTH401", "아이디 및 비밀번호가 일치하지 않습니다."),
     AUTH_INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "AUTH500", "인증 서버 에러, 관리자에게 문의 바랍니다."),
-  
-  	// qna 관련 에러
+
+    // graduation 관련 에러
+    SUBJECT_NOT_FOUND(HttpStatus.NOT_FOUND, "SUBJECT404", "해당 과목이 없습니다."),
+
+    // qna 관련 에러
     QUESTION_NOT_FOUND(HttpStatus.NOT_FOUND, "QUESTION4001", "해당 질문이 없습니다."),
     AUTHOR_NOT_MATCHED(HttpStatus.FORBIDDEN, "QUESTION4002", "작성자가 일치하지 않습니다."),
     ANSWER_NOT_FOUND(HttpStatus.NOT_FOUND, "ANSWER4001", "해당 답변이 없습니다."),
