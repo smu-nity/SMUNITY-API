@@ -7,4 +7,6 @@ import com.smunity.graduation.domain.accounts.entity.User;
 public interface UserRepository {
 
 	Optional<User> findByUserName(String username);
+
+	User save(User user);
 }

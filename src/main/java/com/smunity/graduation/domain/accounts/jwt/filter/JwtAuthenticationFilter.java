@@ -1,8 +1,5 @@
 package com.smunity.graduation.domain.accounts.jwt.filter;
 
-import static com.smunity.graduation.domain.accounts.jwt.util.HttpResponseUtil.*;
-import static org.springframework.http.HttpStatus.*;
-
 import java.io.IOException;
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -10,10 +7,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.smunity.graduation.domain.accounts.jwt.dto.CachedHttpServletRequest;
-import com.smunity.graduation.domain.accounts.jwt.dto.JwtDto;
-import com.smunity.graduation.domain.accounts.jwt.exception.SecurityFilterException;
-import com.smunity.graduation.domain.accounts.jwt.exception.status.TokenErrorCode;
 import com.smunity.graduation.domain.accounts.jwt.userdetails.CustomUserDetails;
 import com.smunity.graduation.domain.accounts.jwt.util.JwtUtil;
 import com.smunity.graduation.domain.accounts.jwt.util.RedisUtil;
@@ -29,7 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RequiredArgsConstructor
-public class JwtFilter extends OncePerRequestFilter {
+public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
 	private final JwtUtil jwtUtil;
 	private final RedisUtil redisUtil;
@@ -42,50 +35,30 @@ public class JwtFilter extends OncePerRequestFilter {
 	) throws ServletException, IOException {
 		log.info("[*] Jwt Filter");
 
-		CachedHttpServletRequest cachedHttpServletRequest = new CachedHttpServletRequest(request);
-
 		try {
-			String accessToken = jwtUtil.resolveAccessToken(cachedHttpServletRequest);
+			String accessToken = jwtUtil.resolveAccessToken(request);
 
 			// accessToken 없이 접근할 경우
 			if (accessToken == null) {
-				filterChain.doFilter(cachedHttpServletRequest, response);
-
+				filterChain.doFilter(request, response);
 				return;
 			}
 
 			// logout 처리된 accessToken
-			if (redisUtil.get(accessToken) != null &&
-				redisUtil.get(accessToken).equals("logout")) {
+			if (redisUtil.get(accessToken) != null && redisUtil.get(accessToken).equals("logout")) {
 				log.info("[*] Logout accessToken");
-				filterChain.doFilter(cachedHttpServletRequest, response);
+				// TODO InsufficientAuthenticationException 예외 처리
+				log.info("==================");
+				filterChain.doFilter(request, response);
+				log.info("==================");
 				return;
 			}
 
 			log.info("[*] Authorization with Token");
 			authenticateAccessToken(accessToken);
-			filterChain.doFilter(cachedHttpServletRequest, response);
+			filterChain.doFilter(request, response);
 		} catch (ExpiredJwtException e) {
 			log.warn("[*] case : accessToken Expired");
-
-			// accessToken 만료 시 Body에 있는 refreshToken 확인
-			String refreshToken = request.getHeader("refreshToken");
-
-			log.info("[*] refreshToken : " + refreshToken);
-			try {
-				if (jwtUtil.validateRefreshToken(refreshToken)) {
-					log.info("[*] case : accessToken Expired && refreshToken in redis");
-					// refreshToken 유효 시 재발급
-					JwtDto reissueTokens = jwtUtil.reissueToken(refreshToken);
-					setSuccessResponse(response, CREATED, reissueTokens);
-				}
-			} catch (ExpiredJwtException e1) {
-				log.info("[*] case : accessToken, refreshToken expired");
-				throw new SecurityFilterException(TokenErrorCode.TOKEN_EXPIRED);
-			} catch (IllegalArgumentException e2) {
-				log.info("[*] case : Invalid refreshToken");
-				throw new SecurityFilterException(TokenErrorCode.INVALID_FORM_TOKEN);
-			}
 		}
 	}
 
@@ -104,7 +77,7 @@ public class JwtFilter extends OncePerRequestFilter {
 			null,
 			userDetails.getAuthorities());
 
-		// 세션에 사용자 등록
+		// 컨텍스트 홀더에 저장
 		SecurityContextHolder.getContext().setAuthentication(authToken);
 	}
 }
