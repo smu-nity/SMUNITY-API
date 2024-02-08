@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import com.smunity.graduation.domain.accounts.entity.User;
 import com.smunity.graduation.domain.accounts.exception.AccountsExceptionHandler;
 import com.smunity.graduation.domain.accounts.repository.user.UserRepository;
-import com.smunity.graduation.global.common.code.status.ErrorCode;
+import com.smunity.graduation.global.common.ErrorCode;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,7 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 @Slf4j
 public class CustomUserDetailsService implements UserDetailsService {
-	
+
 	private final UserRepository userRepository;
 
 	@Override
@@ -28,5 +28,10 @@ public class CustomUserDetailsService implements UserDetailsService {
 		log.info("[*] User found : " + user.getUserName());
 
 		return new CustomUserDetails(user);
+	}
+
+	public User userDetailsToUser(UserDetails userDetails) {
+		return userRepository.findByUserName(userDetails.getUsername())
+			.orElseThrow(() -> new AccountsExceptionHandler(ErrorCode.USER_NOT_FOUND));
 	}
 }
