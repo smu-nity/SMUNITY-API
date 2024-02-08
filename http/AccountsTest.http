@@ -1,0 +1,30 @@
+### 회원가입
+POST {{api}}/api/v1/accounts/register
+Content-Type: application/json
+
+{
+  "name": "짱구",
+  "username": "201911111",
+  "department": "컴퓨터과학전공",
+  "email": "test1234@naver.com",
+  "password": "test1234#",
+  "passwordCheck": "test1234#"
+}
+
+### 로그인
+POST {{api}}/api/v1/accounts/login
+Content-Type: application/json
+
+{
+  "username": "201911111",
+  "password": "test1234#"
+}
+
+### 로그아웃
+GET {{api}}/api/v1/accounts/logout
+Authorization: Bearer "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IjIwMTkxMTExMSIsImlhdCI6MTcwNTk4MDExNywiZXhwIjoxNzA1OTgwMTYwfQ.2KyPxjJqrBH6Z_MlNRfyEBl5KlwCOHBY6_9KjS-VdRQ"
+
+// TODO 어노테이션 테스트 -> 작동 안 함
+### 테스트
+GET {{api}}/api/v1/accounts/test
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IjIwMTkxMTExMSIsImlzX3N0YWZmIjpmYWxzZSwiaWF0IjoxNzA2Njk5NDY3LCJleHAiOjE3MDY2OTk1MTB9.wk7pzwkVuD5V9M16F8VUFpKqcjPujZuKkPgvwAk3j6Q
