@@ -50,7 +50,7 @@ public class GraduationService {
 
         //TODO : 학번별 졸업 요건 가져오기 -> MS Controller 필요
         // [year] major_i : 전공 심화, major_s : 전공 선택, culture : 교양, culture_cnt : ?? , all_score : 필요 이수 학점
-        Year year = yearJpaRepository.findByYear(user.getUserName().substring(0, 4)).orElseThrow();
+        Year year = user.getYear();
 
         return calculateCriteria(user, year);
     }
