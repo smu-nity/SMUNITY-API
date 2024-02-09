@@ -1,7 +1,6 @@
 package com.smunity.graduation.domain.course.entity;
 
 import com.smunity.graduation.domain.accounts.entity.User;
-import com.smunity.graduation.domain.graduation.entity.Subject;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -21,9 +20,11 @@ public class Course {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "subject_id")
-    private Subject subject;
+    @Column(name = "subject_name", nullable = false)
+    private String name;
+
+    @Column(name = "subject_number", nullable = false, length = 8)
+    private String number;
 
     @Column(nullable = false)
     private String year;
@@ -45,10 +46,5 @@ public class Course {
     public void setUser(User user) {
         this.user = user;
         user.getCourses().add(this);
-    }
-
-    public void setSubject(Subject subject) {
-        this.subject = subject;
-        subject.getCourses().add(this);
     }
 }

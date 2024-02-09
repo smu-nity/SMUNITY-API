@@ -15,6 +15,8 @@ public record AuthCourseResponseDto(
 
     public Course toEntity() {
         return Course.builder()
+                .name(name)
+                .number(number)
                 .year(year)
                 .semester(semester)
                 .type(type)

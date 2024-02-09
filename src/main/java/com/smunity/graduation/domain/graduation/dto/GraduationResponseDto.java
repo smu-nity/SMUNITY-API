@@ -3,7 +3,6 @@ package com.smunity.graduation.domain.graduation.dto;
 import com.smunity.graduation.domain.accounts.entity.User;
 import com.smunity.graduation.domain.accounts.entity.Year;
 import com.smunity.graduation.domain.course.entity.Course;
-import com.smunity.graduation.domain.graduation.entity.Subject;
 import com.smunity.graduation.domain.graduation.entity.type.SubjectType;
 import com.smunity.graduation.domain.graduation.repository.SubjectRepository;
 import lombok.Builder;
@@ -176,10 +175,7 @@ public record GraduationResponseDto(
         courseWithBasic.stream()
                 .filter(course -> course.getDomain().contains("사고와표현"))
                 .limit(1)
-                .map(course -> {
-                    Subject subject = subjectRepository.findById(course.getSubject().getId()).orElseThrow(); //TODO : 예외처리
-                    return SubjectWithDomainDto.to(subject, "사고와표현");
-                })
+                .map(course -> SubjectWithDomainDto.to(course, "사고와표현"))
                 .forEach(result::add);
 
         //EnglishFoundation or 기초수학
@@ -191,10 +187,7 @@ public record GraduationResponseDto(
                         course.getDomain().contains("기초미적분학") // 기초교양 2. 기초수학 개편 전)
                 )
                 .limit(1)
-                .map(course -> {
-                    Subject subject = subjectRepository.findById(course.getSubject().getId()).orElseThrow();
-                    return SubjectWithDomainDto.to(subject, "EnglishforAcademicPurposes 또는 기초수학");
-                })
+                .map(course -> SubjectWithDomainDto.to(course, "EnglishforAcademicPurposes 또는 기초수학"))
                 .forEach(result::add);
 
         //컴퓨팅사고 or 알고리즘과게임 : 18, 19학번의 경우 택1, 20학번 부터는 각각 따로 이수 필요
@@ -207,10 +200,7 @@ public record GraduationResponseDto(
                             course.getDomain().contains("알고리즘과게임콘텐츠")
                     )
                     .limit(1)
-                    .map(course -> {
-                        Subject subject = subjectRepository.findById(course.getSubject().getId()).orElseThrow();
-                        return SubjectWithDomainDto.to(subject, "컴퓨팅사고와데이터의이해 또는 알고리즘과게임콘텐츠");
-                    })
+                    .map(course -> SubjectWithDomainDto.to(course, "컴퓨팅사고와데이터의이해 또는 알고리즘과게임콘텐츠"))
                     .forEach(result::add);
         } else {
             //그 외 20학번 이상 : 컴퓨팅사고와데이터의이해와 알고리즘과게임콘텐츠 각각 이수
@@ -220,19 +210,13 @@ public record GraduationResponseDto(
                             course.getDomain().contains("컴퓨팅사고와문제해결") // 컴퓨팅사고와데이터의이해 개편 전
                     )
                     .limit(1)
-                    .map(course -> {
-                        Subject subject = subjectRepository.findById(course.getSubject().getId()).orElseThrow();
-                        return SubjectWithDomainDto.to(subject, "알고리즘과게임콘텐츠");
-                    })
+                    .map(course -> SubjectWithDomainDto.to(course, "알고리즘과게임콘텐츠"))
                     .forEach(result::add);
 
             courseWithBasic.stream()
                     .filter(course -> course.getDomain().contains("알고리즘과게임콘텐츠"))
                     .limit(1)
-                    .map(course -> {
-                        Subject subject = subjectRepository.findById(course.getSubject().getId()).orElseThrow();
-                        return SubjectWithDomainDto.to(subject, "알고리즘과게임콘텐츠");
-                    })
+                    .map(course -> SubjectWithDomainDto.to(course, "알고리즘과게임콘텐츠"))
                     .forEach(result::add);
 
         }
@@ -279,10 +263,7 @@ public record GraduationResponseDto(
                     courseWithEssential.stream()
                             .filter(course -> course.getDomain().contains(essentialCultureDomain))
                             .limit(1)
-                            .map(course -> {
-                                Subject subject = subjectRepository.findById(course.getSubject().getId()).orElseThrow();
-                                return SubjectWithDomainDto.to(subject, essentialCultureDomain);
-                            })
+                            .map(course -> SubjectWithDomainDto.to(course, essentialCultureDomain))
                             .forEach(result::add);
                 });
 
@@ -313,10 +294,7 @@ public record GraduationResponseDto(
                     courseWithBalance.stream()
                             .filter(course -> course.getDomain().contains(balanceCultureDomain))
                             .limit(1)
-                            .map(course -> {
-                                Subject subject = subjectRepository.findById(course.getSubject().getId()).orElseThrow();
-                                return SubjectWithDomainDto.to(subject, balanceCultureDomain);
-                            })
+                            .map(course -> SubjectWithDomainDto.to(course, balanceCultureDomain))
                             .forEach(result::add);
                 });
 
