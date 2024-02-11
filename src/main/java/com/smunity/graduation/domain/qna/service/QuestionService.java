@@ -17,16 +17,14 @@ public class QuestionService {
     private final QuestionJpaRepository questionJpaRepository;
     private final QnAServiceUtils qnAServiceUtils;
 
-    public QuestionResponseDto createQuestion(QuestionRequestDto requestDto) {
-        User author = qnAServiceUtils.getCurrentUser();
+    public QuestionResponseDto createQuestion(QuestionRequestDto requestDto, User author) {
         Question saveQuestion = questionJpaRepository.save(requestDto.toEntity(author));
         return QuestionResponseDto.from(saveQuestion);
     }
 
-    public QuestionResponseDto updateQuestion(Long questionId, QuestionRequestDto requestDto) {
-        User currentUser = qnAServiceUtils.getCurrentUser();
+    public QuestionResponseDto updateQuestion(Long questionId, QuestionRequestDto requestDto, User author) {
         Question existingQuestion  = qnAServiceUtils.getQuestionById(questionId);
-        qnAServiceUtils.validateAuthorAccess(currentUser, existingQuestion.getAuthor().getUserName());
+        qnAServiceUtils.validateAuthorAccess(author, existingQuestion.getAuthor().getUserName());
         existingQuestion.setTitle(requestDto.title());
         existingQuestion.setContent(requestDto.content());
         existingQuestion.setAnonymous(requestDto.anonymous());
@@ -34,10 +32,9 @@ public class QuestionService {
         return QuestionResponseDto.from(updateQuestion);
     }
 
-    public void deleteQuestion(Long questionId) {
-        User currentUser = qnAServiceUtils.getCurrentUser();
+    public void deleteQuestion(Long questionId, User author) {
         Question existingQuestion = qnAServiceUtils.getQuestionById(questionId);
-        qnAServiceUtils.validateAuthorAccess(currentUser, existingQuestion.getAuthor().getUserName());
+        qnAServiceUtils.validateAuthorAccess(author, existingQuestion.getAuthor().getUserName());
         questionJpaRepository.delete(existingQuestion);
     }
 
