@@ -18,25 +18,24 @@ public class AnswerService {
     private final AnswerJpaRepository answerJpaRepository;
     private final QnAServiceUtils qnAServiceUtils;
 
-    public AnswerResponseDto createAnswer(Long questionId, AnswerRequestDto requestDto) {
-        User author = qnAServiceUtils.getCurrentUser();
+    public AnswerResponseDto createAnswer(Long questionId, AnswerRequestDto requestDto, User author) {
         Question question = qnAServiceUtils.getQuestionById(questionId);
-        qnAServiceUtils.validateStaffAccess();
+        qnAServiceUtils.validateStaffAccess(author);
         Answer saveAnswer = answerJpaRepository.save(new Answer(null, requestDto.content(), author, question));
         return AnswerResponseDto.from(saveAnswer);
     }
 
-    public AnswerResponseDto updateAnswer(Long answerId, AnswerRequestDto requestDto) {
+    public AnswerResponseDto updateAnswer(Long answerId, AnswerRequestDto requestDto, User author) {
         Answer existingAnswer = qnAServiceUtils.getAnswerById(answerId);
-        qnAServiceUtils.validateStaffAccess();
+        qnAServiceUtils.validateStaffAccess(author);
         existingAnswer.setContent(requestDto.content());
         Answer updateAnswer = answerJpaRepository.save(existingAnswer);
         return AnswerResponseDto.from(updateAnswer);
     }
 
-    public void deleteAnswer(Long answerId) {
+    public void deleteAnswer(Long answerId, User author) {
         Answer existingAnswer = qnAServiceUtils.getAnswerById(answerId);
-        qnAServiceUtils.validateStaffAccess();
+        qnAServiceUtils.validateStaffAccess(author);
         answerJpaRepository.delete(existingAnswer);
     }
 }
