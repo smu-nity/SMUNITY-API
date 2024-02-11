@@ -34,10 +34,9 @@ public class QnAServiceUtils {
 			.orElseThrow(() -> new AccountsExceptionHandler(ErrorCode.QUESTION_NOT_FOUND));
 	}
 
-	public User getCurrentUser() {
-		String username = (String)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+	public User getUserByUsername(String username) {
 		return userJpaRepository.findByUserName(username)
-			.orElseThrow(() -> new AccountsExceptionHandler(ErrorCode.USER_NOT_FOUND));
+				.orElseThrow(() -> new AccountsExceptionHandler(ErrorCode.USER_NOT_FOUND));
 	}
 
 	// 작성자와 접근자가 같은 사람인지 확인
@@ -48,9 +47,8 @@ public class QnAServiceUtils {
 	}
 
 	// 스태프 권한이 있는지 확인
-	public void validateStaffAccess() {
-		User currentUser = getCurrentUser();
-		if (!currentUser.getIsStaff()) {
+	public void validateStaffAccess(User Author) {
+		if (!Author.getIsStaff()) {
 			throw new AccountsExceptionHandler(ErrorCode.AUTHOR_IS_NOT_STAFF);
 		}
 	}
