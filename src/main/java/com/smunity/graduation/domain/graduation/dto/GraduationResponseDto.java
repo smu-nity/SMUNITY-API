@@ -1,15 +1,11 @@
 package com.smunity.graduation.domain.graduation.dto;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.smunity.graduation.domain.accounts.entity.User;
 import com.smunity.graduation.domain.accounts.entity.Year;
+import com.smunity.graduation.domain.course.entity.Course;
 import com.smunity.graduation.domain.graduation.entity.Subject;
 import com.smunity.graduation.domain.graduation.entity.type.SubjectType;
 import com.smunity.graduation.domain.graduation.repository.SubjectRepository;
-import com.smunity.graduation.domain.graduation.temporary.CourseTemporary;
-
 import lombok.Builder;
 import lombok.extern.slf4j.Slf4j;
 
@@ -20,7 +16,7 @@ import java.util.List;
 @Slf4j
 @Builder
 public record GraduationResponseDto(
-	List<SubjectResultResponseDto> result
+        List<SubjectResultResponseDto> result
 ) {
     /**
      * [ 2018~2019학번 신입생 적용 교양교육과정 이수원칙 ]
@@ -57,7 +53,7 @@ public record GraduationResponseDto(
      * - 일반 교양
      * 영역 구분 없이 자유럽게 선택 이수, 33학점 이상 이수
      */
-    public static GraduationResponseDto to(List<CourseTemporary> courses, Year year,
+    public static GraduationResponseDto to(List<Course> courses, Year year,
                                            User user, SubjectRepository subjectRepository) {
 
         List<SubjectResultResponseDto> subjects = new ArrayList<>();
@@ -143,22 +139,22 @@ public record GraduationResponseDto(
                 .build();
     }
 
-    private static int getCreditsBySubjectType(List<CourseTemporary> courses, List<String> subjectType) {
+    private static int getCreditsBySubjectType(List<Course> courses, List<String> subjectType) {
         return courses.stream()
                 .filter(course -> subjectType.contains(course.getType()))
-                .mapToInt(CourseTemporary::getCredit)
+                .mapToInt(Course::getCredit)
                 .sum();
     }
 
-    private static int getCreditsWithOutSubjectType(List<CourseTemporary> courses, List<String> subjectType) {
+    private static int getCreditsWithOutSubjectType(List<Course> courses, List<String> subjectType) {
         return courses.stream()
                 .filter(course -> !subjectType.contains(course.getType()))
-                .mapToInt(CourseTemporary::getCredit)
+                .mapToInt(Course::getCredit)
                 .sum();
     }
 
     //기초 교양(CULTURE_B) 계산
-    private static List<SubjectWithDomainDto> getBasicCultureSubjects(List<CourseTemporary> courses,
+    private static List<SubjectWithDomainDto> getBasicCultureSubjects(List<Course> courses,
                                                                       User user, SubjectRepository subjectRepository) {
 
         //TODO : 장애학생은 EnglishforAcademicPurposes」, 「기초수학」,「컴퓨팅사고와데이터의이해」 및「알고리즘과게임콘텐츠」이수 의무 없음
@@ -166,7 +162,7 @@ public record GraduationResponseDto(
         List<SubjectWithDomainDto> result = new ArrayList<>();
 
         //기초 포함 domain 추출
-        List<CourseTemporary> courseWithBasic = courses.stream()
+        List<Course> courseWithBasic = courses.stream()
                 .filter(course -> course.getDomain() != null &&
                         (course.getDomain().contains("기초") ||
                                 course.getDomain().contains("컴퓨팅")
@@ -259,7 +255,7 @@ public record GraduationResponseDto(
     }
 
     //상명핵심역량교양(CULTURE_E) 계산
-    private static List<SubjectWithDomainDto> getSangmyungEssentialCultureSubjects(List<CourseTemporary> courses,
+    private static List<SubjectWithDomainDto> getSangmyungEssentialCultureSubjects(List<Course> courses,
                                                                                    SubjectRepository subjectRepository) {
 
         //TODO : 「상명CareerStart」 2020학년도부터 폐지됨, 미수강 및 재수강의 경우 소급 적용하여 이수 의무 없음
@@ -269,7 +265,7 @@ public record GraduationResponseDto(
         List<String> essentialCultures = new ArrayList<>(Arrays.asList(cultures_essential));
 
         //핵심 포함 domain 추출
-        List<CourseTemporary> courseWithEssential = courses.stream()
+        List<Course> courseWithEssential = courses.stream()
                 .filter(course -> course.getDomain() != null &&
                         course.getDomain().contains("핵심"))
                 .toList();
@@ -292,12 +288,12 @@ public record GraduationResponseDto(
     }
 
     //균형 교양(CULTURE_S) 계산
-    private static List<SubjectWithDomainDto> getBalanceCultureSubjects(List<CourseTemporary> courses, User user, SubjectRepository subjectRepository) {
+    private static List<SubjectWithDomainDto> getBalanceCultureSubjects(List<Course> courses, User user, SubjectRepository subjectRepository) {
 
         List<SubjectWithDomainDto> result = new ArrayList<>();
 
         //균형 포함 domain 추출
-        List<CourseTemporary> courseWithBalance = courses.stream()
+        List<Course> courseWithBalance = courses.stream()
                 .filter(course -> course.getDomain() != null &&
                         course.getDomain().contains("균형"))
                 .toList();
@@ -325,9 +321,9 @@ public record GraduationResponseDto(
         return result;
     }
 
-    private static int getAllCredits(List<CourseTemporary> courses) {
+    private static int getAllCredits(List<Course> courses) {
         return courses.stream()
-                .mapToInt(CourseTemporary::getCredit)
+                .mapToInt(Course::getCredit)
                 .sum();
     }
 
