@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,9 +31,7 @@ public class QuestionController {
     public ApiResponse<QuestionResponseDto> createQuestion(
             @RequestBody QuestionRequestDto requestDto,
             @AccountResolver User user) {
-        String username = user.getName();
-        User author = qnAServiceUtils.getUserByUsername(username);
-        return ApiResponse.onSuccess(questionService.createQuestion(requestDto, author));
+        return ApiResponse.onSuccess(questionService.createQuestion(requestDto, user));
     }
 
     @PutMapping("/{questionId}")
@@ -44,7 +43,7 @@ public class QuestionController {
     }
 
     @GetMapping("/")
-    public ApiResponse<Page<QuestionsResponseDto>> getQuestionList(@PageableDefault() Pageable pageable) {
+    public ApiResponse<Page<QuestionsResponseDto>> getQuestionList(@PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable) {
         Page<QuestionsResponseDto> questions = questionQueryService.getQuestionList(pageable);
         return ApiResponse.onSuccess(questions);
     }
