@@ -40,9 +40,6 @@ public class Course {
     @Column(nullable = false)
     private int credit;
 
-    @Column(nullable = false)
-    private boolean custom;
-
     public void setUser(User user) {
         this.user = user;
         user.getCourses().add(this);
