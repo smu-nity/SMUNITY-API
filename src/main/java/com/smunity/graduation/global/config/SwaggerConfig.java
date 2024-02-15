@@ -7,13 +7,14 @@ import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.info.License;
+import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import io.swagger.v3.oas.models.servers.Server;
 
 @Configuration
 public class SwaggerConfig {
-	
-	// url : http://localhost:8080/swagger-ui/index.html#/
+
+	// url: http://localhost:8080/swagger-ui/index.html#/
 	@Bean
 	public OpenAPI getOpenApi() {
 		Server server = new Server().url("/");
@@ -21,7 +22,8 @@ public class SwaggerConfig {
 		return new OpenAPI()
 			.info(getSwaggerInfo())
 			.components(authSetting())
-			.addServersItem(server);
+			.addServersItem(server)
+			.addSecurityItem(new SecurityRequirement().addList("access-token"));
 	}
 
 	private Info getSwaggerInfo() {
@@ -30,7 +32,7 @@ public class SwaggerConfig {
 
 		return new Info()
 			.title("Smunity API Document")
-			.description("Smunity의 API 문서 입니다.")
+			.description("This is Smunity's API document.")
 			.version("v0.0.1")
 			.license(license);
 	}
@@ -42,18 +44,6 @@ public class SwaggerConfig {
 				new SecurityScheme()
 					.type(SecurityScheme.Type.HTTP)
 					.scheme("bearer")
-					.bearerFormat("JWT")
-					.in(SecurityScheme.In.HEADER)
-					.name("Authorization"))
-			.addSecuritySchemes(
-				"refresh-token",
-				new SecurityScheme()
-					.type(SecurityScheme.Type.HTTP)
-					.scheme("bearer")
-					.bearerFormat("JWT")
-					.in(SecurityScheme.In.HEADER)
-					.name("refreshToken"));
+					.bearerFormat("JWT"));
 	}
 }
-
-

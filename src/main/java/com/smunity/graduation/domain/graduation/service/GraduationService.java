@@ -33,6 +33,7 @@ public class GraduationService {
     //-------------------임시 레포지토리
     private final UserRepository userRepository;
     private final YearJpaRepository yearJpaRepository;
+    private final CourseRepository courseRepository;
     private final CultureRepository cultureRepository;
     private final MajorRepository majorRepository;
     //-------------------임시 레포지토리
@@ -66,7 +67,6 @@ public class GraduationService {
         User user = userRepository.findByUserName("201900000").orElseThrow();
         log.info("[ Graduation Service ] user name : {}", user.getUserName());
 
-        //사용자가 들은 과목 가져오기
         List<Course> courses = courseRepository.findAllByUser_Id(user.getId());
 
         log.info("[ Recommend Subject ] type --> {}", type);
@@ -295,7 +295,6 @@ public class GraduationService {
 
     private GraduationResponseDto calculateCriteria(User user, Year year) {
 
-        //TODO : 사용자 들은 과목 조회 -> Course Entity, Repository 필요
         List<Course> courses = courseRepository.findAllByUser_Id(user.getId());
         return GraduationResponseDto.to(courses, year, user, subjectRepository);
     }

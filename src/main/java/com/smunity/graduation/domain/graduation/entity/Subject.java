@@ -1,7 +1,10 @@
 package com.smunity.graduation.domain.graduation.entity;
 
+import com.smunity.graduation.domain.course.entity.Course;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.List;
 
 @Getter
 @Builder
@@ -20,11 +23,11 @@ public class Subject {
     private String number;
 
     //학년 -> 교양은 전체학년
-    @Column(name = "grade", nullable = false)
+    @Column(name = "grade")
     private String grade;
 
     //학년 -> 전공인 경우만, 교양은 0
-    @Column(name = "semester", nullable = false)
+    @Column(name = "semester")
     private String semester;
 
     //이름
@@ -55,6 +58,8 @@ public class Subject {
     @Column(name = "type", nullable = false)
     private String type;
 
+    @OneToMany(mappedBy = "subject")
+    private List<Course> courses;
 
     public void setGrade(String grade) {
         this.grade = grade;

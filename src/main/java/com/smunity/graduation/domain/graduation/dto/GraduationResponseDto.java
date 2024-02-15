@@ -17,6 +17,8 @@ import java.util.List;
 @Builder
 public record GraduationResponseDto(
         List<SubjectResultResponseDto> result
+
+
 ) {
     /**
      * [ 2018~2019학번 신입생 적용 교양교육과정 이수원칙 ]
@@ -326,6 +328,4 @@ public record GraduationResponseDto(
                 .mapToInt(Course::getCredit)
                 .sum();
     }
-
 }
-

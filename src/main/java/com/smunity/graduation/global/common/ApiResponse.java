@@ -1,15 +1,14 @@
 package com.smunity.graduation.global.common;
 
+import org.springframework.http.HttpStatus;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.smunity.graduation.global.common.code.BaseCode;
-import com.smunity.graduation.global.common.code.status.SuccessStatus;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import org.springframework.http.HttpStatus;
 
 @Getter
 @AllArgsConstructor
@@ -24,11 +23,7 @@ public class ApiResponse<T> {
 	// 성공한 경우 응답 생성
 
 	public static <T> ApiResponse<T> onSuccess(T result) {
-		return new ApiResponse<>(SuccessStatus._OK.getCode(), SuccessStatus._OK.getMessage(), result);
-	}
-
-	public static <T> ApiResponse<T> of(BaseCode code, T result) {
-		return new ApiResponse<>(code.getReasonHttpStatus().getCode(), code.getReasonHttpStatus().getMessage(), result);
+		return new ApiResponse<>(HttpStatus.OK.name(), HttpStatus.OK.getReasonPhrase(), result);
 	}
 
 	// 실패한 경우 응답 생성
@@ -36,11 +31,14 @@ public class ApiResponse<T> {
 		return new ApiResponse<>(code, message, data);
 	}
 
+	public static <T> ApiResponse<T> onFailure(String statusCode, String message) {
+		return new ApiResponse<>(statusCode, message, null);
+	}
+
 	// 삭제된 경우 응답 생성
 	public static <T> ApiResponse<T> noContent() {
 		return new ApiResponse<>(HttpStatus.NO_CONTENT.getReasonPhrase(), "", null);
 	}
-
 
 	// Json Serialize
 	public String toJsonString() throws JsonProcessingException {
