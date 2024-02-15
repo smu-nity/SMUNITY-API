@@ -34,11 +34,6 @@ public class QnAServiceUtils {
 			.orElseThrow(() -> new AccountsExceptionHandler(ErrorCode.QUESTION_NOT_FOUND));
 	}
 
-	public User getUserByUsername(String username) {
-		return userJpaRepository.findByUserName(username)
-				.orElseThrow(() -> new AccountsExceptionHandler(ErrorCode.USER_NOT_FOUND));
-	}
-
 	// 작성자와 접근자가 같은 사람인지 확인
 	public void validateAuthorAccess(User currentUser, String authorUserName) {
 		if (!currentUser.getUserName().equals(authorUserName)) {
