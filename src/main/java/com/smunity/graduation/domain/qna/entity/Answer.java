@@ -31,7 +31,7 @@ public class Answer extends BaseEntity {
     @JoinColumn(name = "question_id")
     private Question question;
 
-    public void setContent(String content) {
-        content = content;
+    public void setContent(String contents) {
+        content = contents;
     }
 }
