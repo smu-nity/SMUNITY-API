@@ -15,8 +15,8 @@ import java.util.List;
 @Slf4j
 @Builder
 public record GraduationResponseDto(
-
         List<SubjectResultResponseDto> result
+
 
 ) {
     /**
