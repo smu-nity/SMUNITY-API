@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -24,7 +25,10 @@ public class CourseService {
     private final CourseRepository courseRepository;
 
     public List<CourseResponseDto> createCourses(List<AuthCourseResponseDto> requestDtoList, String username) {
-        return requestDtoList.stream().map(dto -> createCourse(dto, username)).toList();
+        return requestDtoList.stream()
+                .filter(dto -> !Objects.equals(dto.grade(), "F"))
+                .map(dto -> createCourse(dto, username))
+                .toList();
     }
 
     private CourseResponseDto createCourse(AuthCourseResponseDto requestDto, String username) {
