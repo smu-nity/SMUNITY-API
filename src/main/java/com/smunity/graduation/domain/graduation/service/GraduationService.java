@@ -33,9 +33,8 @@ public class GraduationService {
     private final SubjectRepository subjectRepository;
     private final GraduationUtil graduationUtil;
 
-    public GraduationResponseDto getGraduationCriteria() {
-        //TODO : 유저 가져오기
-        User user = userRepository.findByUserName("201910926").orElseThrow();
+    public GraduationResponseDto getGraduationCriteria(String username) {
+        User user = userRepository.findByUserName(username).orElseThrow();
         log.info("[ Graduation Service ] user name : {}", user.getUserName());
 
         //TODO : 학번별 졸업 요건 가져오기 -> MS Controller 필요
@@ -49,9 +48,8 @@ public class GraduationService {
      * @Param type : major_i(전공심화), major_s(전공선택), culture(일반교양), culture_b(기초교양), culture_e(핵심교양), culture_s(균형교양)
      * @Param credit : 부족 학점 (0일 수 있음)
      */
-    public List<SubjectResponseDto> getRecommendSubjects(String type, int credit) {
-        //TODO : 유저 가져오기 -> SecurityContextHolder 필요
-        User user = userRepository.findByUserName("201900000").orElseThrow();
+    public List<SubjectResponseDto> getRecommendSubjects(String type, int credit, String username) {
+        User user = userRepository.findByUserName(username).orElseThrow();
         log.info("[ Graduation Service ] user name : {}", user.getUserName());
 
         List<Course> courses = user.getCourses();
