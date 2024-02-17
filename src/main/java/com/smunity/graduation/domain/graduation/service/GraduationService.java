@@ -1,11 +1,8 @@
 package com.smunity.graduation.domain.graduation.service;
 
 import com.smunity.graduation.domain.accounts.entity.User;
-import com.smunity.graduation.domain.accounts.entity.Year;
-import com.smunity.graduation.domain.accounts.repository.YearJpaRepository;
 import com.smunity.graduation.domain.accounts.repository.user.UserRepository;
 import com.smunity.graduation.domain.course.entity.Course;
-import com.smunity.graduation.domain.course.repository.CourseRepository;
 import com.smunity.graduation.domain.graduation.dto.GraduationResponseDto;
 import com.smunity.graduation.domain.graduation.dto.SubjectResponseDto;
 import com.smunity.graduation.domain.graduation.entity.Culture;
@@ -31,8 +28,6 @@ import java.util.List;
 public class GraduationService {
 
     private final UserRepository userRepository;
-    private final YearJpaRepository yearJpaRepository;
-    private final CourseRepository courseRepository;
     private final CultureRepository cultureRepository;
     private final MajorRepository majorRepository;
     private final SubjectRepository subjectRepository;
@@ -45,9 +40,7 @@ public class GraduationService {
 
         //TODO : 학번별 졸업 요건 가져오기 -> MS Controller 필요
         // [year] major_i : 전공 심화, major_s : 전공 선택, culture : 교양, culture_cnt : 기초 교양 이수 개수 , all_score : 필요 이수 학점
-        Year year = user.getYear();
-
-        return calculateCriteria(user, year);
+        return GraduationResponseDto.to(user.getCourses(), user.getYear(), user, subjectRepository);
     }
 
     /**
@@ -61,7 +54,7 @@ public class GraduationService {
         User user = userRepository.findByUserName("201900000").orElseThrow();
         log.info("[ Graduation Service ] user name : {}", user.getUserName());
 
-        List<Course> courses = courseRepository.findAllByUser_Id(user.getId());
+        List<Course> courses = user.getCourses();
 
         log.info("[ Recommend Subject ] type --> {}", type);
         //결과 리스트
@@ -285,10 +278,5 @@ public class GraduationService {
                         log.error("[ Subject 통합 - Major ] ERROR : Type이 맞지 않음 [{}] Major -> {}, Subject -> {}", subject.getName(), major.getType(), subject.getType());
                     }
                 });
-    }
-
-    private GraduationResponseDto calculateCriteria(User user, Year year) {
-        List<Course> courses = courseRepository.findAllByUser_Id(user.getId());
-        return GraduationResponseDto.to(courses, year, user, subjectRepository);
     }
 }
