@@ -3,16 +3,13 @@ package com.smunity.graduation.domain.auth.service;
 import com.smunity.graduation.domain.auth.dto.AuthCourseResponseDto;
 import com.smunity.graduation.domain.auth.dto.AuthRequestDto;
 import com.smunity.graduation.domain.auth.dto.AuthResponseDto;
-import com.smunity.graduation.domain.auth.exception.AuthExceptionHandler;
 import com.smunity.graduation.global.common.ErrorCode;
 import com.smunity.graduation.global.common.exception.CustomException;
 import lombok.RequiredArgsConstructor;
 import org.json.JSONObject;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
-import org.springframework.web.reactive.function.client.WebClient;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -26,24 +23,17 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class AuthService {
 
-    private final WebClient webClient;
     private final String LOGIN_URL = "https://smsso.smu.ac.kr/Login.do";
     private final String BASE_URL = "https://smul.smu.ac.kr";
 
     public AuthResponseDto authenticate(AuthRequestDto requestDto) {
         JSONObject response = getData(requestDto, "/UsrSchMng/selectStdInfo.do");
-        return AuthResponseDto.from(response);
+        return AuthResponseDto.from(response.getJSONArray("dsStdInfoList"));
     }
 
     public List<AuthCourseResponseDto> getCourses(AuthRequestDto requestDto) {
-        return webClient.post()
-                .uri("/api/courses")
-                .bodyValue(requestDto)
-                .retrieve()
-                .onStatus(HttpStatusCode::isError, AuthExceptionHandler::handleError)
-                .toEntityList(AuthCourseResponseDto.class)
-                .block()
-                .getBody();
+        JSONObject response = getData(requestDto, "/UsrRecMatt/list.do");
+        return AuthCourseResponseDto.from(response.getJSONArray("dsRecMattList"));
     }
 
     private Map<String, String> login(AuthRequestDto requestDto) {

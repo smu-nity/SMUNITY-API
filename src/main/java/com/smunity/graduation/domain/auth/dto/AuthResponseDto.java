@@ -1,6 +1,7 @@
 package com.smunity.graduation.domain.auth.dto;
 
 import lombok.Builder;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 @Builder
@@ -13,15 +14,18 @@ public record AuthResponseDto(
         int semester
 ) {
 
-    public static AuthResponseDto from(JSONObject response) {
-        JSONObject res = response.getJSONArray("dsStdInfoList").getJSONObject(0);
+    public static AuthResponseDto from(JSONArray json) {
+        return from(json.getJSONObject(0));
+    }
+
+    public static AuthResponseDto from(JSONObject obj) {
         return AuthResponseDto.builder()
-                .name(res.getString("NM_KOR"))
-                .username(res.getString("STDNO"))
-                .department(getDepartment(res.getString("TMP_DEPT_MJR_NM")))
-                .email(res.getString("EMAIL"))
-                .year(res.getInt("SHYR"))
-                .semester(res.getInt("CMP_SMT"))
+                .name(obj.getString("NM_KOR"))
+                .username(obj.getString("STDNO"))
+                .department(getDepartment(obj.getString("TMP_DEPT_MJR_NM")))
+                .email(obj.getString("EMAIL"))
+                .year(obj.getInt("SHYR"))
+                .semester(obj.getInt("CMP_SMT"))
                 .build();
     }
 
