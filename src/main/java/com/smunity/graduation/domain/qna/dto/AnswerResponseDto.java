@@ -18,6 +18,7 @@ public record AnswerResponseDto(
                 .id(answer.getId())
                 .questionId(answer.getQuestion().getId())
                 .content(answer.getContent())
+                .timestamp(answer.getCreatedAt())
                 .build();
     }
 }

@@ -30,19 +30,13 @@ import java.util.List;
 @Service
 public class GraduationService {
 
-    //-------------------임시 레포지토리
     private final UserRepository userRepository;
     private final YearJpaRepository yearJpaRepository;
     private final CourseRepository courseRepository;
     private final CultureRepository cultureRepository;
     private final MajorRepository majorRepository;
-    //-------------------임시 레포지토리
-    private final CourseRepository courseRepository;
-
     private final SubjectRepository subjectRepository;
-
     private final GraduationUtil graduationUtil;
-
 
     public GraduationResponseDto getGraduationCriteria() {
         //TODO : 유저 가져오기
@@ -51,7 +45,7 @@ public class GraduationService {
 
         //TODO : 학번별 졸업 요건 가져오기 -> MS Controller 필요
         // [year] major_i : 전공 심화, major_s : 전공 선택, culture : 교양, culture_cnt : 기초 교양 이수 개수 , all_score : 필요 이수 학점
-        Year year = yearJpaRepository.findByYear(user.getUserName().substring(0, 4)).orElseThrow();
+        Year year = user.getYear();
 
         return calculateCriteria(user, year);
     }
@@ -294,9 +288,7 @@ public class GraduationService {
     }
 
     private GraduationResponseDto calculateCriteria(User user, Year year) {
-
         List<Course> courses = courseRepository.findAllByUser_Id(user.getId());
         return GraduationResponseDto.to(courses, year, user, subjectRepository);
     }
-
 }

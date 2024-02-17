@@ -1,5 +1,7 @@
 package com.smunity.graduation.domain.qna.controller;
 
+import com.smunity.graduation.domain.accounts.annotation.AccountResolver;
+import com.smunity.graduation.domain.accounts.entity.User;
 import com.smunity.graduation.domain.qna.dto.AnswerRequestDto;
 import com.smunity.graduation.domain.qna.dto.AnswerResponseDto;
 import com.smunity.graduation.domain.qna.service.AnswerQueryService;
@@ -19,15 +21,17 @@ public class AnswerController {
     @PostMapping("/{question_id}")
     public ApiResponse<AnswerResponseDto> createAnswer(
             @PathVariable Long question_id,
-            @RequestBody AnswerRequestDto requestDto) {
-        return ApiResponse.onSuccess(answerService.createAnswer(question_id, requestDto));
+            @RequestBody AnswerRequestDto requestDto,
+            @AccountResolver User user) {
+        return ApiResponse.onSuccess(answerService.createAnswer(question_id, requestDto, user));
     }
 
     @PutMapping("/{answerId}")
     public ApiResponse<AnswerResponseDto> updateAnswer(
             @PathVariable Long answerId,
-            @RequestBody AnswerRequestDto requestDto) {
-        return ApiResponse.onSuccess(answerService.updateAnswer(answerId, requestDto));
+            @RequestBody AnswerRequestDto requestDto,
+            @AccountResolver User user) {
+        return ApiResponse.onSuccess(answerService.updateAnswer(answerId, requestDto, user));
     }
 
     @GetMapping("/{questionId}")
@@ -38,8 +42,9 @@ public class AnswerController {
 
     @DeleteMapping("/{answerId}")
     public ApiResponse<Void> deleteAnswer(
-            @PathVariable Long answerId) {
-        answerService.deleteAnswer(answerId);
+            @PathVariable Long answerId,
+            @AccountResolver User user) {
+        answerService.deleteAnswer(answerId, user);
         return ApiResponse.noContent();
     }
 }

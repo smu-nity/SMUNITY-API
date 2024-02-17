@@ -84,7 +84,7 @@ public class GraduationUtil {
     private List<Subject> excludeCompletedCourses(List<Subject> data, List<Course> userData) {
         return data.stream()
                 .filter(subject -> userData.stream()
-                        .noneMatch(completedSubject -> completedSubject.getSubject().getId().equals(subject.getId())))
+                        .noneMatch(completedSubject -> completedSubject.getNumber().equals(subject.getId())))
                 .collect(Collectors.toList());
     }
 }

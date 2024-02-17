@@ -40,15 +40,15 @@ public class Question extends BaseEntity {
         return this.anonymous;
     }
 
-    public void setAnonymous(Boolean anonymous) {
-        anonymous = anonymous;
+    public void setAnonymous(Boolean status) {
+        anonymous = status;
     }
 
-    public void setTitle(String title) {
-        title = title;
+    public void setTitle(String subject) {
+        title = subject;
     }
 
-    public void setContent(String content) {
-        content = content;
+    public void setContent(String contents) {
+        content = contents;
     }
 }

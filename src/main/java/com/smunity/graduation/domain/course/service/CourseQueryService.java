@@ -16,7 +16,6 @@ public class CourseQueryService {
 
     private final CourseRepository courseRepository;
 
-    // TODO 사용자 인증 적용
     public List<CourseResponseDto> getCourses(String username) {
         List<Course> courses = courseRepository.findAllByUserUserName(username);
         return CourseResponseDto.from(courses);
