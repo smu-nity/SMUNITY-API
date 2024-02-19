@@ -70,15 +70,15 @@ public record GraduationResponseDto(
                 //총 이수 학점
                 .count(count)
                 //전공 = 전공 심화(MAJOR_I) + 전공 선택(MAJOR_S)
-                .major(getCreditsBySubjectType(courses, List.of(SubjectType.MAJOR_I.getType(),
-                        SubjectType.MAJOR_S.getType())))
+                .major(getCreditsBySubjectType(courses, List.of(SubjectType.MAJOR_ADVANCED.getType(),
+                        SubjectType.MAJOR_SELECT.getType())))
                 //교양 = 교양 필수(CULTURE_E) + 교양 선택(CULTURE_S)
-                .culture(getCreditsBySubjectType(courses, List.of(SubjectType.CULTURE_E.getType(),
-                        SubjectType.CULTURE_S.getType())))
+                .culture(getCreditsBySubjectType(courses, List.of(SubjectType.CULTURE_ESSENTIAL.getType(),
+                        SubjectType.CULTURE_SELECT.getType())))
                 //일반 = 이수 과목 - 전공 심화(MAJOR_I) - 전공 선택(MAJOR_S) -  교양 필수(CULTURE_E) - 교양 선택(CULTURE_S)
                 .common(getCreditsWithOutSubjectType(courses,
-                        List.of(SubjectType.MAJOR_I.getType(), SubjectType.MAJOR_S.getType(),
-                                SubjectType.CULTURE_E.getType(), SubjectType.CULTURE_S.getType()))) //TODO : 로직 수정 (결과 안맞음)
+                        List.of(SubjectType.MAJOR_ADVANCED.getType(), SubjectType.MAJOR_SELECT.getType(),
+                                SubjectType.CULTURE_ESSENTIAL.getType(), SubjectType.CULTURE_SELECT.getType()))) //TODO : 로직 수정 (결과 안맞음)
                 .lack(Math.max(total - count, 0))
                 .build());
 
@@ -86,22 +86,22 @@ public record GraduationResponseDto(
         subjects.add(SubjectResultResponseDto.to(
                 "major_i",
                 year.getMajorI(),
-                getCreditsBySubjectType(courses, List.of(SubjectType.MAJOR_I.getType())))
+                getCreditsBySubjectType(courses, List.of(SubjectType.MAJOR_ADVANCED.getType())))
         );
 
         //MAJOR_S (전공 선택)
         subjects.add(SubjectResultResponseDto.to(
                 "major_s",
                 year.getMajorS(),
-                getCreditsBySubjectType(courses, List.of(SubjectType.MAJOR_S.getType())))
+                getCreditsBySubjectType(courses, List.of(SubjectType.MAJOR_SELECT.getType())))
         );
 
         //CULTURE (교양) = 교양 필수(CULTURE_E) + 교양 선택(CULTURE_S)
         subjects.add(SubjectResultResponseDto.to(
                 "culture",
                 year.getCulture(),
-                getCreditsBySubjectType(courses, List.of(SubjectType.CULTURE_E.getType(),
-                        SubjectType.CULTURE_S.getType())))
+                getCreditsBySubjectType(courses, List.of(SubjectType.CULTURE_ESSENTIAL.getType(),
+                        SubjectType.CULTURE_SELECT.getType())))
         );
 
         //CULTURE_B (기초 교양)

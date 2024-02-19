@@ -17,10 +17,10 @@ public record SubjectResponseDto(
         return SubjectResponseDto.builder()
                 .number(subject.getNumber())
                 .name(subject.getName())
-                .semester(subject.getSemester())
-                .grade(subject.getGrade())
+                .semester(subject.getSemester().getSemester())
+                .grade(subject.getGrade().getGrade())
                 .credit(subject.getCredit())
-                .type(subject.getType())
+                .type(subject.getType().getType())
                 .build();
 
     }

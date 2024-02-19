@@ -1,5 +1,7 @@
 package com.smunity.graduation.domain.graduation.entity;
 
+import com.smunity.graduation.domain.graduation.converter.*;
+import com.smunity.graduation.domain.graduation.entity.type.*;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -15,19 +17,24 @@ public class Subject {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "year")
+    private String year;
+
     //학수 번호
     @Column(name = "number", nullable = false)
     private String number;
 
     //학년 -> 교양은 전체학년
+    @Convert(converter = GradePersistConverter.class)
     @Column(name = "grade")
-    private String grade;
+    private Grade grade;
 
-    //학년 -> 전공인 경우만, 교양은 0
+    //학기 -> 교양은 전체학기
+    @Convert(converter = SemesterPersistConverter.class)
     @Column(name = "semester")
-    private String semester;
+    private Semester semester;
 
-    //이름
+    //과목명
     @Column(name = "name", nullable = false)
     private String name;
 
@@ -40,34 +47,36 @@ public class Subject {
     private String dept;
 
     //교양 : 영역명
+    @Convert(converter = CultureTypePersistConverter.class)
     @Column(name = "domain")
-    private String domain;
+    private CultureType domain;
 
     //교양 : 세부 영역명
+    @Convert(converter = CultureSubTypePersistConverter.class)
     @Column(name = "sub_domain")
-    private String subDomain;
+    private CultureSubType subDomain;
 
     @Column(name = "count")
     private Integer count;
 
     //이수구분
-//    @Enumerated(EnumType.STRING)
+    @Convert(converter = SubjectTypePersistConverter.class)
     @Column(name = "type", nullable = false)
-    private String type;
+    private SubjectType type;
 
-    public void setGrade(String grade) {
+    public void setGrade(Grade grade) {
         this.grade = grade;
     }
 
-    public void setSemester(String semester) {
+    public void setSemester(Semester semester) {
         this.semester = semester;
     }
 
-    public void setDomain(String domain) {
+    public void setDomain(CultureType domain) {
         this.domain = domain;
     }
 
-    public void setSubDomain(String subDomain) {
+    public void setSubDomain(CultureSubType subDomain) {
         this.subDomain = subDomain;
     }
 }

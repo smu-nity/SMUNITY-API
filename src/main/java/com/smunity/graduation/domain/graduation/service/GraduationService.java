@@ -8,6 +8,10 @@ import com.smunity.graduation.domain.graduation.dto.SubjectResponseDto;
 import com.smunity.graduation.domain.graduation.entity.Culture;
 import com.smunity.graduation.domain.graduation.entity.Major;
 import com.smunity.graduation.domain.graduation.entity.Subject;
+import com.smunity.graduation.domain.graduation.entity.type.CultureSubType;
+import com.smunity.graduation.domain.graduation.entity.type.CultureType;
+import com.smunity.graduation.domain.graduation.entity.type.Grade;
+import com.smunity.graduation.domain.graduation.entity.type.Semester;
 import com.smunity.graduation.domain.graduation.repository.CultureRepository;
 import com.smunity.graduation.domain.graduation.repository.MajorRepository;
 import com.smunity.graduation.domain.graduation.repository.SubjectRepository;
@@ -249,14 +253,14 @@ public class GraduationService {
         List<Culture> cultures = cultureRepository.findAll();
         cultures
                 .forEach(culture -> {
-//                    log.info("[ Subject 통합 - Culture ] culture  ID : {}", culture.getId());
+                    log.info("[ Subject 통합 - Culture ] culture  ID : {}", culture.getId());
                     Subject subject = subjectRepository.findById(culture.getSubject().getId()).orElseThrow();
-//                    log.info("[ Subject 통합 - Culture ] found Subject : {}", subject.getName());
-                    if (culture.getType().equals(subject.getType())) {
-                        subject.setGrade("전체학년");
-                        subject.setSemester("전체학기");
-                        subject.setDomain(culture.getCultureType());
-                        subject.setSubDomain(culture.getCultureSubType());
+                    log.info("[ Subject 통합 - Culture ] found Subject : {}", subject.getName());
+                    if (culture.getType().equals(subject.getType().getType())) {
+                        subject.setGrade(Grade.ALL);
+                        subject.setSemester(Semester.ALL);
+                        subject.setDomain(CultureType.findBy(culture.getCultureType()));
+                        subject.setSubDomain(CultureSubType.findBy(culture.getCultureSubType()));
                     } else {
                         log.error("[ Subject 통합 - Culture ] ERROR : Type이 맞지 않음 [{}] Culture -> {}, Subject -> {}", subject.getName(), culture.getType(), subject.getType());
                     }
@@ -266,12 +270,12 @@ public class GraduationService {
         List<Major> majors = majorRepository.findAll();
         majors
                 .forEach(major -> {
-//                    log.info("[ Subject 통합 - Major ] major  ID : {}", major.getId());
+                    log.info("[ Subject 통합 - Major ] major  ID : {}", major.getId());
                     Subject subject = subjectRepository.findById(major.getSubject().getId()).orElseThrow();
-//                    log.info("[ Subject 통합 - Major ] found Subject : {}", subject.getName());
-                    if (major.getType().equals(subject.getType())) {
-                        subject.setGrade(major.getGrade());
-                        subject.setSemester(major.getSemester());
+                    log.info("[ Subject 통합 - Major ] found Subject : {}", subject.getName());
+                    if (major.getType().equals(subject.getType().getType())) {
+                        subject.setGrade(Grade.findBy(major.getGrade()));
+                        subject.setSemester(Semester.findBy(major.getSemester()));
                     } else {
                         log.error("[ Subject 통합 - Major ] ERROR : Type이 맞지 않음 [{}] Major -> {}, Subject -> {}", subject.getName(), major.getType(), subject.getType());
                     }

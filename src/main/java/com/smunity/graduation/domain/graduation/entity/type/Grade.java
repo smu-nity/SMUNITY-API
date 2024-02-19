@@ -17,6 +17,15 @@ public enum Grade {
     private final Integer value;
     private final String grade;
 
+    public static Grade findBy(String arg) {
+        for (Grade grade : values()) {
+            if (grade.getGrade().equals(arg)) {
+                return grade;
+            }
+        }
+        return null;
+    }
+
     @JsonValue
     public String getGrade() {
         return this.grade;
