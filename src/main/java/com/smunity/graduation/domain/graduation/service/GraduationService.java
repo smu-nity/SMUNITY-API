@@ -281,4 +281,8 @@ public class GraduationService {
                     }
                 });
     }
+
+    public void updateSubjectsBySugang(String sessionId) {
+
+    }
 }
