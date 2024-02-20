@@ -5,9 +5,9 @@ import lombok.Builder;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.IntStream;
 
 @Builder
 public record AuthCourseResponseDto(
@@ -22,10 +22,9 @@ public record AuthCourseResponseDto(
 ) {
 
     public static List<AuthCourseResponseDto> from(JSONArray objs) {
-        List<AuthCourseResponseDto> responses = new ArrayList<>();
-        for (int i = 0; i < objs.length(); i++)
-            responses.add(from(objs.getJSONObject(i)));
-        return responses;
+        return IntStream.range(0, objs.length())
+                .mapToObj(i -> from(objs.getJSONObject(i)))
+                .toList();
     }
 
     public static AuthCourseResponseDto from(JSONObject obj) {
