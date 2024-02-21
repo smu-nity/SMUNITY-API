@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.Objects;
 
 @Service
 @Transactional
@@ -24,19 +24,19 @@ public class CourseService {
     private final CourseRepository courseRepository;
 
     public List<CourseResponseDto> createCourses(List<AuthCourseResponseDto> requestDtoList, String username) {
-        return requestDtoList.stream().map(dto -> createCourse(dto, username)).toList();
-    }
-
-    private CourseResponseDto createCourse(AuthCourseResponseDto requestDto, String username) {
         User user = userRepository.findByUserName(username)
                 .orElseThrow(() -> new CustomException(ErrorCode._UNAUTHORIZED));
-        Optional<Course> exists = courseRepository.findByUserUserNameAndNumber(username, requestDto.number());
-        return exists.map(CourseResponseDto::from)
-                .orElseGet(() -> {
-                    Course course = requestDto.toEntity();
+        List<Course> courses = requestDtoList.stream()
+                .filter(dto -> !Objects.equals(dto.grade(), "F") &&
+                        !courseRepository.existsByUserUserNameAndNumber(username, dto.number())
+                )
+                .map(dto -> {
+                    Course course = dto.toEntity();
                     course.setUser(user);
-                    Course saved = courseRepository.save(course);
-                    return CourseResponseDto.from(saved);
-                });
+                    return course;
+                })
+                .toList();
+        courseRepository.saveAll(courses);
+        return CourseResponseDto.from(user.getCourses());
     }
 }
