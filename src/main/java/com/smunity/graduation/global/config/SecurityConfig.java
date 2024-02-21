@@ -5,6 +5,7 @@ import java.util.stream.Stream;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -21,6 +22,7 @@ import com.smunity.graduation.domain.accounts.jwt.filter.CustomLoginFilter;
 import com.smunity.graduation.domain.accounts.jwt.filter.CustomLogoutHandler;
 import com.smunity.graduation.domain.accounts.jwt.filter.JwtAuthenticationFilter;
 import com.smunity.graduation.domain.accounts.jwt.filter.JwtExceptionFilter;
+import com.smunity.graduation.domain.accounts.jwt.util.HttpResponseUtil;
 import com.smunity.graduation.domain.accounts.jwt.util.JwtUtil;
 import com.smunity.graduation.domain.accounts.jwt.util.RedisUtil;
 import com.smunity.graduation.global.config.encoder.Pbkdf2PasswordEncoder;
@@ -116,6 +118,12 @@ public class SecurityConfig {
 			.logout(logout -> logout
 				.logoutUrl("/api/v1/accounts/logout")
 				.addLogoutHandler(new CustomLogoutHandler(redisUtil, jwtUtil))
+				.logoutSuccessHandler((request, response, authentication)
+					-> HttpResponseUtil.setSuccessResponse(
+					response,
+					HttpStatus.OK,
+					"로그아웃 성공"
+				))
 			);
 
 		return http.build();

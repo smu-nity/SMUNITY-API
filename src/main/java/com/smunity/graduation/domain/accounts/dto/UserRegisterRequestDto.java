@@ -3,6 +3,7 @@ package com.smunity.graduation.domain.accounts.dto;
 import com.smunity.graduation.domain.accounts.entity.User;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
@@ -24,9 +25,14 @@ public record UserRegisterRequestDto(
 	String password,
 
 	@NotBlank(message = "[ERROR] 비밀번호 재확인 입력은 필수 입니다.")
-	String passwordCheck
+	String passwordCheck,
+
+	@NotNull(message = "[ERROR] 현재 학년 입력은 필수 입니다.")
+	int year,
+	@NotNull(message = "[ERROR] 이수한 학기 입력은 필수 입니다.")
+	int semester
 ) {
-	
+
 	public User toEntity(String encodedPw) {
 		return User.builder()
 			.userName(username)
@@ -35,6 +41,8 @@ public record UserRegisterRequestDto(
 			.name(name)
 			.year(null)
 			.department(null)
+			.currentYear(year)
+			.completedSemesters(semester)
 			.build();
 
 	}
