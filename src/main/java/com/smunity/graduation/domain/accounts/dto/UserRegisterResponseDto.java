@@ -11,7 +11,9 @@ public record UserRegisterResponseDto(
 	String userName,
 	String name,
 	String year,
-	String department
+	String department,
+	int currentYear,
+	int completedSemesters
 
 ) {
 
@@ -22,6 +24,8 @@ public record UserRegisterResponseDto(
 			.name(user.getName())
 			.year(user.getYear().getYear())
 			.department(user.getDepartment().getName())
+			.currentYear(user.getCurrentYear())
+			.completedSemesters(user.getCompletedSemesters())
 			.build();
 	}
 }

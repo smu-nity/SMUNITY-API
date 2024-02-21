@@ -8,7 +8,9 @@ Content-Type: application/json
   "department": "컴퓨터과학전공",
   "email": "test1234@naver.com",
   "password": "test1234#",
-  "passwordCheck": "test1234#"
+  "passwordCheck": "test1234#",
+  "year": 4,
+  "semester": 8
 }
 
 ### 로그인
