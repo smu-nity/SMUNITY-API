@@ -485,4 +485,7 @@ gradle-app.setting
 # yml files
 application-*.yml
 
+# data/mysql/
+**/data/mysql/**
+
 # End of https://www.toptal.com/developers/gitignore/api/macos
