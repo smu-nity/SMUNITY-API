@@ -7,6 +7,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import com.smunity.graduation.domain.accounts.jwt.exception.SecurityCustomException;
+import com.smunity.graduation.domain.accounts.jwt.exception.TokenErrorCode;
 import com.smunity.graduation.domain.accounts.jwt.userdetails.CustomUserDetails;
 import com.smunity.graduation.domain.accounts.jwt.util.JwtUtil;
 import com.smunity.graduation.domain.accounts.jwt.util.RedisUtil;
@@ -63,6 +65,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 	}
 
 	private void authenticateAccessToken(String accessToken) {
+
+		if (!jwtUtil.isExpired(accessToken))
+			throw new SecurityCustomException(TokenErrorCode.INVALID_TOKEN);
+		
 		CustomUserDetails userDetails = new CustomUserDetails(
 			jwtUtil.getUsername(accessToken),
 			null,

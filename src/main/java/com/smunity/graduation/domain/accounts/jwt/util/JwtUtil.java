@@ -27,13 +27,14 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 public class JwtUtil {
 
+	private final static String USERNAME = "username";
+	private final static String IS_STAFF = "is_staff";
 	private final CustomUserDetailsService customUserDetailsService;
 	private final SecretKey secretKey;
 	private final Long accessExpMs;
 	private final Long refreshExpMs;
 	private final RedisUtil redisUtil;
 
-	// TODO 따로 뺄지 고민. 추상화 문제
 	public JwtUtil(
 		CustomUserDetailsService customUserDetailsService, @Value("${jwt.secret}") String secret,
 		@Value("${jwt.token.access-expiration-time}") Long access,
@@ -54,19 +55,19 @@ public class JwtUtil {
 			.build()
 			.parseClaimsJws(token)
 			.getBody()
-			.get("username", String.class);
+			.get(USERNAME, String.class);
 	}
 
-	public Boolean isStaff(String token) throws SignatureException {
-		return (Boolean)Jwts.parser().setSigningKey(secretKey).build().parseClaimsJws(token).getBody().get("is_staff");
+	public boolean isStaff(String token) throws SignatureException {
+		return (Boolean)Jwts.parser().setSigningKey(secretKey).build().parseClaimsJws(token).getBody().get(IS_STAFF);
 	}
 
-	public Boolean isExpired(String token) throws SignatureException {
+	public boolean isExpired(String token) throws SignatureException {
 		return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload().getExpiration()
 			.before(new Date());
 	}
 
-	public Long getExpTime(String token) {
+	public long getExpTime(String token) {
 		return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload().getExpiration()
 			.getTime();
 	}
@@ -80,8 +81,8 @@ public class JwtUtil {
 			.add("alg", "HS256")
 			.add("typ", "JWT")
 			.and()
-			.claim("username", customUserDetails.getUsername())
-			.claim("is_staff", customUserDetails.getStaff())
+			.claim(USERNAME, customUserDetails.getUsername())
+			.claim(IS_STAFF, customUserDetails.getAuthorities())
 			.issuedAt(Date.from(issuedAt))
 			.expiration(Date.from(expiration))
 			.signWith(secretKey)
@@ -97,8 +98,8 @@ public class JwtUtil {
 			.add("alg", "HS256")
 			.add("typ", "JWT")
 			.and()
-			.claim("username", customUserDetails.getUsername())
-			.claim("is_staff", customUserDetails.getStaff())
+			.claim(USERNAME, customUserDetails.getUsername())
+			.claim(IS_STAFF, customUserDetails.getAuthorities())
 			.issuedAt(Date.from(issuedAt))
 			.expiration(Date.from(expiration))
 			.signWith(secretKey)
@@ -138,11 +139,12 @@ public class JwtUtil {
 	}
 
 	public boolean validateRefreshToken(String refreshToken) {
+
 		// refreshToken validate
 		String username = getUsername(refreshToken);
 
 		//redis 확인
-		if (!redisUtil.hasKey(username)) {
+		if (!redisUtil.hasKey(username) || !isExpired(refreshToken)) {
 			throw new SecurityCustomException(TokenErrorCode.INVALID_TOKEN);
 		}
 		return true;
