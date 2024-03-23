@@ -1,11 +1,12 @@
 package com.smunity.graduation.domain.accounts.jwt.userdetails;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
-import com.smunity.graduation.domain.accounts.entity.User;
 
 public class CustomUserDetails implements UserDetails {
 
@@ -13,25 +14,21 @@ public class CustomUserDetails implements UserDetails {
 	private final String password;
 	private final Boolean isStaff;
 
-	public CustomUserDetails(User user) {
-		username = user.getUserName();
-		password = user.getPassword();
-		isStaff = user.getIsStaff();
-	}
-
 	public CustomUserDetails(String username, String password, Boolean isStaff) {
 		this.username = username;
 		this.password = password;
 		this.isStaff = isStaff;
 	}
 
-	public Boolean getStaff() {
-		return isStaff;
-	}
-
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return null;
+		List<GrantedAuthority> authorities = new ArrayList<>();
+		if (isStaff) {
+			authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
+		} else {
+			authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
+		}
+		return authorities;
 	}
 
 	@Override
