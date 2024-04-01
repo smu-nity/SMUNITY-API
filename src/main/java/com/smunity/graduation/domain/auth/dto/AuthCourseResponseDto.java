@@ -1,6 +1,8 @@
 package com.smunity.graduation.domain.auth.dto;
 
 import com.smunity.graduation.domain.course.entity.Course;
+import com.smunity.graduation.global.common.enums.Category;
+import com.smunity.graduation.global.common.enums.SubDomain;
 import lombok.Builder;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -52,6 +54,8 @@ public record AuthCourseResponseDto(
                 .semester(semester)
                 .type(type)
                 .domain(domain)
+                .category(Category.of(type))
+                .subDomain(domain != null ? SubDomain.of(domain) : null)
                 .credit(credit)
                 .build();
     }

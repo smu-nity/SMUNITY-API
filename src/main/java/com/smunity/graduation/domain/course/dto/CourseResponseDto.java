@@ -1,6 +1,8 @@
 package com.smunity.graduation.domain.course.dto;
 
 import com.smunity.graduation.domain.course.entity.Course;
+import com.smunity.graduation.global.common.enums.Category;
+import com.smunity.graduation.global.common.enums.SubDomain;
 import lombok.Builder;
 
 import java.util.List;
@@ -14,6 +16,8 @@ public record CourseResponseDto(
         String name,
         String type,
         String domain,
+        Category category,
+        SubDomain subDomain,
         int credit
 ) {
 
@@ -26,6 +30,8 @@ public record CourseResponseDto(
                 .name(course.getName())
                 .type(course.getType())
                 .domain(course.getDomain())
+                .category(course.getCategory())
+                .subDomain(course.getSubDomain())
                 .credit(course.getCredit())
                 .build();
     }
