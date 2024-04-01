@@ -12,8 +12,6 @@ import com.smunity.graduation.domain.auth.dto.AuthCourseResponseDto;
 import com.smunity.graduation.domain.course.dto.CourseResponseDto;
 import com.smunity.graduation.domain.course.entity.Course;
 import com.smunity.graduation.domain.course.repository.CourseRepository;
-import com.smunity.graduation.domain.graduation.entity.Subject;
-import com.smunity.graduation.domain.graduation.repository.SubjectRepository;
 import com.smunity.graduation.global.common.ErrorCode;
 import com.smunity.graduation.global.common.exception.CustomException;
 
@@ -28,7 +26,6 @@ public class CourseService {
 
 	private final UserRepository userRepository;
 	private final CourseRepository courseRepository;
-	private final SubjectRepository subjectRepository;
 
 	public List<CourseResponseDto> createCourses(List<AuthCourseResponseDto> requestDtoList, String username) {
 		User user = userRepository.findByUserName(username)
@@ -40,12 +37,6 @@ public class CourseService {
 			.map(dto -> {
 				Course course = dto.toEntity();
 				course.setUser(user);
-
-				Subject subject = subjectRepository.findByNumber(course.getNumber())
-					.orElseThrow(() -> new CustomException(ErrorCode.SUBJECT_NOT_FOUND));
-
-				subject.updateCount();
-
 				return course;
 			})
 			.toList();
