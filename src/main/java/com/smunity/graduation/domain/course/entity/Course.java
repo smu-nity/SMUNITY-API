@@ -1,6 +1,8 @@
 package com.smunity.graduation.domain.course.entity;
 
 import com.smunity.graduation.domain.accounts.entity.User;
+import com.smunity.graduation.global.common.enums.Category;
+import com.smunity.graduation.global.common.enums.SubDomain;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -36,6 +38,11 @@ public class Course {
     private String type;
 
     private String domain;
+
+    @Column(nullable = false)
+    private Category category;
+
+    private SubDomain subDomain;
 
     @Column(nullable = false)
     private int credit;
