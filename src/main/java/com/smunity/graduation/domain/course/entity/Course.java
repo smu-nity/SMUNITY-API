@@ -40,8 +40,10 @@ public class Course {
     private String domain;
 
     @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private Category category;
 
+    @Enumerated(EnumType.STRING)
     private SubDomain subDomain;
 
     @Column(nullable = false)
