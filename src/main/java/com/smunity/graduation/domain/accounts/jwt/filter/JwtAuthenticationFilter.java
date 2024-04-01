@@ -66,7 +66,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
 	private void authenticateAccessToken(String accessToken) {
 
-		if (!jwtUtil.isExpired(accessToken))
+		if (jwtUtil.isExpired(accessToken))
 			throw new SecurityCustomException(TokenErrorCode.INVALID_TOKEN);
 		
 		CustomUserDetails userDetails = new CustomUserDetails(

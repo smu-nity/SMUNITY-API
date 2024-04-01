@@ -82,7 +82,7 @@ public class JwtUtil {
 			.add("typ", "JWT")
 			.and()
 			.claim(USERNAME, customUserDetails.getUsername())
-			.claim(IS_STAFF, customUserDetails.getAuthorities())
+			.claim(IS_STAFF, customUserDetails.getStaff())
 			.issuedAt(Date.from(issuedAt))
 			.expiration(Date.from(expiration))
 			.signWith(secretKey)
@@ -99,7 +99,7 @@ public class JwtUtil {
 			.add("typ", "JWT")
 			.and()
 			.claim(USERNAME, customUserDetails.getUsername())
-			.claim(IS_STAFF, customUserDetails.getAuthorities())
+			.claim(IS_STAFF, customUserDetails.getStaff())
 			.issuedAt(Date.from(issuedAt))
 			.expiration(Date.from(expiration))
 			.signWith(secretKey)
@@ -144,7 +144,7 @@ public class JwtUtil {
 		String username = getUsername(refreshToken);
 
 		//redis 확인
-		if (!redisUtil.hasKey(username) || !isExpired(refreshToken)) {
+		if (!redisUtil.hasKey(username) || isExpired(refreshToken)) {
 			throw new SecurityCustomException(TokenErrorCode.INVALID_TOKEN);
 		}
 		return true;
