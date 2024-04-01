@@ -20,6 +20,10 @@ public class CustomUserDetails implements UserDetails {
 		this.isStaff = isStaff;
 	}
 
+	public boolean getStaff() {
+		return isStaff;
+	}
+
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		List<GrantedAuthority> authorities = new ArrayList<>();
