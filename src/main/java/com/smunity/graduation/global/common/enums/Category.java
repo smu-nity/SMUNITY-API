@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 public enum Category {
+    
     MAJOR_ADVANCED("1전심"),
     MAJOR_OPTIONAL("1전선"),
     CULTURE_REQUIRED("교필"),

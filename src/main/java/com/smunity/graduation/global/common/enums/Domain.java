@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 public enum Domain {
+    
     BASIC("기초"),
     CORE("핵심"),
     BALANCE("균형");

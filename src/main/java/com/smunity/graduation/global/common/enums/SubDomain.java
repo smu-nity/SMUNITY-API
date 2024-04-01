@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 public enum SubDomain {
+    
     BASIC_ACCIDENT("사고와표현"),
     BASIC_ENG_MATH("기초영어/기초수학"),
     BASIC_COMPUTER_1("컴퓨팅사고와데이터의이해"),
