@@ -144,7 +144,7 @@ public class JwtUtil {
 		String username = getUsername(refreshToken);
 
 		//redis 확인
-		if (!redisUtil.hasKey(username) || !isExpired(refreshToken)) {
+		if (!redisUtil.hasKey(username) || isExpired(refreshToken)) {
 			throw new SecurityCustomException(TokenErrorCode.INVALID_TOKEN);
 		}
 		return true;
