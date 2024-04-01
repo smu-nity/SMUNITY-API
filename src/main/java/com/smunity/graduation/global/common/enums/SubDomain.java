@@ -3,10 +3,13 @@ package com.smunity.graduation.global.common.enums;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
+import java.util.Arrays;
+import java.util.List;
+
 @Getter
 @RequiredArgsConstructor
 public enum SubDomain {
-    
+
     BASIC_ACCIDENT("사고와표현"),
     BASIC_ENG_MATH("기초영어/기초수학"),
     BASIC_COMPUTER_1("컴퓨팅사고와데이터의이해"),
@@ -26,4 +29,21 @@ public enum SubDomain {
     BALANCE_NATURAL_ENGINEER("자연/공학");
 
     private final String name;
+
+    public static SubDomain of(String name) {
+        return hasEngMath(name) ? SubDomain.BASIC_ENG_MATH : findByName(name);
+    }
+
+    private static SubDomain findByName(String name) {
+        return Arrays.stream(SubDomain.values())
+                .filter(subDomain -> name.contains(subDomain.getName()))
+                .findFirst()
+                .orElse(null);
+    }
+
+    private static boolean hasEngMath(String name) {
+        List<String> engMath = List.of("English", "영어", "수학", "미적분학");
+        return engMath.stream()
+                .anyMatch(name::contains);
+    }
 }
