@@ -1,7 +1,8 @@
 package com.smunity.graduation.global.common.enums;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class CategoryTest {
 
@@ -12,7 +13,7 @@ class CategoryTest {
         Category category2 = Category.of("1일선");
 
         //then
-        Assertions.assertEquals(Category.MAJOR_ADVANCED, category1, "1전심이 아닙니다.");
-        Assertions.assertEquals(Category.ETC, category2, "기타가 아닙니다.");
+        assertEquals(Category.MAJOR_ADVANCED, category1, "1전심이 아닙니다.");
+        assertEquals(Category.ETC, category2, "기타가 아닙니다.");
     }
 }
