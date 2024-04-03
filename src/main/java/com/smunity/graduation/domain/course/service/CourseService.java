@@ -39,6 +39,6 @@ public class CourseService {
                 })
                 .toList();
         courseRepository.saveAll(courses);
-        return ResultResponseDto.of(user.getYear().getAll(), user.getCourses());
+        return ResultResponseDto.of(user.getYear().getTotal(), user.getCourses());
     }
 }
