@@ -15,7 +15,7 @@ public record StatusResponseDto(
                 .total(total)
                 .completed(completed)
                 .required(Math.max(0, total - completed))
-                .completion(Math.min(100, total * 100 / completed))
+                .completion(Math.min(100, completed * 100 / total))
                 .build();
     }
 }
