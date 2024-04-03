@@ -14,7 +14,7 @@ public record ResultResponseDto(
 ) {
 
     public static ResultResponseDto of(int total, List<Course> courses) {
-        int completed = calCompletedCredit(courses);
+        int completed = calculateCompleted(courses);
         return ResultResponseDto.builder()
                 .completed(total < completed)
                 .status(StatusResponseDto.of(total, completed))
@@ -23,7 +23,7 @@ public record ResultResponseDto(
                 .build();
     }
 
-    public static int calCompletedCredit(List<Course> courses) {
+    private static int calculateCompleted(List<Course> courses) {
         return courses.stream().mapToInt(Course::getCredit).sum();
     }
 }
