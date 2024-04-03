@@ -1,7 +1,6 @@
-package com.smunity.graduation.domain.course.repository;
+package com.smunity.graduation.domain.course.repository.course;
 
 import com.smunity.graduation.domain.course.entity.Course;
-import com.smunity.graduation.domain.course.repository.course.CourseRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
