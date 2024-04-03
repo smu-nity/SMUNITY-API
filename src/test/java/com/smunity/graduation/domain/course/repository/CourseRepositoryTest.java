@@ -1,6 +1,7 @@
 package com.smunity.graduation.domain.course.repository;
 
 import com.smunity.graduation.domain.course.entity.Course;
+import com.smunity.graduation.domain.course.repository.course.CourseRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -9,7 +10,7 @@ import java.util.List;
 
 @SpringBootTest
 public class CourseRepositoryTest {
-    
+
     @Autowired
     CourseRepository courseRepository;
 

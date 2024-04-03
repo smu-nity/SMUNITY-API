@@ -1,4 +1,4 @@
-package com.smunity.graduation.domain.course.repository;
+package com.smunity.graduation.domain.course.repository.course;
 
 import com.smunity.graduation.domain.course.entity.Course;
 import org.springframework.data.jpa.repository.JpaRepository;

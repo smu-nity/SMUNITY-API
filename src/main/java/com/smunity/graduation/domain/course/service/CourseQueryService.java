@@ -2,7 +2,7 @@ package com.smunity.graduation.domain.course.service;
 
 import com.smunity.graduation.domain.course.dto.CourseResponseDto;
 import com.smunity.graduation.domain.course.entity.Course;
-import com.smunity.graduation.domain.course.repository.CourseRepository;
+import com.smunity.graduation.domain.course.repository.course.CourseRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
