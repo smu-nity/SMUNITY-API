@@ -7,6 +7,7 @@ import lombok.Getter;
 @Table(name = "accounts_year")
 @Entity
 public class Year {
+	
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
