@@ -8,7 +8,7 @@ import java.util.List;
 @Builder
 public record ResultResponseDto(
         boolean completed,
-        StatusResponseDto statusResponseDto,
+        StatusResponseDto status,
         int count,
         List<CourseResponseDto> content
 ) {
@@ -17,7 +17,7 @@ public record ResultResponseDto(
         int completed = calCompletedCredit(courses);
         return ResultResponseDto.builder()
                 .completed(total < completed)
-                .statusResponseDto(StatusResponseDto.of(total, completed))
+                .status(StatusResponseDto.of(total, completed))
                 .count(courses.size())
                 .content(CourseResponseDto.from(courses))
                 .build();
