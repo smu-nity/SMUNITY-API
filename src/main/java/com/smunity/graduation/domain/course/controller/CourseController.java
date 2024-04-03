@@ -10,6 +10,7 @@ import com.smunity.graduation.domain.course.dto.ResultResponseDto;
 import com.smunity.graduation.domain.course.service.CourseQueryService;
 import com.smunity.graduation.domain.course.service.CourseService;
 import com.smunity.graduation.global.common.ApiResponse;
+import com.smunity.graduation.global.common.enums.Category;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -26,13 +27,13 @@ public class CourseController {
     private final CourseQueryService courseQueryService;
 
     @GetMapping
-    public ApiResponse<List<CourseResponseDto>> getCourses(@AccountResolver User user) {
-        List<CourseResponseDto> responseDtoList = courseQueryService.getCourses(user.getUserName());
+    public ApiResponse<List<CourseResponseDto>> getCourses(@AccountResolver User user, @RequestParam(required = false) Category category) {
+        List<CourseResponseDto> responseDtoList = courseQueryService.getCourses(user.getUserName(), category);
         return ApiResponse.onSuccess(responseDtoList);
     }
 
     @PostMapping("/upload")
-    public ApiResponse<ResultResponseDto> uploadCourses(@RequestBody @Valid AuthRequestDto requestDto, @AccountResolver User user) {
+    public ApiResponse<ResultResponseDto> uploadCourses(@AccountResolver User user, @RequestBody @Valid AuthRequestDto requestDto) {
         List<AuthCourseResponseDto> requestDtoList = authService.getCourses(requestDto);
         ResultResponseDto responseDtoList = courseService.createCourses(requestDtoList, user.getUserName());
         return ApiResponse.onSuccess(responseDtoList);
