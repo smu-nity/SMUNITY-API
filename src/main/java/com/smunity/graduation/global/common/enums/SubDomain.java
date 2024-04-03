@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 import java.util.Arrays;
-import java.util.List;
+import java.util.stream.Stream;
 
 @Getter
 @RequiredArgsConstructor
@@ -31,19 +31,18 @@ public enum SubDomain {
     private final String name;
 
     public static SubDomain of(String name) {
-        return hasEngMath(name) ? SubDomain.BASIC_ENG_MATH : findByName(name);
+        return hasEngMath(name) ? BASIC_ENG_MATH : findByName(name);
     }
 
     private static SubDomain findByName(String name) {
-        return Arrays.stream(SubDomain.values())
+        return Arrays.stream(values())
                 .filter(subDomain -> name.contains(subDomain.getName()))
                 .findFirst()
                 .orElse(null);
     }
 
     private static boolean hasEngMath(String name) {
-        List<String> engMath = List.of("English", "영어", "수학", "미적분학");
-        return engMath.stream()
+        return Stream.of("English", "영어", "수학", "미적분학")
                 .anyMatch(name::contains);
     }
 }

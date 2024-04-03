@@ -6,6 +6,7 @@ import com.smunity.graduation.domain.auth.dto.AuthCourseResponseDto;
 import com.smunity.graduation.domain.auth.dto.AuthRequestDto;
 import com.smunity.graduation.domain.auth.service.AuthService;
 import com.smunity.graduation.domain.course.dto.CourseResponseDto;
+import com.smunity.graduation.domain.course.dto.ResultResponseDto;
 import com.smunity.graduation.domain.course.service.CourseQueryService;
 import com.smunity.graduation.domain.course.service.CourseService;
 import com.smunity.graduation.global.common.ApiResponse;
@@ -31,9 +32,9 @@ public class CourseController {
     }
 
     @PostMapping("/upload")
-    public ApiResponse<List<CourseResponseDto>> uploadCourses(@RequestBody @Valid AuthRequestDto requestDto, @AccountResolver User user) {
+    public ApiResponse<ResultResponseDto> uploadCourses(@RequestBody @Valid AuthRequestDto requestDto, @AccountResolver User user) {
         List<AuthCourseResponseDto> requestDtoList = authService.getCourses(requestDto);
-        List<CourseResponseDto> responseDtoList = courseService.createCourses(requestDtoList, user.getUserName());
+        ResultResponseDto responseDtoList = courseService.createCourses(requestDtoList, user.getUserName());
         return ApiResponse.onSuccess(responseDtoList);
     }
 }

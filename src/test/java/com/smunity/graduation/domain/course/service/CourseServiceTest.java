@@ -3,14 +3,13 @@ package com.smunity.graduation.domain.course.service;
 import com.smunity.graduation.domain.auth.dto.AuthCourseResponseDto;
 import com.smunity.graduation.domain.auth.dto.AuthRequestDto;
 import com.smunity.graduation.domain.auth.service.AuthService;
-import com.smunity.graduation.domain.course.dto.CourseResponseDto;
+import com.smunity.graduation.domain.course.dto.ResultResponseDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
-
 
 @SpringBootTest
 class CourseServiceTest {
@@ -33,9 +32,9 @@ class CourseServiceTest {
     public void createCourses() throws Exception {
         //when
         List<AuthCourseResponseDto> requestDtoList = authService.getCourses(requestDto);
-        List<CourseResponseDto> responseDtoList = courseService.createCourses(requestDtoList, requestDto.username());
+        ResultResponseDto responseDtoList = courseService.createCourses(requestDtoList, requestDto.username());
 
         //then
-        responseDtoList.forEach(System.out::println);
+        System.out.println(responseDtoList);
     }
 }
