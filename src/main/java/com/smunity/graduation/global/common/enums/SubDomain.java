@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 import java.util.Arrays;
-import java.util.List;
+import java.util.stream.Stream;
 
 @Getter
 @RequiredArgsConstructor
@@ -42,8 +42,7 @@ public enum SubDomain {
     }
 
     private static boolean hasEngMath(String name) {
-        List<String> engMath = List.of("English", "영어", "수학", "미적분학");
-        return engMath.stream()
+        return Stream.of("English", "영어", "수학", "미적분학")
                 .anyMatch(name::contains);
     }
 }
