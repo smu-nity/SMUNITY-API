@@ -31,11 +31,11 @@ public enum SubDomain {
     private final String name;
 
     public static SubDomain of(String name) {
-        return hasEngMath(name) ? SubDomain.BASIC_ENG_MATH : findByName(name);
+        return hasEngMath(name) ? BASIC_ENG_MATH : findByName(name);
     }
 
     private static SubDomain findByName(String name) {
-        return Arrays.stream(SubDomain.values())
+        return Arrays.stream(values())
                 .filter(subDomain -> name.contains(subDomain.getName()))
                 .findFirst()
                 .orElse(null);
