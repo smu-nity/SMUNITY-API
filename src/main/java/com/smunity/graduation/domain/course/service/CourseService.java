@@ -5,7 +5,7 @@ import com.smunity.graduation.domain.accounts.repository.user.UserRepository;
 import com.smunity.graduation.domain.auth.dto.AuthCourseResponseDto;
 import com.smunity.graduation.domain.course.dto.ResultResponseDto;
 import com.smunity.graduation.domain.course.entity.Course;
-import com.smunity.graduation.domain.course.repository.CourseRepository;
+import com.smunity.graduation.domain.course.repository.course.CourseRepository;
 import com.smunity.graduation.global.common.ErrorCode;
 import com.smunity.graduation.global.common.exception.CustomException;
 import lombok.RequiredArgsConstructor;
@@ -39,6 +39,6 @@ public class CourseService {
                 })
                 .toList();
         courseRepository.saveAll(courses);
-        return ResultResponseDto.of(user.getYear().getAll(), user.getCourses());
+        return ResultResponseDto.of(user.getYear().getTotal(), user.getCourses());
     }
 }

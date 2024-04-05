@@ -61,7 +61,7 @@ public record GraduationResponseDto(
 
         //TODO : 예외처리
         //TOTAL (전체)
-        int total = year.getAll();
+        int total = year.getTotal();
         int count = getAllCredits(courses);
         subjects.add(TotalSubjectResultResponseDto.builder()
                 .name("total")
