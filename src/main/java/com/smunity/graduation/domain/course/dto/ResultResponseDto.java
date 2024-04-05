@@ -10,7 +10,7 @@ public record ResultResponseDto(
         boolean completed,
         StatusResponseDto status,
         int count,
-        List<CourseResponseDto> content
+        List<?> content
 ) {
 
     public static ResultResponseDto of(int total, List<Course> courses) {
