@@ -1,6 +1,8 @@
 package com.smunity.graduation.domain.course.repository.course;
 
 import com.smunity.graduation.domain.course.entity.Course;
+import com.smunity.graduation.global.common.enums.Category;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -16,36 +18,73 @@ public class CourseRepositoryTest {
     @Autowired
     CourseRepository courseRepository;
 
-    private static int cal(List<Course> courses) {
-        return courses.stream().mapToInt(Course::getCredit).sum();
-    }
+    private String userName;
 
-    @Test
-    public void findAllTest() throws Exception {
-        //when
-        List<Course> courseList = courseRepository.findAll();
-
-        //then
-        for (Course course : courseList) {
-            System.out.println(course);
-        }
-    }
-
-    @Test
-    public void findByCategory() throws Exception {
+    @BeforeEach
+    public void setUp() {
         //given
-        String userName = "201911019";
+        userName = "201911019";
+    }
 
+    @Test
+    public void findAllByUserUserName() throws Exception {
         //when
-        List<Course> all = courseRepository.findByUsernameAndCategory(userName, null);
-        List<Course> majorAdvanced = courseRepository.findByUsernameAndCategory(userName, MAJOR_ADVANCED);
-        List<Course> majorOptional = courseRepository.findByUsernameAndCategory(userName, MAJOR_OPTIONAL);
-        List<Course> culture = courseRepository.findByUsernameAndCategory(userName, CULTURE);
+        List<Course> courseList = courseRepository.findAllByUserUserName(userName);
 
         //then
-        assertEquals(132, cal(all), "전체 이수 학점 오류");
-        assertEquals(18, cal(majorAdvanced), "전공 심화 이수 학점 오류");
-        assertEquals(66, cal(majorOptional), "전공 선택 이수 학점 오류");
-        assertEquals(42, cal(culture), "교양 이수 학점 오류");
+        courseList.forEach(System.out::println);
+    }
+
+    @Test
+    public void findByCategoryNull() throws Exception {
+        //given
+        int expected = 132;
+
+        //when
+        int actual = calculateCredits(userName, null);
+
+        //then
+        assertEquals(expected, actual, "전체 이수 학점 오류");
+    }
+
+    @Test
+    public void findByCategoryMajorAdvanced() throws Exception {
+        //given
+        int expected = 18;
+
+        //when
+        int actual = calculateCredits(userName, MAJOR_ADVANCED);
+
+        //then
+        assertEquals(expected, actual, "전공 심화 이수 학점 오류");
+    }
+
+    @Test
+    public void findByCategoryMajorOptional() throws Exception {
+        //given
+        int expected = 66;
+
+        //when
+        int actual = calculateCredits(userName, MAJOR_OPTIONAL);
+
+        //then
+        assertEquals(expected, actual, "전공 선택 이수 학점 오류");
+    }
+
+    @Test
+    public void findByCategoryCulture() throws Exception {
+        //given
+        int expected = 42;
+
+        //when
+        int actual = calculateCredits(userName, CULTURE);
+
+        //then
+        assertEquals(expected, actual, "교양 이수 학점 오류");
+    }
+
+    private int calculateCredits(String userName, Category category) {
+        List<Course> courses = courseRepository.findByUsernameAndCategory(userName, category);
+        return courses.stream().mapToInt(Course::getCredit).sum();
     }
 }
