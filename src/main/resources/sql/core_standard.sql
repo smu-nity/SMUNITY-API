@@ -1,8 +1,5 @@
 insert into core_standard (year_id, category, total)
-values (1, 'CULTURE', 36),
-       (1, 'MAJOR_ADVANCED', 15),
-       (1, 'MAJOR_OPTIONAL', 45),
-       (2, 'CULTURE', 33),
+values (2, 'CULTURE', 36),
        (2, 'MAJOR_ADVANCED', 15),
        (2, 'MAJOR_OPTIONAL', 45),
        (3, 'CULTURE', 33),
@@ -19,4 +16,10 @@ values (1, 'CULTURE', 36),
        (6, 'MAJOR_OPTIONAL', 45),
        (7, 'CULTURE', 33),
        (7, 'MAJOR_ADVANCED', 15),
-       (7, 'MAJOR_OPTIONAL', 60);
+       (7, 'MAJOR_OPTIONAL', 45),
+       (8, 'CULTURE', 33),
+       (8, 'MAJOR_ADVANCED', 15),
+       (8, 'MAJOR_OPTIONAL', 60),
+       (9, 'CULTURE', 33),
+       (9, 'MAJOR_ADVANCED', 15),
+       (9, 'MAJOR_OPTIONAL', 60);
