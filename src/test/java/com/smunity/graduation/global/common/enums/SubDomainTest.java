@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import static com.smunity.graduation.global.common.enums.SubDomain.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 class SubDomainTest {
 
@@ -41,5 +42,14 @@ class SubDomainTest {
 
         //then
         assertEquals(BALANCE_ENGINEER, subDomain, "균형(공학)이 아닙니다.");
+    }
+
+    @Test
+    public void SubDomainOfNull() throws Exception {
+        //given
+        SubDomain subDomain = of("일반(예술과디자인)");
+
+        //then
+        assertNull(subDomain, "null 이 아닙니다.");
     }
 }
