@@ -286,7 +286,7 @@ public record GraduationResponseDto(
         String[] cultures = {"인문", "사회", "자연", "공학", "예술"};
         List<String> balanceCultures = new ArrayList<>(Arrays.asList(cultures));
 
-        String userType = user.getDepartment().getType();
+        String userType = user.getDepartment().getSubDomain().getName();
         balanceCultures.remove(userType);
 
         balanceCultures
