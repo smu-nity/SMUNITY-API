@@ -2,22 +2,44 @@ package com.smunity.graduation.global.common.enums;
 
 import org.junit.jupiter.api.Test;
 
+import static com.smunity.graduation.global.common.enums.SubDomain.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class SubDomainTest {
 
     @Test
-    public void SubDomainOfTest() throws Exception {
+    public void SubDomainOfBasicEngMath() throws Exception {
         //given
-        SubDomain subDomain1 = SubDomain.of("기초(영어2)");
-        SubDomain subDomain2 = SubDomain.of("컴퓨팅사고와문제해결");
-        SubDomain subDomain3 = SubDomain.of("핵심(다양성존중역량)");
-        SubDomain subDomain4 = SubDomain.of("균형(공학)");
+        SubDomain subDomain = of("기초(영어2)");
 
         //then
-        assertEquals(SubDomain.BASIC_ENG_MATH, subDomain1, "기초(영어2)이 아닙니다.");
-        assertEquals(SubDomain.BASIC_COMPUTER, subDomain2, "컴퓨팅사고와문제해결이 아닙니다.");
-        assertEquals(SubDomain.CORE_DIVERSITY, subDomain3, "핵심(다양성존중역량)이 아닙니다.");
-        assertEquals(SubDomain.BALANCE_ENGINEER, subDomain4, "균형(공학)이 아닙니다.");
+        assertEquals(BASIC_ENG_MATH, subDomain, "기초(영어2)이 아닙니다.");
+    }
+
+    @Test
+    public void SubDomainOfBasicComputer() throws Exception {
+        //given
+        SubDomain subDomain = of("컴퓨팅사고와문제해결");
+
+        //then
+        assertEquals(BASIC_COMPUTER, subDomain, "컴퓨팅사고와문제해결이 아닙니다.");
+    }
+
+    @Test
+    public void SubDomainOfCoreDiversity() throws Exception {
+        //given
+        SubDomain subDomain = of("핵심(다양성존중역량)");
+
+        //then
+        assertEquals(CORE_DIVERSITY, subDomain, "핵심(다양성존중역량)이 아닙니다.");
+    }
+
+    @Test
+    public void SubDomainOfBalanceEngineer() throws Exception {
+        //given
+        SubDomain subDomain = of("균형(공학)");
+
+        //then
+        assertEquals(BALANCE_ENGINEER, subDomain, "균형(공학)이 아닙니다.");
     }
 }
