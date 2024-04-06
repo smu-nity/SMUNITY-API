@@ -18,7 +18,7 @@ public class CourseRepositoryTest {
     @Autowired
     CourseRepository courseRepository;
 
-    private String userName;
+    String userName;
 
     @BeforeEach
     public void setUp() {
