@@ -21,6 +21,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+import static com.smunity.graduation.global.common.enums.SubDomain.*;
+
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
@@ -47,7 +49,8 @@ public class CourseQueryService {
         List<Curriculum> curriculums = curriculumRepository.findAllByYearAndDomain(user.getYear(), domain);
         List<Course> courses = courseRepository.findAllByUserUserNameAndSubDomainIsNotNull(username);
         int total = getTotal(curriculums.size(), domain);
-        return ResultResponseDto.of(total, getSubDomains(curriculums), getSubDomains(courses));
+        SubDomain depSubDomain = user.getDepartment().getSubDomain();
+        return ResultResponseDto.of(total, getSubDomains(curriculums, depSubDomain), getSubDomains(courses, depSubDomain));
     }
 
     private int getTotal(int size, Domain domain) {
@@ -58,9 +61,18 @@ public class CourseQueryService {
         };
     }
 
-    private List<SubDomain> getSubDomains(List<? extends SubDomainHolder> holders) {
+    private boolean checkNaturalEngineer(SubDomain subDomain) {
+        return subDomain.equals(BALANCE_NATURAL) || subDomain.equals(BALANCE_ENGINEER);
+    }
+
+    private List<SubDomain> excludedSubDomains(SubDomain subDomain) {
+        return checkNaturalEngineer(subDomain) ? List.of(subDomain, BALANCE_NATURAL_ENGINEER) : List.of(subDomain);
+    }
+
+    private List<SubDomain> getSubDomains(List<? extends SubDomainHolder> holders, SubDomain depSubDomain) {
         return holders.stream()
                 .map(SubDomainHolder::getSubDomain)
+                .filter(subDomain -> !excludedSubDomains(depSubDomain).contains(subDomain))
                 .toList();
     }
 }
