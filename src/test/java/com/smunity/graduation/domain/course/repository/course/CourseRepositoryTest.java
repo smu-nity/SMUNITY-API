@@ -27,12 +27,14 @@ public class CourseRepositoryTest {
     }
 
     @Test
-    public void findAllByUserUserName() throws Exception {
+    public void findAllByUserUserNameAndSubDomainIsNotNull() throws Exception {
         //when
-        List<Course> courseList = courseRepository.findAllByUserUserName(userName);
+        List<Course> courseList = courseRepository.findAllByUserUserNameAndSubDomainIsNotNull(userName);
 
         //then
-        courseList.forEach(System.out::println);
+        courseList.stream()
+                .map(Course::getSubDomain)
+                .forEach(System.out::println);
     }
 
     @Test
