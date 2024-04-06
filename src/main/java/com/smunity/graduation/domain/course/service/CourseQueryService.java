@@ -61,18 +61,19 @@ public class CourseQueryService {
         };
     }
 
-    private boolean checkNaturalEngineer(SubDomain subDomain) {
+    private boolean isNaturalEngineer(SubDomain subDomain) {
         return subDomain.equals(BALANCE_NATURAL) || subDomain.equals(BALANCE_ENGINEER);
     }
 
-    private List<SubDomain> excludedSubDomains(SubDomain subDomain) {
-        return checkNaturalEngineer(subDomain) ? List.of(subDomain, BALANCE_NATURAL_ENGINEER) : List.of(subDomain);
+    private List<SubDomain> getExcludedSubDomains(SubDomain subDomain) {
+        return isNaturalEngineer(subDomain) ? List.of(subDomain, BALANCE_NATURAL_ENGINEER) : List.of(subDomain);
     }
 
     private List<SubDomain> getSubDomains(List<? extends SubDomainHolder> holders, SubDomain depSubDomain) {
+        List<SubDomain> excludedSubDomains = getExcludedSubDomains(depSubDomain);
         return holders.stream()
                 .map(SubDomainHolder::getSubDomain)
-                .filter(subDomain -> !excludedSubDomains(depSubDomain).contains(subDomain))
+                .filter(subDomain -> !excludedSubDomains.contains(subDomain))
                 .toList();
     }
 }
