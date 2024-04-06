@@ -24,9 +24,8 @@ public record ResultResponseDto(
                 .build();
     }
 
-    public static ResultResponseDto of(List<SubDomain> curriculums, List<SubDomain> courses) {
+    public static ResultResponseDto of(int total, List<SubDomain> curriculums, List<SubDomain> courses) {
         List<CultureResponseDto> cultures = CultureResponseDto.of(curriculums, courses);
-        int total = curriculums.size();
         int completed = calculateCultureCompleted(cultures);
         return ResultResponseDto.builder()
                 .completed(total <= completed)

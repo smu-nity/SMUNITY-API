@@ -46,7 +46,16 @@ public class CourseQueryService {
                 .orElseThrow(() -> new CustomException(ErrorCode._UNAUTHORIZED));
         List<Curriculum> curriculums = curriculumRepository.findAllByYearAndDomain(user.getYear(), domain);
         List<Course> courses = courseRepository.findAllByUserUserNameAndSubDomainIsNotNull(username);
-        return ResultResponseDto.of(getSubDomains(curriculums), getSubDomains(courses));
+        int total = getTotal(curriculums.size(), domain);
+        return ResultResponseDto.of(total, getSubDomains(curriculums), getSubDomains(courses));
+    }
+
+    private int getTotal(int size, Domain domain) {
+        return switch (domain) {
+            case CORE -> 2;
+            case BALANCE -> 3;
+            default -> size;
+        };
     }
 
     private List<SubDomain> getSubDomains(List<? extends SubDomainHolder> holders) {
