@@ -30,7 +30,6 @@ public class QuestionService {
 		existingQuestion.setTitle(requestDto.title());
 		existingQuestion.setContent(requestDto.content());
 		existingQuestion.setAnonymous(requestDto.anonymous());
-		// Question updateQuestion = questionJpaRepository.save(existingQuestion);
 		return QuestionResponseDto.from(existingQuestion);
 	}
 
