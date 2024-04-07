@@ -7,8 +7,7 @@ import lombok.*;
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-@Table(name = "graduations_culture")
-@Entity
+@Entity(name = "graduations_culture")
 public class Culture {
 
     @Id
@@ -32,11 +31,9 @@ public class Culture {
 
     @Column(name = "count")
     private Integer count;
-    
+
     //과목
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "subject_id", nullable = false)
     private Subject subject;
-
-
 }
