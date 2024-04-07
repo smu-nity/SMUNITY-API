@@ -17,12 +17,21 @@ class CategoryTest {
     }
 
     @Test
-    public void CategoryOfEtc() throws Exception {
+    public void CategoryOfMajorOptional() throws Exception {
         //given
-        Category category = of("1일선");
+        Category category = of("1전선");
 
         //then
-        assertEquals(ETC, category, "기타가 아닙니다.");
+        assertEquals(MAJOR_OPTIONAL, category, "1전선이 아닙니다.");
+    }
+
+    @Test
+    public void CategoryOfMajorTeach() throws Exception {
+        //given
+        Category category = of("1교직");
+
+        //then
+        assertEquals(MAJOR_OPTIONAL, category, "1전선이 아닙니다.");
     }
 
     @Test
@@ -41,5 +50,14 @@ class CategoryTest {
 
         //then
         assertEquals(CULTURE, category, "교양이 아닙니다.");
+    }
+
+    @Test
+    public void CategoryOfEtc() throws Exception {
+        //given
+        Category category = of("1일선");
+
+        //then
+        assertEquals(ETC, category, "기타가 아닙니다.");
     }
 }
