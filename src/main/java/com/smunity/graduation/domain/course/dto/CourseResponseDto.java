@@ -37,6 +37,8 @@ public record CourseResponseDto(
     }
 
     public static List<CourseResponseDto> from(List<Course> courses) {
-        return courses.stream().map(CourseResponseDto::from).toList();
+        return courses.stream()
+                .map(CourseResponseDto::from)
+                .toList();
     }
 }
