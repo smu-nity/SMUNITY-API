@@ -39,8 +39,8 @@ public class QnAServiceUtils {
 	}
 
 	// 스태프 권한이 있는지 확인
-	public void validateStaffAccess(User Author) {
-		if (!Author.getIsStaff()) {
+	public void validateStaffAccess(User author) {
+		if (!author.isStaff()) {
 			throw new AccountsExceptionHandler(ErrorCode.AUTHOR_IS_NOT_STAFF);
 		}
 	}

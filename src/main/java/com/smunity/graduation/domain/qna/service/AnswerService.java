@@ -32,7 +32,6 @@ public class AnswerService {
 		Answer existingAnswer = qnAServiceUtils.getAnswerById(answerId);
 		qnAServiceUtils.validateStaffAccess(author);
 		existingAnswer.setContent(requestDto.content());
-		// Answer updateAnswer = answerJpaRepository.save(existingAnswer);
 		return AnswerResponseDto.from(existingAnswer);
 	}
 
