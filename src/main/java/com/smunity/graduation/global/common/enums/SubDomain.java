@@ -20,13 +20,13 @@ public enum SubDomain {
     CORE_CONVERGENCE("융복합역량"),
     CORE_DIVERSITY("다양성존중역량"),
     CORE_ETHICAL("윤리실천역량"),
-    BALANCE_HUMANITIES("인문"),
-    BALANCE_SOCIAL("사회"),
-    BALANCE_NATURAL("자연"),
-    BALANCE_ENGINEER("공학"),
-    BALANCE_ART("예술"),
-    BALANCE_BRIDGE("브리지"),
-    BALANCE_NATURAL_ENGINEER("자연/공학");
+    BALANCE_HUMANITIES("균형(인문)"),
+    BALANCE_SOCIAL("균형(사회)"),
+    BALANCE_NATURAL("균형(자연)"),
+    BALANCE_ENGINEER("균형(공학)"),
+    BALANCE_ART("균형(예술)"),
+    BALANCE_BRIDGE("균형(브리지)"),
+    BALANCE_NATURAL_ENGINEER("균형(자연/공학)");
 
     private final String name;
 
