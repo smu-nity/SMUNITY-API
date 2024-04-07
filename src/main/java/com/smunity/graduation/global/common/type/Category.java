@@ -1,4 +1,4 @@
-package com.smunity.graduation.global.common.enums;
+package com.smunity.graduation.global.common.type;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

@@ -1,6 +1,6 @@
 package com.smunity.graduation.domain.accounts.entity;
 
-import com.smunity.graduation.global.common.enums.SubDomain;
+import com.smunity.graduation.global.common.type.SubDomain;
 import jakarta.persistence.*;
 import lombok.Getter;
 

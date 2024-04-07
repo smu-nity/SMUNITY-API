@@ -1,8 +1,8 @@
 package com.smunity.graduation.domain.auth.dto;
 
 import com.smunity.graduation.domain.course.entity.Course;
-import com.smunity.graduation.global.common.enums.Category;
-import com.smunity.graduation.global.common.enums.SubDomain;
+import com.smunity.graduation.global.common.type.Category;
+import com.smunity.graduation.global.common.type.SubDomain;
 import lombok.Builder;
 import org.json.JSONArray;
 import org.json.JSONObject;
