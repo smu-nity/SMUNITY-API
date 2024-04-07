@@ -24,6 +24,7 @@ public record MajorResponseDto(
                 .number(major.getNumber())
                 .name(major.getName())
                 .type(major.getType())
+                .credit(major.getCredit())
                 .build();
     }
 
