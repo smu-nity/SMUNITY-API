@@ -9,5 +9,5 @@ public interface CourseRepository extends JpaRepository<Course, Long>, CourseQue
 
     boolean existsByUserUserNameAndNumber(String userName, String number);
 
-    List<Course> findAllByUserUserName(String userName);
+    List<Course> findAllByUserUserNameAndSubDomainIsNotNull(String userName);
 }

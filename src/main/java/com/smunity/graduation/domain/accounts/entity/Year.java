@@ -7,7 +7,7 @@ import lombok.Getter;
 @Table(name = "accounts_year")
 @Entity
 public class Year {
-	
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -16,14 +16,14 @@ public class Year {
     private String year;
 
     @Column(name = "major_i")
-    private int majorI;
+    private Integer majorI;
 
     @Column(name = "major_s")
-    private int majorS;
+    private Integer majorS;
 
-    private int culture;
+    private Integer culture;
 
-    private int cultureCnt;
+    private Integer cultureCnt;
 
-    private int total;
+    private Integer total;
 }

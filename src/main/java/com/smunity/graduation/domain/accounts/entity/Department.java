@@ -1,30 +1,27 @@
 package com.smunity.graduation.domain.accounts.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.smunity.graduation.global.common.enums.SubDomain;
+import jakarta.persistence.*;
 import lombok.Getter;
 
 @Getter
 @Table(name = "accounts_department")
 @Entity
 public class Department {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
 
-	@Column(name = "college", nullable = false)
-	private String college;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-	@Column(name = "name", nullable = false)
-	private String name;
+    @Column(nullable = false)
+    private String college;
 
-	@Column(name = "type", nullable = false)
-	private String type;
+    @Column(nullable = false)
+    private String name;
 
-	@Column(name = "url")
-	private String url;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "type", nullable = false)
+    private SubDomain subDomain;
+
+    private String url;
 }

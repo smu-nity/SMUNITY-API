@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import static com.smunity.graduation.global.common.enums.Category.*;
+import static com.smunity.graduation.global.common.enums.Domain.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
@@ -73,5 +74,32 @@ class CourseQueryServiceTest {
 
         //then
         assertEquals(expected, actual, "교양 이수 학점 오류");
+    }
+
+    @Test
+    public void getCultureCoursesByDomainBasic() throws Exception {
+        //when
+        ResultResponseDto resultResponseDto = courseQueryService.getCultureCourses(userName, BASIC);
+
+        //then
+        System.out.println(resultResponseDto);
+    }
+
+    @Test
+    public void getCultureCoursesByDomainCore() throws Exception {
+        //when
+        ResultResponseDto resultResponseDto = courseQueryService.getCultureCourses(userName, CORE);
+
+        //then
+        System.out.println(resultResponseDto);
+    }
+
+    @Test
+    public void getCultureCoursesByDomainBalance() throws Exception {
+        //when
+        ResultResponseDto resultResponseDto = courseQueryService.getCultureCourses(userName, BALANCE);
+
+        //then
+        System.out.println(resultResponseDto);
     }
 }

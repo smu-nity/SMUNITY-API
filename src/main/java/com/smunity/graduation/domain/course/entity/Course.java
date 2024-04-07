@@ -12,7 +12,7 @@ import lombok.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Table(name = "core_course")
-public class Course {
+public class Course implements SubDomainHolder {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

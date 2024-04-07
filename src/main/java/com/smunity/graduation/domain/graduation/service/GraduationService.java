@@ -213,7 +213,7 @@ public class GraduationService {
 				List<String> balanceCultures = new ArrayList<>(Arrays.asList(cultures_balance));
 				List<String> excludeBalanceSubjects = new ArrayList<>();
 
-				String userType = user.getDepartment().getType();
+				String userType = user.getDepartment().getSubDomain().getName();
 				balanceCultures.remove(userType); //사용자 영역 제외
 
 				balanceCultures
