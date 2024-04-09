@@ -1,12 +1,10 @@
 package com.smunity.graduation.domain.qna.service;
 
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.smunity.graduation.domain.accounts.entity.User;
 import com.smunity.graduation.domain.accounts.exception.AccountsExceptionHandler;
-import com.smunity.graduation.domain.accounts.repository.user.UserJpaRepository;
 import com.smunity.graduation.domain.qna.entity.Answer;
 import com.smunity.graduation.domain.qna.entity.Question;
 import com.smunity.graduation.domain.qna.repository.AnswerJpaRepository;
@@ -22,7 +20,6 @@ public class QnAServiceUtils {
 
 	private final AnswerJpaRepository answerJpaRepository;
 	private final QuestionJpaRepository questionJpaRepository;
-	private final UserJpaRepository userJpaRepository;
 
 	public Answer getAnswerById(Long answerId) {
 		return answerJpaRepository.findById(answerId)
@@ -42,8 +39,8 @@ public class QnAServiceUtils {
 	}
 
 	// 스태프 권한이 있는지 확인
-	public void validateStaffAccess(User Author) {
-		if (!Author.getIsStaff()) {
+	public void validateStaffAccess(User author) {
+		if (!author.isStaff()) {
 			throw new AccountsExceptionHandler(ErrorCode.AUTHOR_IS_NOT_STAFF);
 		}
 	}

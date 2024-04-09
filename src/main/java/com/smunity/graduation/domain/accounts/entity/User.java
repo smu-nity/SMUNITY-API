@@ -59,7 +59,7 @@ public class User extends BaseEntity {
 
 	@Column(name = "is_staff", nullable = false)
 	@ColumnDefault("false")
-	private Boolean isStaff;
+	private boolean isStaff;
 
 	@Column(name = "is_active", nullable = false)
 	@ColumnDefault("true")
