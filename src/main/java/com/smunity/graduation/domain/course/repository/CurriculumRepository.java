@@ -2,7 +2,7 @@ package com.smunity.graduation.domain.course.repository;
 
 import com.smunity.graduation.domain.accounts.entity.Year;
 import com.smunity.graduation.domain.course.entity.Curriculum;
-import com.smunity.graduation.global.common.enums.Domain;
+import com.smunity.graduation.global.common.type.Domain;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

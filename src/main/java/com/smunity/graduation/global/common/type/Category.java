@@ -1,10 +1,10 @@
-package com.smunity.graduation.global.common.enums;
+package com.smunity.graduation.global.common.type;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 import java.util.Arrays;
-import java.util.List;
+import java.util.Map;
 
 @Getter
 @RequiredArgsConstructor
@@ -18,7 +18,8 @@ public enum Category {
     private final String name;
 
     public static Category of(String name) {
-        return hasCulture(name) ? CULTURE : findByName(name);
+        Map<String, Category> categoryMap = Map.of("교필", CULTURE, "교선", CULTURE, "1교직", MAJOR_OPTIONAL);
+        return categoryMap.getOrDefault(name, findByName(name));
     }
 
     private static Category findByName(String name) {
@@ -26,9 +27,5 @@ public enum Category {
                 .filter(category -> name.contains(category.getName()))
                 .findFirst()
                 .orElse(ETC);
-    }
-
-    private static boolean hasCulture(String name) {
-        return List.of("교필", "교선").contains(name);
     }
 }

@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import static com.smunity.graduation.global.common.enums.Category.*;
+import static com.smunity.graduation.global.common.type.Category.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest

@@ -1,8 +1,8 @@
-package com.smunity.graduation.global.common.enums;
+package com.smunity.graduation.global.common.type;
 
 import org.junit.jupiter.api.Test;
 
-import static com.smunity.graduation.global.common.enums.SubDomain.*;
+import static com.smunity.graduation.global.common.type.SubDomain.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 

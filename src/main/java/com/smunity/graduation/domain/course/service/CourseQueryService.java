@@ -11,9 +11,9 @@ import com.smunity.graduation.domain.course.repository.CurriculumRepository;
 import com.smunity.graduation.domain.course.repository.StandardRepository;
 import com.smunity.graduation.domain.course.repository.course.CourseRepository;
 import com.smunity.graduation.global.common.ErrorCode;
-import com.smunity.graduation.global.common.enums.Category;
-import com.smunity.graduation.global.common.enums.Domain;
-import com.smunity.graduation.global.common.enums.SubDomain;
+import com.smunity.graduation.global.common.type.Category;
+import com.smunity.graduation.global.common.type.Domain;
+import com.smunity.graduation.global.common.type.SubDomain;
 import com.smunity.graduation.global.common.exception.CustomException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,7 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-import static com.smunity.graduation.global.common.enums.SubDomain.*;
+import static com.smunity.graduation.global.common.type.SubDomain.*;
 
 @Service
 @Transactional(readOnly = true)

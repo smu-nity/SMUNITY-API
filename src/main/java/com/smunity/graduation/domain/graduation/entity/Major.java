@@ -8,8 +8,7 @@ import lombok.*;
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-@Table(name = "graduations_major")
-@Entity
+@Entity(name = "graduations_major")
 public class Major {
 
     @Id
@@ -40,6 +39,4 @@ public class Major {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "subject_id", nullable = false)
     private Subject subject;
-
-
 }

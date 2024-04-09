@@ -1,7 +1,7 @@
 package com.smunity.graduation.domain.course.repository.course;
 
 import com.smunity.graduation.domain.course.entity.Course;
-import com.smunity.graduation.global.common.enums.Category;
+import com.smunity.graduation.global.common.type.Category;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
 
-import static com.smunity.graduation.global.common.enums.Category.*;
+import static com.smunity.graduation.global.common.type.Category.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest

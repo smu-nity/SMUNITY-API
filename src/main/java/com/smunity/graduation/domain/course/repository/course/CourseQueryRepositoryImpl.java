@@ -3,7 +3,7 @@ package com.smunity.graduation.domain.course.repository.course;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.smunity.graduation.domain.course.entity.Course;
-import com.smunity.graduation.global.common.enums.Category;
+import com.smunity.graduation.global.common.type.Category;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;

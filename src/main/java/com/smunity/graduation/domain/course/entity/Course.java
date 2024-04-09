@@ -1,8 +1,8 @@
 package com.smunity.graduation.domain.course.entity;
 
 import com.smunity.graduation.domain.accounts.entity.User;
-import com.smunity.graduation.global.common.enums.Category;
-import com.smunity.graduation.global.common.enums.SubDomain;
+import com.smunity.graduation.global.common.type.Category;
+import com.smunity.graduation.global.common.type.SubDomain;
 import jakarta.persistence.*;
 import lombok.*;
 

@@ -1,8 +1,8 @@
 package com.smunity.graduation.domain.course.dto;
 
 import com.smunity.graduation.domain.course.entity.Course;
-import com.smunity.graduation.global.common.enums.Category;
-import com.smunity.graduation.global.common.enums.SubDomain;
+import com.smunity.graduation.global.common.type.Category;
+import com.smunity.graduation.global.common.type.SubDomain;
 import lombok.Builder;
 
 import java.util.List;
@@ -37,6 +37,8 @@ public record CourseResponseDto(
     }
 
     public static List<CourseResponseDto> from(List<Course> courses) {
-        return courses.stream().map(CourseResponseDto::from).toList();
+        return courses.stream()
+                .map(CourseResponseDto::from)
+                .toList();
     }
 }
