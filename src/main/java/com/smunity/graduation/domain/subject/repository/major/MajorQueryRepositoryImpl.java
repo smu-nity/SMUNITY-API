@@ -19,11 +19,12 @@ public class MajorQueryRepositoryImpl implements MajorQueryRepository {
     private final JPAQueryFactory query;
 
     @Override
-    public List<Major> findByDepartmentAndCategory(Department department, Category category) {
+    public List<Major> findByDepartmentAndCategory(Department department, Category category, List<String> completedNumbers) {
         return query.selectFrom(major)
                 .where(
                         departmentEq(department),
-                        categoryEq(category)
+                        categoryEq(category),
+                        numberNotIn(completedNumbers)
                 )
                 .fetch();
     }
@@ -34,5 +35,9 @@ public class MajorQueryRepositoryImpl implements MajorQueryRepository {
 
     private BooleanExpression categoryEq(Category category) {
         return category != null ? major.category.eq(category) : null;
+    }
+
+    private BooleanExpression numberNotIn(List<String> numbers) {
+        return numbers != null && !numbers.isEmpty() ? major.number.notIn(numbers) : null;
     }
 }

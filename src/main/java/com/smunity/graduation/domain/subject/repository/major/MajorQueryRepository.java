@@ -8,5 +8,5 @@ import java.util.List;
 
 public interface MajorQueryRepository {
 
-    List<Major> findByDepartmentAndCategory(Department department, Category category);
+    List<Major> findByDepartmentAndCategory(Department department, Category category, List<String> completedNumbers);
 }
