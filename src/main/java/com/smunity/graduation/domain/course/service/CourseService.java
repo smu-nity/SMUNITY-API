@@ -40,7 +40,7 @@ public class CourseService {
                 })
                 .toList();
         courseRepository.saveAll(courses);
-        List<CourseResponseDto> responseDto = CourseResponseDto.from(user.getCourses());
-        return ResultResponseDto.of(user.getYear().getTotal(), user.getCompletedCredits(), responseDto);
+        List<CourseResponseDto> responseDtoList = CourseResponseDto.from(user.getCourses());
+        return ResultResponseDto.of(user.getYear().getTotal(), user.getCompletedCredits(), responseDtoList);
     }
 }

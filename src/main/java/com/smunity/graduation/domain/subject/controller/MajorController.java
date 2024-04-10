@@ -22,7 +22,7 @@ public class MajorController {
 
     @GetMapping
     public ApiResponse<ResultResponseDto<MajorResponseDto>> getMajors(@AccountResolver User user, @RequestParam(required = false) Category category) {
-        ResultResponseDto<MajorResponseDto> responseDtoList = majorQueryService.getMajors(user.getUserName(), category);
-        return ApiResponse.onSuccess(responseDtoList);
+        ResultResponseDto<MajorResponseDto> responseDto = majorQueryService.getMajors(user.getUserName(), category);
+        return ApiResponse.onSuccess(responseDto);
     }
 }

@@ -33,9 +33,9 @@ class CourseServiceTest {
     public void createCourses() throws Exception {
         //when
         List<AuthCourseResponseDto> requestDtoList = authService.getCourses(requestDto);
-        ResultResponseDto<CourseResponseDto> responseDtoList = courseService.createCourses(requestDtoList, requestDto.username());
+        ResultResponseDto<CourseResponseDto> responseDto = courseService.createCourses(requestDtoList, requestDto.username());
 
         //then
-        System.out.println(responseDtoList);
+        System.out.println(responseDto);
     }
 }

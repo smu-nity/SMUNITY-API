@@ -36,20 +36,20 @@ public class CourseQueryService {
         User user = userRepository.findByUserName(username)
                 .orElseThrow(() -> new CustomException(ErrorCode._UNAUTHORIZED));
         List<Course> courses = courseRepository.findByUsernameAndCategory(username, category);
-        List<CourseResponseDto> responseDto = CourseResponseDto.from(courses);
+        List<CourseResponseDto> responseDtoList = CourseResponseDto.from(courses);
         int total = getTotal(user.getYear(), category);
         int completed = calculateCompleted(courses);
-        return ResultResponseDto.of(total, completed, responseDto);
+        return ResultResponseDto.of(total, completed, responseDtoList);
     }
 
     public ResultResponseDto<CultureResponseDto> getCultureCourses(String username, Domain domain) {
         User user = userRepository.findByUserName(username)
                 .orElseThrow(() -> new CustomException(ErrorCode._UNAUTHORIZED));
         List<Curriculum> curriculums = curriculumRepository.findAllByYearAndDomain(user.getYear(), domain);
-        List<CultureResponseDto> responseDto = CultureResponseDto.of(curriculums, user);
+        List<CultureResponseDto> responseDtoList = CultureResponseDto.of(curriculums, user);
         int total = getCultureTotal(curriculums.size(), domain);
-        int completed = calculateCultureCompleted(responseDto);
-        return ResultResponseDto.of(total, completed, responseDto);
+        int completed = calculateCultureCompleted(responseDtoList);
+        return ResultResponseDto.of(total, completed, responseDtoList);
     }
 
     private int getTotal(Year year, Category category) {
