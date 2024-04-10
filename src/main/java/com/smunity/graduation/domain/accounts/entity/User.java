@@ -105,4 +105,10 @@ public class User extends BaseEntity {
 	public void setDepartment(Department department) {
 		this.department = department;
 	}
+
+	public List<String> getCompletedNumbers() {
+		return courses.stream()
+				.map(Course::getNumber)
+				.toList();
+	}
 }
