@@ -9,7 +9,7 @@ import lombok.Getter;
 @Entity
 @Getter
 @Table(name = "core_curriculum")
-public class Curriculum implements SubDomainHolder {
+public class Curriculum {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
