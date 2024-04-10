@@ -2,6 +2,7 @@ package com.smunity.graduation.domain.subject.service;
 
 import com.smunity.graduation.domain.accounts.entity.User;
 import com.smunity.graduation.domain.accounts.repository.user.UserRepository;
+import com.smunity.graduation.domain.subject.dto.MajorResponseDto;
 import com.smunity.graduation.domain.subject.dto.ResultResponseDto;
 import com.smunity.graduation.domain.subject.entity.Major;
 import com.smunity.graduation.domain.subject.repository.major.MajorQueryRepository;
@@ -22,10 +23,11 @@ public class MajorQueryService {
     private final UserRepository userRepository;
     private final MajorQueryRepository majorQueryRepository;
 
-    public ResultResponseDto getMajors(String username, Category category) {
+    public ResultResponseDto<MajorResponseDto> getMajors(String username, Category category) {
         User user = userRepository.findByUserName(username)
                 .orElseThrow(() -> new CustomException(ErrorCode._UNAUTHORIZED));
         List<Major> majors = majorQueryRepository.findByDepartmentAndCategory(user.getDepartment(), category);
-        return ResultResponseDto.from(majors);
+        List<MajorResponseDto> responseDto = MajorResponseDto.from(majors);
+        return ResultResponseDto.from(responseDto);
     }
 }

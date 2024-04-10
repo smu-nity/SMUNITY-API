@@ -1,20 +1,19 @@
 package com.smunity.graduation.domain.subject.dto;
 
-import com.smunity.graduation.domain.subject.entity.Major;
 import lombok.Builder;
 
 import java.util.List;
 
 @Builder
-public record ResultResponseDto(
+public record ResultResponseDto<T>(
         int count,
-        List<?> content
+        List<T> content
 ) {
 
-    public static ResultResponseDto from(List<Major> majors) {
-        return ResultResponseDto.builder()
-                .count(majors.size())
-                .content(MajorResponseDto.from(majors))
+    public static <T> ResultResponseDto<T> from(List<T> responses) {
+        return ResultResponseDto.<T>builder()
+                .count(responses.size())
+                .content(responses)
                 .build();
     }
 }
