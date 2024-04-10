@@ -32,7 +32,7 @@ class CourseQueryServiceTest {
         int expected = 132;
 
         //when
-        ResultResponseDto responseDto = courseQueryService.getCourses(userName, null);
+        ResultResponseDto<CourseResponseDto> responseDto = courseQueryService.getCourses(userName, null);
         int actual = responseDto.status().completed();
 
         //then
