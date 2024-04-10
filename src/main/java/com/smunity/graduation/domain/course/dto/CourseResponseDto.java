@@ -21,7 +21,7 @@ public record CourseResponseDto(
         int credit
 ) {
 
-    public static CourseResponseDto from(Course course) {
+    private static CourseResponseDto from(Course course) {
         return CourseResponseDto.builder()
                 .id(course.getId())
                 .year(course.getYear())

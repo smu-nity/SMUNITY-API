@@ -1,27 +1,26 @@
 package com.smunity.graduation.domain.course.service;
 
 import com.smunity.graduation.domain.accounts.entity.User;
+import com.smunity.graduation.domain.accounts.entity.Year;
 import com.smunity.graduation.domain.accounts.repository.user.UserRepository;
+import com.smunity.graduation.domain.course.dto.CourseResponseDto;
+import com.smunity.graduation.domain.course.dto.CultureResponseDto;
 import com.smunity.graduation.domain.course.dto.ResultResponseDto;
 import com.smunity.graduation.domain.course.entity.Course;
 import com.smunity.graduation.domain.course.entity.Curriculum;
 import com.smunity.graduation.domain.course.entity.Standard;
-import com.smunity.graduation.domain.course.entity.SubDomainHolder;
 import com.smunity.graduation.domain.course.repository.CurriculumRepository;
 import com.smunity.graduation.domain.course.repository.StandardRepository;
 import com.smunity.graduation.domain.course.repository.course.CourseRepository;
 import com.smunity.graduation.global.common.ErrorCode;
+import com.smunity.graduation.global.common.exception.CustomException;
 import com.smunity.graduation.global.common.type.Category;
 import com.smunity.graduation.global.common.type.Domain;
-import com.smunity.graduation.global.common.type.SubDomain;
-import com.smunity.graduation.global.common.exception.CustomException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-
-import static com.smunity.graduation.global.common.type.SubDomain.*;
 
 @Service
 @Transactional(readOnly = true)
@@ -33,27 +32,33 @@ public class CourseQueryService {
     private final StandardRepository standardRepository;
     private final CurriculumRepository curriculumRepository;
 
-    public ResultResponseDto getCourses(String username, Category category) {
+    public ResultResponseDto<CourseResponseDto> getCourses(String username, Category category) {
         User user = userRepository.findByUserName(username)
                 .orElseThrow(() -> new CustomException(ErrorCode._UNAUTHORIZED));
-        int total = standardRepository.findByYearAndCategory(user.getYear(), category)
-                .map(Standard::getTotal)
-                .orElseGet(() -> user.getYear().getTotal());
         List<Course> courses = courseRepository.findByUsernameAndCategory(username, category);
-        return ResultResponseDto.of(total, courses);
+        List<CourseResponseDto> responseDto = CourseResponseDto.from(courses);
+        int total = getTotal(user.getYear(), category);
+        int completed = calculateCompleted(courses);
+        return ResultResponseDto.of(total, completed, responseDto);
     }
 
-    public ResultResponseDto getCultureCourses(String username, Domain domain) {
+    public ResultResponseDto<CultureResponseDto> getCultureCourses(String username, Domain domain) {
         User user = userRepository.findByUserName(username)
                 .orElseThrow(() -> new CustomException(ErrorCode._UNAUTHORIZED));
         List<Curriculum> curriculums = curriculumRepository.findAllByYearAndDomain(user.getYear(), domain);
-        List<Course> courses = courseRepository.findAllByUserUserNameAndSubDomainIsNotNull(username);
-        int total = getTotal(curriculums.size(), domain);
-        SubDomain depSubDomain = user.getDepartment().getSubDomain();
-        return ResultResponseDto.of(total, getSubDomains(curriculums, depSubDomain), getSubDomains(courses, depSubDomain));
+        List<CultureResponseDto> responseDto = CultureResponseDto.of(curriculums, user);
+        int total = getCultureTotal(curriculums.size(), domain);
+        int completed = calculateCultureCompleted(responseDto);
+        return ResultResponseDto.of(total, completed, responseDto);
     }
 
-    private int getTotal(int size, Domain domain) {
+    private int getTotal(Year year, Category category) {
+        return standardRepository.findByYearAndCategory(year, category)
+                .map(Standard::getTotal)
+                .orElseGet(year::getTotal);
+    }
+
+    private int getCultureTotal(int size, Domain domain) {
         return switch (domain) {
             case CORE -> 2;
             case BALANCE -> 3;
@@ -61,19 +66,16 @@ public class CourseQueryService {
         };
     }
 
-    private boolean isNaturalEngineer(SubDomain subDomain) {
-        return subDomain.equals(BALANCE_NATURAL) || subDomain.equals(BALANCE_ENGINEER);
+    private int calculateCompleted(List<Course> courses) {
+        return courses.stream()
+                .mapToInt(Course::getCredit)
+                .sum();
     }
 
-    private List<SubDomain> getExcludedSubDomains(SubDomain subDomain) {
-        return isNaturalEngineer(subDomain) ? List.of(subDomain, BALANCE_NATURAL_ENGINEER) : List.of(subDomain);
-    }
-
-    private List<SubDomain> getSubDomains(List<? extends SubDomainHolder> holders, SubDomain depSubDomain) {
-        List<SubDomain> excludedSubDomains = getExcludedSubDomains(depSubDomain);
-        return holders.stream()
-                .map(SubDomainHolder::getSubDomain)
-                .filter(subDomain -> !excludedSubDomains.contains(subDomain))
-                .toList();
+    private int calculateCultureCompleted(List<CultureResponseDto> cultures) {
+        return cultures.stream()
+                .filter(CultureResponseDto::completed)
+                .toList()
+                .size();
     }
 }

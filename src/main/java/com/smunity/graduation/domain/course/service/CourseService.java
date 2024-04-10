@@ -3,6 +3,7 @@ package com.smunity.graduation.domain.course.service;
 import com.smunity.graduation.domain.accounts.entity.User;
 import com.smunity.graduation.domain.accounts.repository.user.UserRepository;
 import com.smunity.graduation.domain.auth.dto.AuthCourseResponseDto;
+import com.smunity.graduation.domain.course.dto.CourseResponseDto;
 import com.smunity.graduation.domain.course.dto.ResultResponseDto;
 import com.smunity.graduation.domain.course.entity.Course;
 import com.smunity.graduation.domain.course.repository.course.CourseRepository;
@@ -25,7 +26,7 @@ public class CourseService {
     private final UserRepository userRepository;
     private final CourseRepository courseRepository;
 
-    public ResultResponseDto createCourses(List<AuthCourseResponseDto> requestDtoList, String username) {
+    public ResultResponseDto<CourseResponseDto> createCourses(List<AuthCourseResponseDto> requestDtoList, String username) {
         User user = userRepository.findByUserName(username)
                 .orElseThrow(() -> new CustomException(ErrorCode._UNAUTHORIZED));
         List<Course> courses = requestDtoList.stream()
@@ -39,6 +40,7 @@ public class CourseService {
                 })
                 .toList();
         courseRepository.saveAll(courses);
-        return ResultResponseDto.of(user.getYear().getTotal(), user.getCourses());
+        List<CourseResponseDto> responseDto = CourseResponseDto.from(user.getCourses());
+        return ResultResponseDto.of(user.getYear().getTotal(), user.getCompletedCredits(), responseDto);
     }
 }

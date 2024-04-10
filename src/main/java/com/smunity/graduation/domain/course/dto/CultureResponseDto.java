@@ -1,5 +1,7 @@
 package com.smunity.graduation.domain.course.dto;
 
+import com.smunity.graduation.domain.accounts.entity.User;
+import com.smunity.graduation.domain.course.entity.Curriculum;
 import com.smunity.graduation.global.common.type.SubDomain;
 import lombok.Builder;
 
@@ -12,17 +14,18 @@ public record CultureResponseDto(
         boolean completed
 ) {
 
-    public static CultureResponseDto of(SubDomain curriculum, List<SubDomain> courses) {
+    private static CultureResponseDto of(SubDomain subDomain, User user) {
         return CultureResponseDto.builder()
-                .subDomain(curriculum)
-                .subDomainName(curriculum.getName())
-                .completed(courses.contains(curriculum))
+                .subDomain(subDomain)
+                .subDomainName(subDomain.getName())
+                .completed(user.checkCompleted(subDomain))
                 .build();
     }
 
-    public static List<CultureResponseDto> of(List<SubDomain> curriculums, List<SubDomain> courses) {
+    public static List<CultureResponseDto> of(List<Curriculum> curriculums, User user) {
         return curriculums.stream()
-                .map(curriculum -> of(curriculum, courses))
+                .filter(curriculum -> !curriculum.getSubDomain().equals(user.getSubDomain()))
+                .map(curriculum -> of(curriculum.getSubDomain(), user))
                 .toList();
     }
 }
