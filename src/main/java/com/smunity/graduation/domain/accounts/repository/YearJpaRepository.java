@@ -8,5 +8,5 @@ import com.smunity.graduation.domain.accounts.entity.Year;
 
 public interface YearJpaRepository extends JpaRepository<Year, Long> {
 
-	Optional<Year> findByYear(String year);
+	Optional<Year> findByName(String name);
 }

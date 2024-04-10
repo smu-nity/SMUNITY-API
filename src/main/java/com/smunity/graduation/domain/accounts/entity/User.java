@@ -101,7 +101,7 @@ public class User extends BaseEntity {
 
     public SubDomain getSubDomain() {
         SubDomain subDomain = department.getSubDomain();
-        return year.getYear().equals("2024") && (subDomain.equals(BALANCE_NATURAL) || subDomain.equals(BALANCE_ENGINEER)) ? BALANCE_NATURAL_ENGINEER : subDomain;
+        return year.getName().equals("2024") && (subDomain.equals(BALANCE_NATURAL) || subDomain.equals(BALANCE_ENGINEER)) ? BALANCE_NATURAL_ENGINEER : subDomain;
     }
 
     public boolean checkCompleted(SubDomain subDomain) {

@@ -13,7 +13,9 @@ public class Year {
     private Long id;
 
     @Column(nullable = false)
-    private String year;
+    private String name;
+
+    private Integer value;
 
     @Column(name = "major_i")
     private Integer majorI;

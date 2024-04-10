@@ -25,7 +25,7 @@ class StandardRepositoryTest {
     @BeforeEach
     public void setUp() throws Exception {
         //given
-        year = yearJpaRepository.findByYear("2019").orElseThrow(Exception::new);
+        year = yearJpaRepository.findByName("2019").orElseThrow(Exception::new);
     }
 
     @Test
