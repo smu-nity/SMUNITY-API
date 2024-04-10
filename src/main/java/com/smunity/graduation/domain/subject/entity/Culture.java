@@ -27,8 +27,5 @@ public class Culture {
     private String name;
 
     @Column(nullable = false)
-    private String type;
-
-    @Column(nullable = false)
     private int credit;
 }
