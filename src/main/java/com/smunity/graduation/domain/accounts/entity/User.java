@@ -1,6 +1,7 @@
 package com.smunity.graduation.domain.accounts.entity;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.annotations.ColumnDefault;
@@ -77,7 +78,7 @@ public class User extends BaseEntity {
 	private Department department;
 
 	@OneToMany(mappedBy = "user")
-	private List<Course> courses;
+	private List<Course> courses = new ArrayList<>();
 
 	@Column(name = "current_year")
 	private int currentYear;
@@ -104,5 +105,11 @@ public class User extends BaseEntity {
 
 	public void setDepartment(Department department) {
 		this.department = department;
+	}
+
+	public List<String> getCompletedNumbers() {
+		return courses.stream()
+				.map(Course::getNumber)
+				.toList();
 	}
 }
