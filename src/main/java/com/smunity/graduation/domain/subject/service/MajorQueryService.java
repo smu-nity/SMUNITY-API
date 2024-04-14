@@ -26,7 +26,8 @@ public class MajorQueryService {
     public ResultResponseDto<MajorResponseDto> getMajors(String username, Category category) {
         User user = userRepository.findByUserName(username)
                 .orElseThrow(() -> new CustomException(ErrorCode._UNAUTHORIZED));
-        List<Major> responseDtoList = majorQueryRepository.findByDepartmentAndCategory(user.getDepartment(), category, user.getCompletedNumbers());
+        List<Major> majors = majorQueryRepository.findByDepartmentAndCategory(user.getDepartment(), category, user.getCompletedNumbers());
+        List<MajorResponseDto> responseDtoList = MajorResponseDto.from(majors);
         return ResultResponseDto.from(responseDtoList);
     }
 }
