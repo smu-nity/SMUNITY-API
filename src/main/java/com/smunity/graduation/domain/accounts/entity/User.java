@@ -12,6 +12,7 @@ import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.smunity.graduation.global.common.type.SubDomain.*;
@@ -64,26 +65,13 @@ public class User extends BaseEntity {
     private Department department;
 
     @OneToMany(mappedBy = "user")
-    private List<Course> courses;
+    private List<Course> courses = new ArrayList<>();
 
     @Column(name = "current_year")
     private int currentYear;
 
     @Column(name = "completed_semester")
     private int completedSemesters;
-
-    // @OneToMany(mappedBy = "author")
-    // private List<Respond> responds;
-    //
-    // @OneToMany(mappedBy = "author")
-    // private List<Question> questions;
-    //
-    // @OneToMany(mappedBy = "author")
-    // private List<Answer> answers;
-    //
-    // @ElementCollection(fetch = FetchType.EAGER)
-    // @Builder.Default
-    // private List<String> roles = new ArrayList<>();
 
     public void setYear(Year year) {
         this.year = year;
@@ -97,6 +85,12 @@ public class User extends BaseEntity {
         return courses.stream()
                 .mapToInt(Course::getCredit)
                 .sum();
+    }
+
+    public List<String> getCompletedNumbers() {
+        return courses.stream()
+                .map(Course::getNumber)
+                .toList();
     }
 
     public SubDomain getSubDomain() {
