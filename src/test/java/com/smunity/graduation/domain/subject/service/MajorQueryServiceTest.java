@@ -1,5 +1,6 @@
 package com.smunity.graduation.domain.subject.service;
 
+import com.smunity.graduation.domain.subject.dto.MajorResponseDto;
 import com.smunity.graduation.domain.subject.dto.ResultResponseDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -30,7 +31,7 @@ class MajorQueryServiceTest {
         int expected = 38;
 
         //when
-        ResultResponseDto responseDto = majorQueryService.getMajors(userName, null);
+        ResultResponseDto<MajorResponseDto> responseDto = majorQueryService.getMajors(userName, null);
         int actual = responseDto.count();
 
         //then
@@ -43,7 +44,7 @@ class MajorQueryServiceTest {
         int expected = 14;
 
         //when
-        ResultResponseDto responseDto = majorQueryService.getMajors(userName, MAJOR_ADVANCED);
+        ResultResponseDto<MajorResponseDto> responseDto = majorQueryService.getMajors(userName, MAJOR_ADVANCED);
         int actual = responseDto.count();
 
         //then
@@ -56,7 +57,7 @@ class MajorQueryServiceTest {
         int expected = 24;
 
         //when
-        ResultResponseDto responseDto = majorQueryService.getMajors(userName, MAJOR_OPTIONAL);
+        ResultResponseDto<MajorResponseDto> responseDto = majorQueryService.getMajors(userName, MAJOR_OPTIONAL);
         int actual = responseDto.count();
 
         //then

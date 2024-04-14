@@ -35,7 +35,7 @@ public class AccountsService {
 		String encodedPw = passwordEncoder.encode(request.password());
 		User newUser = request.toEntity(encodedPw);
 
-		Year year = yearJpaRepository.findByYear(request.username().substring(0, 4))
+		Year year = yearJpaRepository.findByName(request.username().substring(0, 4))
 			.orElseThrow(() -> new AccountsExceptionHandler(
 				ErrorCode.SAMNUL_ERROR));
 		Department department = departmentJpaRepository.findByName(request.department())

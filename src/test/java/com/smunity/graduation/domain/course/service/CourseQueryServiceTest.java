@@ -1,5 +1,7 @@
 package com.smunity.graduation.domain.course.service;
 
+import com.smunity.graduation.domain.course.dto.CourseResponseDto;
+import com.smunity.graduation.domain.course.dto.CultureResponseDto;
 import com.smunity.graduation.domain.course.dto.ResultResponseDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -30,7 +32,7 @@ class CourseQueryServiceTest {
         int expected = 132;
 
         //when
-        ResultResponseDto responseDto = courseQueryService.getCourses(userName, null);
+        ResultResponseDto<CourseResponseDto> responseDto = courseQueryService.getCourses(userName, null);
         int actual = responseDto.status().completed();
 
         //then
@@ -43,7 +45,7 @@ class CourseQueryServiceTest {
         int expected = 18;
 
         //when
-        ResultResponseDto responseDto = courseQueryService.getCourses(userName, MAJOR_ADVANCED);
+        ResultResponseDto<CourseResponseDto> responseDto = courseQueryService.getCourses(userName, MAJOR_ADVANCED);
         int actual = responseDto.status().completed();
 
         //then
@@ -56,7 +58,7 @@ class CourseQueryServiceTest {
         int expected = 66;
 
         //when
-        ResultResponseDto responseDto = courseQueryService.getCourses(userName, MAJOR_OPTIONAL);
+        ResultResponseDto<CourseResponseDto> responseDto = courseQueryService.getCourses(userName, MAJOR_OPTIONAL);
         int actual = responseDto.status().completed();
 
         //then
@@ -69,7 +71,7 @@ class CourseQueryServiceTest {
         int expected = 42;
 
         //when
-        ResultResponseDto responseDto = courseQueryService.getCourses(userName, CULTURE);
+        ResultResponseDto<CourseResponseDto> responseDto = courseQueryService.getCourses(userName, CULTURE);
         int actual = responseDto.status().completed();
 
         //then
@@ -79,7 +81,7 @@ class CourseQueryServiceTest {
     @Test
     public void getCultureCoursesByDomainBasic() throws Exception {
         //when
-        ResultResponseDto resultResponseDto = courseQueryService.getCultureCourses(userName, BASIC);
+        ResultResponseDto<CultureResponseDto> resultResponseDto = courseQueryService.getCultureCourses(userName, BASIC);
 
         //then
         System.out.println(resultResponseDto);
@@ -88,7 +90,7 @@ class CourseQueryServiceTest {
     @Test
     public void getCultureCoursesByDomainCore() throws Exception {
         //when
-        ResultResponseDto resultResponseDto = courseQueryService.getCultureCourses(userName, CORE);
+        ResultResponseDto<CultureResponseDto> resultResponseDto = courseQueryService.getCultureCourses(userName, CORE);
 
         //then
         System.out.println(resultResponseDto);
@@ -97,7 +99,7 @@ class CourseQueryServiceTest {
     @Test
     public void getCultureCoursesByDomainBalance() throws Exception {
         //when
-        ResultResponseDto resultResponseDto = courseQueryService.getCultureCourses(userName, BALANCE);
+        ResultResponseDto<CultureResponseDto> resultResponseDto = courseQueryService.getCultureCourses(userName, BALANCE);
 
         //then
         System.out.println(resultResponseDto);

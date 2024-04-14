@@ -5,6 +5,8 @@ import com.smunity.graduation.domain.accounts.entity.User;
 import com.smunity.graduation.domain.auth.dto.AuthCourseResponseDto;
 import com.smunity.graduation.domain.auth.dto.AuthRequestDto;
 import com.smunity.graduation.domain.auth.service.AuthService;
+import com.smunity.graduation.domain.course.dto.CourseResponseDto;
+import com.smunity.graduation.domain.course.dto.CultureResponseDto;
 import com.smunity.graduation.domain.course.dto.ResultResponseDto;
 import com.smunity.graduation.domain.course.service.CourseQueryService;
 import com.smunity.graduation.domain.course.service.CourseService;
@@ -27,21 +29,21 @@ public class CourseController {
     private final CourseQueryService courseQueryService;
 
     @GetMapping
-    public ApiResponse<ResultResponseDto> getCourses(@AccountResolver User user, @RequestParam(required = false) Category category) {
-        ResultResponseDto responseDtoList = courseQueryService.getCourses(user.getUserName(), category);
-        return ApiResponse.onSuccess(responseDtoList);
+    public ApiResponse<ResultResponseDto<CourseResponseDto>> getCourses(@AccountResolver User user, @RequestParam(required = false) Category category) {
+        ResultResponseDto<CourseResponseDto> responseDto = courseQueryService.getCourses(user.getUserName(), category);
+        return ApiResponse.onSuccess(responseDto);
     }
 
     @PostMapping("/upload")
-    public ApiResponse<ResultResponseDto> uploadCourses(@AccountResolver User user, @RequestBody @Valid AuthRequestDto requestDto) {
+    public ApiResponse<ResultResponseDto<CourseResponseDto>> uploadCourses(@AccountResolver User user, @RequestBody @Valid AuthRequestDto requestDto) {
         List<AuthCourseResponseDto> requestDtoList = authService.getCourses(requestDto);
-        ResultResponseDto responseDtoList = courseService.createCourses(requestDtoList, user.getUserName());
-        return ApiResponse.onSuccess(responseDtoList);
+        ResultResponseDto<CourseResponseDto> responseDto = courseService.createCourses(requestDtoList, user.getUserName());
+        return ApiResponse.onSuccess(responseDto);
     }
 
     @GetMapping("/cultures/{domain}")
-    public ApiResponse<ResultResponseDto> getCultureCourses(@AccountResolver User user, @PathVariable Domain domain) {
-        ResultResponseDto responseDtoList = courseQueryService.getCultureCourses(user.getUserName(), domain);
-        return ApiResponse.onSuccess(responseDtoList);
+    public ApiResponse<ResultResponseDto<CultureResponseDto>> getCultureCourses(@AccountResolver User user, @PathVariable Domain domain) {
+        ResultResponseDto<CultureResponseDto> responseDto = courseQueryService.getCultureCourses(user.getUserName(), domain);
+        return ApiResponse.onSuccess(responseDto);
     }
 }

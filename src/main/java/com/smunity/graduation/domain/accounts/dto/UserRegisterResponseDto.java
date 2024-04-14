@@ -22,7 +22,7 @@ public record UserRegisterResponseDto(
 			.email(user.getEmail())
 			.userName(user.getUserName())
 			.name(user.getName())
-			.year(user.getYear().getYear())
+			.year(user.getYear().getName())
 			.department(user.getDepartment().getName())
 			.currentYear(user.getCurrentYear())
 			.completedSemesters(user.getCompletedSemesters())

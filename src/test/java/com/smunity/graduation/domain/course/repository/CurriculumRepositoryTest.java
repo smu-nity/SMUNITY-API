@@ -25,7 +25,7 @@ class CurriculumRepositoryTest {
     @Test
     public void findAllByYearAndDomain() throws Exception {
         //given
-        Year year = yearJpaRepository.findByYear("2019").orElseThrow(Exception::new);
+        Year year = yearJpaRepository.findByName("2019").orElseThrow(Exception::new);
 
         //then
         printSubDomain(year, BASIC);
@@ -35,7 +35,7 @@ class CurriculumRepositoryTest {
 
     private void printSubDomain(Year year, Domain domain) {
         List<Curriculum> curriculums = curriculumRepository.findAllByYearAndDomain(year, domain);
-        System.out.printf("Year: %s\tDomain: %s\n", year.getYear(), domain.getName());
+        System.out.printf("Year: %s\tDomain: %s\n", year.getName(), domain.getName());
         curriculums.stream()
                 .map(Curriculum::getSubDomain)
                 .map(SubDomain::getName)
