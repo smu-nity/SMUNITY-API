@@ -23,8 +23,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-import static com.smunity.graduation.global.common.type.Category.*;
-
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
@@ -58,9 +56,7 @@ public class CourseQueryService {
     public CreditResponseDto getCoursesCredit(String username) {
         User user = userRepository.findByUserName(username)
                 .orElseThrow(() -> new CustomException(ErrorCode._UNAUTHORIZED));
-        int major = user.getCompletedCredits(MAJOR_ADVANCED) + user.getCompletedCredits(MAJOR_OPTIONAL);
-        int culture = user.getCompletedCredits(CULTURE);
-        return CreditResponseDto.of(user.getYear().getTotal(), user.getCompletedCredits(), major, culture);
+        return CreditResponseDto.from(user);
     }
 
     private int getTotal(Year year, Category category) {
