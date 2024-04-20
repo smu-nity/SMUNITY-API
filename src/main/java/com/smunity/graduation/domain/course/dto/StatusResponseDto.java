@@ -19,11 +19,11 @@ public record StatusResponseDto(
                 .build();
     }
 
-    private static int calculateRequired(int total, int completed) {
+    public static int calculateRequired(int total, int completed) {
         return Math.max(0, total - completed);
     }
 
-    private static int calculateCompletion(int total, int completed) {
+    public static int calculateCompletion(int total, int completed) {
         return Math.min(100, completed * 100 / total);
     }
 }
