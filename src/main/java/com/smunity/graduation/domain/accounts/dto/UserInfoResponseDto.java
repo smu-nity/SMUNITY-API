@@ -4,28 +4,23 @@ import com.smunity.graduation.domain.accounts.entity.User;
 import lombok.Builder;
 
 @Builder
-public record UserRegisterResponseDto(
+public record UserInfoResponseDto(
         Long id,
         String email,
         String userName,
         String name,
         String year,
-        String department,
-        int currentYear,
-        int completedSemesters
-
+        String department
 ) {
 
-    public static UserRegisterResponseDto from(User user) {
-        return UserRegisterResponseDto.builder()
+    public static UserInfoResponseDto from(User user) {
+        return UserInfoResponseDto.builder()
                 .id(user.getId())
                 .email(user.getEmail())
                 .userName(user.getUserName())
                 .name(user.getName())
                 .year(user.getYear().getName())
                 .department(user.getDepartment().getName())
-                .currentYear(user.getCurrentYear())
-                .completedSemesters(user.getCompletedSemesters())
                 .build();
     }
 }
