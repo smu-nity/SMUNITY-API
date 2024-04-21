@@ -6,6 +6,7 @@ import com.smunity.graduation.domain.auth.dto.AuthCourseResponseDto;
 import com.smunity.graduation.domain.auth.dto.AuthRequestDto;
 import com.smunity.graduation.domain.auth.service.AuthService;
 import com.smunity.graduation.domain.course.dto.CourseResponseDto;
+import com.smunity.graduation.domain.course.dto.CreditResponseDto;
 import com.smunity.graduation.domain.course.dto.CultureResponseDto;
 import com.smunity.graduation.domain.course.dto.ResultResponseDto;
 import com.smunity.graduation.domain.course.service.CourseQueryService;
@@ -38,6 +39,12 @@ public class CourseController {
     public ApiResponse<ResultResponseDto<CourseResponseDto>> uploadCourses(@AccountResolver User user, @RequestBody @Valid AuthRequestDto requestDto) {
         List<AuthCourseResponseDto> requestDtoList = authService.getCourses(requestDto);
         ResultResponseDto<CourseResponseDto> responseDto = courseService.createCourses(requestDtoList, user.getUserName());
+        return ApiResponse.onSuccess(responseDto);
+    }
+
+    @GetMapping("/credit")
+    public ApiResponse<CreditResponseDto> getCoursesCredit(@AccountResolver User user) {
+        CreditResponseDto responseDto = courseQueryService.getCoursesCredit(user.getUserName());
         return ApiResponse.onSuccess(responseDto);
     }
 

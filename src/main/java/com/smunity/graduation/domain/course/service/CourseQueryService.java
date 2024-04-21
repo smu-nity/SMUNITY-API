@@ -4,6 +4,7 @@ import com.smunity.graduation.domain.accounts.entity.User;
 import com.smunity.graduation.domain.accounts.entity.Year;
 import com.smunity.graduation.domain.accounts.repository.user.UserRepository;
 import com.smunity.graduation.domain.course.dto.CourseResponseDto;
+import com.smunity.graduation.domain.course.dto.CreditResponseDto;
 import com.smunity.graduation.domain.course.dto.CultureResponseDto;
 import com.smunity.graduation.domain.course.dto.ResultResponseDto;
 import com.smunity.graduation.domain.course.entity.Course;
@@ -50,6 +51,12 @@ public class CourseQueryService {
         int total = getCultureTotal(curriculums.size(), domain);
         int completed = calculateCultureCompleted(responseDtoList);
         return ResultResponseDto.of(total, completed, responseDtoList);
+    }
+
+    public CreditResponseDto getCoursesCredit(String username) {
+        User user = userRepository.findByUserName(username)
+                .orElseThrow(() -> new CustomException(ErrorCode._UNAUTHORIZED));
+        return CreditResponseDto.from(user);
     }
 
     private int getTotal(Year year, Category category) {

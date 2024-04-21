@@ -3,6 +3,7 @@ package com.smunity.graduation.domain.accounts.entity;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.smunity.graduation.domain.course.entity.Course;
 import com.smunity.graduation.global.common.BaseEntity;
+import com.smunity.graduation.global.common.type.Category;
 import com.smunity.graduation.global.common.type.SubDomain;
 import jakarta.persistence.*;
 import lombok.*;
@@ -83,6 +84,13 @@ public class User extends BaseEntity {
 
     public int getCompletedCredits() {
         return courses.stream()
+                .mapToInt(Course::getCredit)
+                .sum();
+    }
+
+    public int getCompletedCredits(Category category) {
+        return courses.stream()
+                .filter(course -> course.getCategory().equals(category))
                 .mapToInt(Course::getCredit)
                 .sum();
     }
