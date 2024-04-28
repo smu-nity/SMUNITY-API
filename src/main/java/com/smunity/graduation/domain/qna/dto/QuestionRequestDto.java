@@ -10,14 +10,14 @@ public record QuestionRequestDto(
         @NotBlank(message = "[ERROR] 내용은 필수 입력 항목 입니다.")
         String content,
         boolean anonymous
-
 ) {
-        public Question toEntity(User author) {
-                return Question.builder()
-                        .title(title)
-                        .content(content)
-                        .anonymous(anonymous)
-                        .author(author)
-                        .build();
-        }
+
+    public Question toEntity(User author) {
+        return Question.builder()
+                .title(title)
+                .content(content)
+                .anonymous(anonymous)
+                .author(author)
+                .build();
+    }
 }
