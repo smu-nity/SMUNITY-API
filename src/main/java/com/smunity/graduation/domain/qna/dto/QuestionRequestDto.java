@@ -1,6 +1,5 @@
 package com.smunity.graduation.domain.qna.dto;
 
-import com.smunity.graduation.domain.accounts.entity.User;
 import com.smunity.graduation.domain.qna.entity.Question;
 import jakarta.validation.constraints.NotBlank;
 
@@ -12,12 +11,11 @@ public record QuestionRequestDto(
         boolean anonymous
 ) {
 
-    public Question toEntity(User author) {
+    public Question toEntity() {
         return Question.builder()
                 .title(title)
                 .content(content)
                 .anonymous(anonymous)
-                .author(author)
                 .build();
     }
 }

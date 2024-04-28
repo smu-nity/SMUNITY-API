@@ -23,7 +23,9 @@ public class AnswerService {
 	public AnswerResponseDto createAnswer(Long questionId, AnswerRequestDto requestDto, User author) {
 		Question question = qnAServiceUtils.getQuestionById(questionId);
 		qnAServiceUtils.validateStaffAccess(author);
-		Answer answer = requestDto.toEntity(author, question);
+		Answer answer = requestDto.toEntity();
+		answer.setAuthor(author);
+		answer.setQuestion(question);
 		Answer saveAnswer = answerJpaRepository.save(answer);
 		return AnswerResponseDto.from(saveAnswer);
 	}

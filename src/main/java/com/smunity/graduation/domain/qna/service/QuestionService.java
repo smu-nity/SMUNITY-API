@@ -20,7 +20,9 @@ public class QuestionService {
 	private final QnAServiceUtils qnAServiceUtils;
 
 	public QuestionResponseDto createQuestion(QuestionRequestDto requestDto, User author) {
-		Question saveQuestion = questionJpaRepository.save(requestDto.toEntity(author));
+		Question question = requestDto.toEntity();
+		question.setAuthor(author);
+		Question saveQuestion = questionJpaRepository.save(question);
 		return QuestionResponseDto.from(saveQuestion);
 	}
 
