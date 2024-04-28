@@ -28,15 +28,15 @@ public class AnswerService {
 		return AnswerResponseDto.from(saveAnswer);
 	}
 
-	public AnswerResponseDto updateAnswer(Long answerId, AnswerRequestDto requestDto, User author) {
-		Answer existingAnswer = qnAServiceUtils.getAnswerById(answerId);
+	public AnswerResponseDto updateAnswer(Long questionId, AnswerRequestDto requestDto, User author) {
+		Answer existingAnswer = qnAServiceUtils.getAnswerByQuestionId(questionId);
 		qnAServiceUtils.validateStaffAccess(author);
 		existingAnswer.setContent(requestDto.content());
 		return AnswerResponseDto.from(existingAnswer);
 	}
 
-	public void deleteAnswer(Long answerId, User author) {
-		Answer existingAnswer = qnAServiceUtils.getAnswerById(answerId);
+	public void deleteAnswer(Long questionId, User author) {
+		Answer existingAnswer = qnAServiceUtils.getAnswerByQuestionId(questionId);
 		qnAServiceUtils.validateStaffAccess(author);
 		answerJpaRepository.delete(existingAnswer);
 	}

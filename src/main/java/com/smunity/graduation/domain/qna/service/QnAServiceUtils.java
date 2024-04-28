@@ -21,8 +21,8 @@ public class QnAServiceUtils {
 	private final AnswerJpaRepository answerJpaRepository;
 	private final QuestionJpaRepository questionJpaRepository;
 
-	public Answer getAnswerById(Long answerId) {
-		return answerJpaRepository.findById(answerId)
+	public Answer getAnswerByQuestionId(Long questionId) {
+		return answerJpaRepository.findByQuestionId(questionId)
 			.orElseThrow(() -> new AccountsExceptionHandler(ErrorCode.ANSWER_NOT_FOUND));
 	}
 

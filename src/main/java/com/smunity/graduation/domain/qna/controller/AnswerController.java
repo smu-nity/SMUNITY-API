@@ -12,39 +12,39 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/answers")
+@RequestMapping("/api/v1/questions/{questionId}/answer")
 public class AnswerController {
 
     private final AnswerService answerService;
     private final AnswerQueryService answerQueryService;
 
-    @PostMapping("/{question_id}")
+    @PostMapping
     public ApiResponse<AnswerResponseDto> createAnswer(
-            @PathVariable Long question_id,
+            @PathVariable Long questionId,
             @RequestBody AnswerRequestDto requestDto,
             @AccountResolver User user) {
-        return ApiResponse.onSuccess(answerService.createAnswer(question_id, requestDto, user));
+        return ApiResponse.onSuccess(answerService.createAnswer(questionId, requestDto, user));
     }
 
-    @PutMapping("/{answerId}")
-    public ApiResponse<AnswerResponseDto> updateAnswer(
-            @PathVariable Long answerId,
-            @RequestBody AnswerRequestDto requestDto,
-            @AccountResolver User user) {
-        return ApiResponse.onSuccess(answerService.updateAnswer(answerId, requestDto, user));
-    }
-
-    @GetMapping("/{questionId}")
-    public ApiResponse<AnswerResponseDto> getAnswerByQuestionId(@PathVariable Long questionId) {
+    @GetMapping
+    public ApiResponse<AnswerResponseDto> getAnswer(@PathVariable Long questionId) {
         AnswerResponseDto answer = answerQueryService.getAnswer(questionId);
         return ApiResponse.onSuccess(answer);
     }
 
-    @DeleteMapping("/{answerId}")
-    public ApiResponse<Void> deleteAnswer(
-            @PathVariable Long answerId,
+    @PutMapping
+    public ApiResponse<AnswerResponseDto> updateAnswer(
+            @PathVariable Long questionId,
+            @RequestBody AnswerRequestDto requestDto,
             @AccountResolver User user) {
-        answerService.deleteAnswer(answerId, user);
+        return ApiResponse.onSuccess(answerService.updateAnswer(questionId, requestDto, user));
+    }
+
+    @DeleteMapping
+    public ApiResponse<Void> deleteAnswer(
+            @PathVariable Long questionId,
+            @AccountResolver User user) {
+        answerService.deleteAnswer(questionId, user);
         return ApiResponse.noContent();
     }
 }
