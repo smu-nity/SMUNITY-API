@@ -2,14 +2,13 @@ package com.smunity.graduation.domain.qna.controller;
 
 import com.smunity.graduation.domain.accounts.annotation.AccountResolver;
 import com.smunity.graduation.domain.accounts.entity.User;
-import com.smunity.graduation.domain.qna.dto.QuestionsResponseDto;
 import com.smunity.graduation.domain.qna.dto.QuestionRequestDto;
 import com.smunity.graduation.domain.qna.dto.QuestionResponseDto;
+import com.smunity.graduation.domain.qna.dto.QuestionsResponseDto;
 import com.smunity.graduation.domain.qna.service.QuestionQueryService;
 import com.smunity.graduation.domain.qna.service.QuestionService;
 import com.smunity.graduation.global.common.ApiResponse;
 import lombok.RequiredArgsConstructor;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -36,6 +35,11 @@ public class QuestionController {
             @RequestBody QuestionRequestDto requestDto,
             @AccountResolver User user) {
         return ApiResponse.onSuccess(questionService.createQuestion(requestDto, user));
+    }
+
+    @GetMapping("/{questionId}")
+    public ApiResponse<QuestionsResponseDto> getQuestion(@PathVariable Long questionId) {
+        return ApiResponse.onSuccess(questionQueryService.getQuestion(questionId));
     }
 
     @PutMapping("/{questionId}")

@@ -3,6 +3,7 @@ package com.smunity.graduation.domain.qna.dto;
 import com.smunity.graduation.domain.qna.entity.Question;
 import com.smunity.graduation.domain.qna.entity.QuestionStatus;
 import lombok.Builder;
+import org.springframework.data.domain.Page;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -15,7 +16,7 @@ public record QuestionsResponseDto(
         String name,
         LocalDateTime timestamp
 ) {
-    
+
     public static QuestionsResponseDto from(Question question) {
         String authorName = question.isAnonymous() ? "익명" : question.getAuthor().getName();
         return QuestionsResponseDto.builder()
@@ -31,5 +32,9 @@ public record QuestionsResponseDto(
         return questions.stream()
                 .map(QuestionsResponseDto::from)
                 .toList();
+    }
+
+    public static Page<QuestionsResponseDto> from(Page<Question> questions) {
+        return questions.map(QuestionsResponseDto::from);
     }
 }
