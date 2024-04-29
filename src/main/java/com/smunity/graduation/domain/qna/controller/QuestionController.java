@@ -4,7 +4,6 @@ import com.smunity.graduation.domain.accounts.annotation.AccountResolver;
 import com.smunity.graduation.domain.accounts.entity.User;
 import com.smunity.graduation.domain.qna.dto.QuestionRequestDto;
 import com.smunity.graduation.domain.qna.dto.QuestionResponseDto;
-import com.smunity.graduation.domain.qna.dto.QuestionsResponseDto;
 import com.smunity.graduation.domain.qna.service.QuestionQueryService;
 import com.smunity.graduation.domain.qna.service.QuestionService;
 import com.smunity.graduation.global.common.ApiResponse;
@@ -24,9 +23,9 @@ public class QuestionController {
     private final QuestionQueryService questionQueryService;
 
     @GetMapping
-    public ApiResponse<Page<QuestionsResponseDto>> getQuestionList(
+    public ApiResponse<Page<QuestionResponseDto>> getQuestionList(
             @PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable) {
-        Page<QuestionsResponseDto> questions = questionQueryService.getQuestionList(pageable);
+        Page<QuestionResponseDto> questions = questionQueryService.getQuestionList(pageable);
         return ApiResponse.onSuccess(questions);
     }
 
@@ -38,7 +37,7 @@ public class QuestionController {
     }
 
     @GetMapping("/{questionId}")
-    public ApiResponse<QuestionsResponseDto> getQuestion(@PathVariable Long questionId) {
+    public ApiResponse<QuestionResponseDto> getQuestion(@PathVariable Long questionId) {
         return ApiResponse.onSuccess(questionQueryService.getQuestion(questionId));
     }
 

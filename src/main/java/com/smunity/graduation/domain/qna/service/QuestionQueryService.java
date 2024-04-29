@@ -1,6 +1,6 @@
 package com.smunity.graduation.domain.qna.service;
 
-import com.smunity.graduation.domain.qna.dto.QuestionsResponseDto;
+import com.smunity.graduation.domain.qna.dto.QuestionResponseDto;
 import com.smunity.graduation.domain.qna.entity.Question;
 import com.smunity.graduation.domain.qna.repository.QuestionJpaRepository;
 import com.smunity.graduation.global.common.ErrorCode;
@@ -18,14 +18,14 @@ public class QuestionQueryService {
 
     private final QuestionJpaRepository questionJpaRepository;
 
-    public Page<QuestionsResponseDto> getQuestionList(Pageable pageable) {
+    public Page<QuestionResponseDto> getQuestionList(Pageable pageable) {
         Page<Question> questions = questionJpaRepository.findAll(pageable);
-        return QuestionsResponseDto.from(questions);
+        return QuestionResponseDto.from(questions);
     }
 
-    public QuestionsResponseDto getQuestion(Long questionId) {
+    public QuestionResponseDto getQuestion(Long questionId) {
         Question question = questionJpaRepository.findById(questionId)
                 .orElseThrow(() -> new CustomException(ErrorCode.QUESTION_NOT_FOUND));
-        return QuestionsResponseDto.from(question);
+        return QuestionResponseDto.from(question);
     }
 }

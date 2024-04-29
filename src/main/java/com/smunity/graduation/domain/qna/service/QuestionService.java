@@ -1,44 +1,41 @@
 package com.smunity.graduation.domain.qna.service;
 
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.smunity.graduation.domain.accounts.entity.User;
 import com.smunity.graduation.domain.qna.dto.QuestionRequestDto;
 import com.smunity.graduation.domain.qna.dto.QuestionResponseDto;
 import com.smunity.graduation.domain.qna.entity.Question;
 import com.smunity.graduation.domain.qna.repository.QuestionJpaRepository;
-
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Transactional
 @Service
 public class QuestionService {
 
-	private final QuestionJpaRepository questionJpaRepository;
-	private final QnAServiceUtils qnAServiceUtils;
+    private final QuestionJpaRepository questionJpaRepository;
+    private final QnAServiceUtils qnAServiceUtils;
 
-	public QuestionResponseDto createQuestion(QuestionRequestDto requestDto, User author) {
-		Question question = requestDto.toEntity();
-		question.setAuthor(author);
-		Question saveQuestion = questionJpaRepository.save(question);
-		return QuestionResponseDto.from(saveQuestion);
-	}
+    public QuestionResponseDto createQuestion(QuestionRequestDto requestDto, User author) {
+        Question question = requestDto.toEntity();
+        question.setAuthor(author);
+        Question saveQuestion = questionJpaRepository.save(question);
+        return QuestionResponseDto.from(saveQuestion);
+    }
 
-	public QuestionResponseDto updateQuestion(Long questionId, QuestionRequestDto requestDto, User author) {
-		Question existingQuestion = qnAServiceUtils.getQuestionById(questionId);
-		qnAServiceUtils.validateAuthorAccess(author, existingQuestion.getAuthor().getUserName());
-		existingQuestion.setTitle(requestDto.title());
-		existingQuestion.setContent(requestDto.content());
-		existingQuestion.setAnonymous(requestDto.anonymous());
-		return QuestionResponseDto.from(existingQuestion);
-	}
+    public QuestionResponseDto updateQuestion(Long questionId, QuestionRequestDto requestDto, User author) {
+        Question existingQuestion = qnAServiceUtils.getQuestionById(questionId);
+        qnAServiceUtils.validateAuthorAccess(author, existingQuestion.getAuthor().getUserName());
+        existingQuestion.setTitle(requestDto.title());
+        existingQuestion.setContent(requestDto.content());
+        existingQuestion.setAnonymous(requestDto.anonymous());
+        return QuestionResponseDto.from(existingQuestion);
+    }
 
-	public void deleteQuestion(Long questionId, User author) {
-		Question existingQuestion = qnAServiceUtils.getQuestionById(questionId);
-		qnAServiceUtils.validateAuthorAccess(author, existingQuestion.getAuthor().getUserName());
-		questionJpaRepository.delete(existingQuestion);
-	}
-
+    public void deleteQuestion(Long questionId, User author) {
+        Question existingQuestion = qnAServiceUtils.getQuestionById(questionId);
+        qnAServiceUtils.validateAuthorAccess(author, existingQuestion.getAuthor().getUserName());
+        questionJpaRepository.delete(existingQuestion);
+    }
 }
