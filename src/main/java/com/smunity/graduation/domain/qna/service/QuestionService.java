@@ -5,6 +5,8 @@ import com.smunity.graduation.domain.qna.dto.QuestionRequestDto;
 import com.smunity.graduation.domain.qna.dto.QuestionResponseDto;
 import com.smunity.graduation.domain.qna.entity.Question;
 import com.smunity.graduation.domain.qna.repository.QuestionJpaRepository;
+import com.smunity.graduation.global.common.ErrorCode;
+import com.smunity.graduation.global.common.exception.CustomException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,7 +17,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class QuestionService {
 
     private final QuestionJpaRepository questionJpaRepository;
-    private final QnAServiceUtils qnAServiceUtils;
 
     public QuestionResponseDto createQuestion(QuestionRequestDto requestDto, User author) {
         Question question = requestDto.toEntity();
@@ -25,8 +26,9 @@ public class QuestionService {
     }
 
     public QuestionResponseDto updateQuestion(Long questionId, QuestionRequestDto requestDto, User author) {
-        Question existingQuestion = qnAServiceUtils.getQuestionById(questionId);
-        qnAServiceUtils.validateAuthorAccess(author, existingQuestion.getAuthor().getUserName());
+        Question existingQuestion = questionJpaRepository.findById(questionId)
+                .orElseThrow(() -> new CustomException(ErrorCode.QUESTION_NOT_FOUND));
+        validateAuthorAccess(author, existingQuestion.getAuthor().getUserName());
         existingQuestion.setTitle(requestDto.title());
         existingQuestion.setContent(requestDto.content());
         existingQuestion.setAnonymous(requestDto.anonymous());
@@ -34,8 +36,16 @@ public class QuestionService {
     }
 
     public void deleteQuestion(Long questionId, User author) {
-        Question existingQuestion = qnAServiceUtils.getQuestionById(questionId);
-        qnAServiceUtils.validateAuthorAccess(author, existingQuestion.getAuthor().getUserName());
+        Question existingQuestion = questionJpaRepository.findById(questionId)
+                .orElseThrow(() -> new CustomException(ErrorCode.QUESTION_NOT_FOUND));
+        validateAuthorAccess(author, existingQuestion.getAuthor().getUserName());
         questionJpaRepository.delete(existingQuestion);
+    }
+
+    // 작성자와 접근자가 같은 사람이거나 스태프 권한이 있는지 확인
+    private void validateAuthorAccess(User currentUser, String authorUserName) {
+        if (!currentUser.getUserName().equals(authorUserName) && !currentUser.isStaff()) {
+            throw new CustomException(ErrorCode.AUTHOR_NOT_MATCHED);
+        }
     }
 }
