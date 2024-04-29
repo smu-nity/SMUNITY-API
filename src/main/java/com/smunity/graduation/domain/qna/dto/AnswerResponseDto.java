@@ -10,15 +10,17 @@ public record AnswerResponseDto(
         Long id,
         Long questionId,
         String content,
-        LocalDateTime timestamp
+        LocalDateTime createdAt,
+        LocalDateTime updatedAt
 ) {
-    
+
     public static AnswerResponseDto from(Answer answer) {
         return AnswerResponseDto.builder()
                 .id(answer.getId())
                 .questionId(answer.getQuestion().getId())
                 .content(answer.getContent())
-                .timestamp(answer.getCreatedAt())
+                .createdAt(answer.getCreatedAt())
+                .updatedAt(answer.getUpdatedAt())
                 .build();
     }
 }
