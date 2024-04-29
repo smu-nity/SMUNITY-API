@@ -4,6 +4,7 @@ import com.smunity.graduation.domain.qna.entity.Question;
 import lombok.Builder;
 
 import java.time.LocalDateTime;
+
 @Builder
 public record QuestionResponseDto(
         Long id,
@@ -13,6 +14,7 @@ public record QuestionResponseDto(
         boolean anonymous,
         LocalDateTime timestamp
 ) {
+    
     public static QuestionResponseDto from(Question question) {
         return QuestionResponseDto.builder()
                 .id(question.getId())

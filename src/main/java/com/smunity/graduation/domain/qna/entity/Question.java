@@ -51,4 +51,12 @@ public class Question extends BaseEntity {
     public void setContent(String contents) {
         content = contents;
     }
+
+    public void setAuthor(User author) {
+        this.author = author;
+    }
+
+    public void setAnswer(Answer answer) {
+        this.answer = answer;
+    }
 }

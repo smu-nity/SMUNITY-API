@@ -11,8 +11,8 @@ public record AnswerResponseDto(
         Long questionId,
         String content,
         LocalDateTime timestamp
-
 ) {
+    
     public static AnswerResponseDto from(Answer answer) {
         return AnswerResponseDto.builder()
                 .id(answer.getId())

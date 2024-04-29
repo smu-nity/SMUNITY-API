@@ -5,6 +5,7 @@ import java.util.stream.Stream;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -37,8 +38,8 @@ import lombok.extern.slf4j.Slf4j;
 public class SecurityConfig {
 
 	private final String[] swaggerUrls = {"/swagger-ui/**", "/v3/**"};
-	private final String[] authUrls = {"/", "/api/v1/accounts/register/**", "/api/v1/accounts/login/**",
-		"/api/v1/auth"};
+	private final String[] authUrls = {"/", "/api/v1/accounts/register/**", "/api/v1/accounts/login/**", "/api/v1/auth"};
+	private final String[] readUrls = {"/api/v1/questions", "/api/v1/questions/**"};
 	private final String[] allowedUrls = Stream.concat(Arrays.stream(swaggerUrls), Arrays.stream(authUrls))
 		.toArray(String[]::new);
 
@@ -82,6 +83,7 @@ public class SecurityConfig {
 		http
 			.authorizeHttpRequests(auth -> auth
 				.requestMatchers(allowedUrls).permitAll()
+				.requestMatchers(HttpMethod.GET, readUrls).permitAll()
 				.requestMatchers("/**").authenticated()
 				.anyRequest().permitAll()
 			);

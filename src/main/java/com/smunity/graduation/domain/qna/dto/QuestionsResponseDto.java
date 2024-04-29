@@ -6,7 +6,6 @@ import lombok.Builder;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Builder
 public record QuestionsResponseDto(
@@ -16,7 +15,7 @@ public record QuestionsResponseDto(
         String name,
         LocalDateTime timestamp
 ) {
-
+    
     public static QuestionsResponseDto from(Question question) {
         String authorName = question.isAnonymous() ? "익명" : question.getAuthor().getName();
         return QuestionsResponseDto.builder()
@@ -31,6 +30,6 @@ public record QuestionsResponseDto(
     public static List<QuestionsResponseDto> from(List<Question> questions) {
         return questions.stream()
                 .map(QuestionsResponseDto::from)
-                .collect(Collectors.toList());
+                .toList();
     }
 }
