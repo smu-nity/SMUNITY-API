@@ -8,6 +8,7 @@ import com.smunity.graduation.domain.qna.service.QuestionQueryService;
 import com.smunity.graduation.domain.qna.service.QuestionService;
 import com.smunity.graduation.global.common.ApiResponse;
 import lombok.RequiredArgsConstructor;
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -24,7 +25,8 @@ public class QuestionController {
 
     @GetMapping
     public ApiResponse<Page<QuestionResponseDto>> getQuestionList(
-            @PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable) {
+            @ParameterObject
+            @PageableDefault(size = 5, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable) {
         Page<QuestionResponseDto> questions = questionQueryService.getQuestionList(pageable);
         return ApiResponse.onSuccess(questions);
     }
