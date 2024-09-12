@@ -1,6 +1,6 @@
-package com.smunity.graduation.global.common.exception;
+package com.smunity.graduation.global.exception;
 
-import com.smunity.graduation.global.common.BaseErrorCode;
+import com.smunity.graduation.global.exception.code.BaseErrorCode;
 
 import lombok.Getter;
 

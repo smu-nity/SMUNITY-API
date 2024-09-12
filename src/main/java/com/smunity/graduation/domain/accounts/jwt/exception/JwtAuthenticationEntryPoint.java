@@ -8,7 +8,7 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
 
 import com.smunity.graduation.domain.accounts.jwt.util.HttpResponseUtil;
-import com.smunity.graduation.global.common.ApiResponse;
+import com.smunity.graduation.global.common.dto.ApiResponse;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

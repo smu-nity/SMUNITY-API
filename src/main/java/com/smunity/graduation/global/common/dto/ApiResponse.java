@@ -1,4 +1,4 @@
-package com.smunity.graduation.global.common;
+package com.smunity.graduation.global.common.dto;
 
 import org.springframework.http.HttpStatus;
 

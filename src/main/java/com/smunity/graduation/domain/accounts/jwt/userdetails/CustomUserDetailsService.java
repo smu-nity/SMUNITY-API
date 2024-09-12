@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import com.smunity.graduation.domain.accounts.entity.User;
 import com.smunity.graduation.domain.accounts.exception.AccountsExceptionHandler;
 import com.smunity.graduation.domain.accounts.repository.user.UserRepository;
-import com.smunity.graduation.global.common.ErrorCode;
+import com.smunity.graduation.global.exception.code.ErrorCode;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

@@ -2,7 +2,7 @@ package com.smunity.graduation.domain.accounts.entity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.smunity.graduation.domain.course.entity.Course;
-import com.smunity.graduation.global.common.BaseEntity;
+import com.smunity.graduation.global.common.entity.BaseEntity;
 import com.smunity.graduation.global.common.type.Category;
 import com.smunity.graduation.global.common.type.SubDomain;
 import jakarta.persistence.*;

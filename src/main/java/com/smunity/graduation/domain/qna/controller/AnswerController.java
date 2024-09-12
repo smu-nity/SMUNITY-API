@@ -6,7 +6,7 @@ import com.smunity.graduation.domain.qna.dto.AnswerRequestDto;
 import com.smunity.graduation.domain.qna.dto.AnswerResponseDto;
 import com.smunity.graduation.domain.qna.service.AnswerQueryService;
 import com.smunity.graduation.domain.qna.service.AnswerService;
-import com.smunity.graduation.global.common.ApiResponse;
+import com.smunity.graduation.global.common.dto.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 

@@ -4,7 +4,7 @@ import com.smunity.graduation.domain.accounts.annotation.AccountResolver;
 import com.smunity.graduation.domain.accounts.dto.UserInfoResponseDto;
 import com.smunity.graduation.domain.accounts.entity.User;
 import com.smunity.graduation.domain.accounts.service.UserQueryService;
-import com.smunity.graduation.global.common.ApiResponse;
+import com.smunity.graduation.global.common.dto.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

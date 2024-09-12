@@ -11,7 +11,7 @@ import com.smunity.graduation.domain.course.dto.CultureResponseDto;
 import com.smunity.graduation.domain.course.dto.ResultResponseDto;
 import com.smunity.graduation.domain.course.service.CourseQueryService;
 import com.smunity.graduation.domain.course.service.CourseService;
-import com.smunity.graduation.global.common.ApiResponse;
+import com.smunity.graduation.global.common.dto.ApiResponse;
 import com.smunity.graduation.global.common.type.Category;
 import com.smunity.graduation.global.common.type.Domain;
 import jakarta.validation.Valid;

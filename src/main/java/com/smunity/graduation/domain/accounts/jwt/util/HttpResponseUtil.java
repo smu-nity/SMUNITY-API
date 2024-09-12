@@ -6,7 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.smunity.graduation.global.common.ApiResponse;
+import com.smunity.graduation.global.common.dto.ApiResponse;
 
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AccessLevel;

@@ -3,7 +3,7 @@ package com.smunity.graduation.domain.subject.controller;
 import com.smunity.graduation.domain.subject.dto.CultureResponseDto;
 import com.smunity.graduation.domain.subject.dto.ResultResponseDto;
 import com.smunity.graduation.domain.subject.service.CultureQueryService;
-import com.smunity.graduation.global.common.ApiResponse;
+import com.smunity.graduation.global.common.dto.ApiResponse;
 import com.smunity.graduation.global.common.type.SubDomain;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;

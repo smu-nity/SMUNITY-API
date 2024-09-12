@@ -1,9 +1,11 @@
-package com.smunity.graduation.global.common.exception;
+package com.smunity.graduation.global.exception.handler;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.smunity.graduation.global.exception.CustomException;
+import com.smunity.graduation.global.exception.code.GlobalErrorCode;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -11,9 +13,9 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import com.smunity.graduation.global.common.ApiResponse;
-import com.smunity.graduation.global.common.BaseErrorCode;
-import com.smunity.graduation.global.common.ErrorCode;
+import com.smunity.graduation.global.common.dto.ApiResponse;
+import com.smunity.graduation.global.exception.code.BaseErrorCode;
+import com.smunity.graduation.global.exception.code.ErrorCode;
 
 import lombok.extern.slf4j.Slf4j;
 

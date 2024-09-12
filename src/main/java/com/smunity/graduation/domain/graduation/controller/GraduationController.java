@@ -5,7 +5,7 @@ import com.smunity.graduation.domain.accounts.entity.User;
 import com.smunity.graduation.domain.graduation.dto.GraduationResponseDto;
 import com.smunity.graduation.domain.graduation.dto.SubjectResponseDto;
 import com.smunity.graduation.domain.graduation.service.GraduationService;
-import com.smunity.graduation.global.common.ApiResponse;
+import com.smunity.graduation.global.common.dto.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;

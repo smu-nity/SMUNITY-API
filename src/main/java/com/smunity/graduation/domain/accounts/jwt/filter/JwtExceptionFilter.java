@@ -8,8 +8,8 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import com.smunity.graduation.domain.accounts.jwt.exception.SecurityCustomException;
 import com.smunity.graduation.domain.accounts.jwt.exception.TokenErrorCode;
 import com.smunity.graduation.domain.accounts.jwt.util.HttpResponseUtil;
-import com.smunity.graduation.global.common.ApiResponse;
-import com.smunity.graduation.global.common.BaseErrorCode;
+import com.smunity.graduation.global.common.dto.ApiResponse;
+import com.smunity.graduation.global.exception.code.BaseErrorCode;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.http.HttpServletRequest;

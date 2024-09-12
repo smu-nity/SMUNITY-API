@@ -6,7 +6,7 @@ import com.smunity.graduation.domain.qna.dto.QuestionRequestDto;
 import com.smunity.graduation.domain.qna.dto.QuestionResponseDto;
 import com.smunity.graduation.domain.qna.service.QuestionQueryService;
 import com.smunity.graduation.domain.qna.service.QuestionService;
-import com.smunity.graduation.global.common.ApiResponse;
+import com.smunity.graduation.global.common.dto.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Page;

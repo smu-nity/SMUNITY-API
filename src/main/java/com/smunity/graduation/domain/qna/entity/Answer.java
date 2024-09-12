@@ -1,7 +1,7 @@
 package com.smunity.graduation.domain.qna.entity;
 
 import com.smunity.graduation.domain.accounts.entity.User;
-import com.smunity.graduation.global.common.BaseEntity;
+import com.smunity.graduation.global.common.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

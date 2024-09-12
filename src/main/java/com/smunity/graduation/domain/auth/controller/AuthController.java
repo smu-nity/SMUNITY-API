@@ -3,7 +3,7 @@ package com.smunity.graduation.domain.auth.controller;
 import com.smunity.graduation.domain.auth.dto.AuthRequestDto;
 import com.smunity.graduation.domain.auth.dto.AuthResponseDto;
 import com.smunity.graduation.domain.auth.service.AuthService;
-import com.smunity.graduation.global.common.ApiResponse;
+import com.smunity.graduation.global.common.dto.ApiResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;

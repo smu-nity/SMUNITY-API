@@ -1,7 +1,7 @@
 package com.smunity.graduation.domain.accounts.jwt.exception;
 
-import com.smunity.graduation.global.common.BaseErrorCode;
-import com.smunity.graduation.global.common.exception.CustomException;
+import com.smunity.graduation.global.exception.code.BaseErrorCode;
+import com.smunity.graduation.global.exception.CustomException;
 
 import lombok.Getter;
 

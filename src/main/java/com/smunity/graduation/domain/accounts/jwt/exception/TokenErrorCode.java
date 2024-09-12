@@ -2,8 +2,8 @@ package com.smunity.graduation.domain.accounts.jwt.exception;
 
 import org.springframework.http.HttpStatus;
 
-import com.smunity.graduation.global.common.ApiResponse;
-import com.smunity.graduation.global.common.BaseErrorCode;
+import com.smunity.graduation.global.common.dto.ApiResponse;
+import com.smunity.graduation.global.exception.code.BaseErrorCode;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

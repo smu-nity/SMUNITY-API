@@ -16,7 +16,7 @@ import com.smunity.graduation.domain.accounts.jwt.exception.SecurityCustomExcept
 import com.smunity.graduation.domain.accounts.jwt.exception.TokenErrorCode;
 import com.smunity.graduation.domain.accounts.jwt.util.JwtUtil;
 import com.smunity.graduation.domain.accounts.service.AccountsService;
-import com.smunity.graduation.global.common.ApiResponse;
+import com.smunity.graduation.global.common.dto.ApiResponse;
 
 import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.validation.Valid;

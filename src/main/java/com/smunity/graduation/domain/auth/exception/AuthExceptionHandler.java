@@ -2,9 +2,9 @@ package com.smunity.graduation.domain.auth.exception;
 
 import org.springframework.web.reactive.function.client.ClientResponse;
 
-import com.smunity.graduation.global.common.BaseErrorCode;
-import com.smunity.graduation.global.common.ErrorCode;
-import com.smunity.graduation.global.common.exception.CustomException;
+import com.smunity.graduation.global.exception.code.BaseErrorCode;
+import com.smunity.graduation.global.exception.code.ErrorCode;
+import com.smunity.graduation.global.exception.CustomException;
 
 import reactor.core.publisher.Mono;
 

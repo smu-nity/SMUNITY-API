@@ -1,5 +1,6 @@
-package com.smunity.graduation.global.common;
+package com.smunity.graduation.global.exception.code;
 
+import com.smunity.graduation.global.common.dto.ApiResponse;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
