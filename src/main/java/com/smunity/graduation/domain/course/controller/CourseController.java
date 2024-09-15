@@ -11,11 +11,12 @@ import com.smunity.graduation.domain.course.dto.CultureResponseDto;
 import com.smunity.graduation.domain.course.dto.ResultResponseDto;
 import com.smunity.graduation.domain.course.service.CourseQueryService;
 import com.smunity.graduation.domain.course.service.CourseService;
-import com.smunity.graduation.global.common.dto.ApiResponse;
 import com.smunity.graduation.global.common.type.Category;
 import com.smunity.graduation.global.common.type.Domain;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -30,27 +31,27 @@ public class CourseController {
     private final CourseQueryService courseQueryService;
 
     @GetMapping
-    public ApiResponse<ResultResponseDto<CourseResponseDto>> getCourses(@AccountResolver User user, @RequestParam(required = false) Category category) {
+    public ResponseEntity<ResultResponseDto<CourseResponseDto>> getCourses(@AccountResolver User user, @RequestParam(required = false) Category category) {
         ResultResponseDto<CourseResponseDto> responseDto = courseQueryService.getCourses(user.getUserName(), category);
-        return ApiResponse.onSuccess(responseDto);
+        return ResponseEntity.ok(responseDto);
     }
 
     @PostMapping("/upload")
-    public ApiResponse<ResultResponseDto<CourseResponseDto>> uploadCourses(@AccountResolver User user, @RequestBody @Valid AuthRequestDto requestDto) {
+    public ResponseEntity<ResultResponseDto<CourseResponseDto>> uploadCourses(@AccountResolver User user, @RequestBody @Valid AuthRequestDto requestDto) {
         List<AuthCourseResponseDto> requestDtoList = authService.getCourses(requestDto);
         ResultResponseDto<CourseResponseDto> responseDto = courseService.createCourses(requestDtoList, user.getUserName());
-        return ApiResponse.onSuccess(responseDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(responseDto);
     }
 
     @GetMapping("/credit")
-    public ApiResponse<CreditResponseDto> getCoursesCredit(@AccountResolver User user) {
+    public ResponseEntity<CreditResponseDto> getCoursesCredit(@AccountResolver User user) {
         CreditResponseDto responseDto = courseQueryService.getCoursesCredit(user.getUserName());
-        return ApiResponse.onSuccess(responseDto);
+        return ResponseEntity.ok(responseDto);
     }
 
     @GetMapping("/cultures/{domain}")
-    public ApiResponse<ResultResponseDto<CultureResponseDto>> getCultureCourses(@AccountResolver User user, @PathVariable Domain domain) {
+    public ResponseEntity<ResultResponseDto<CultureResponseDto>> getCultureCourses(@AccountResolver User user, @PathVariable Domain domain) {
         ResultResponseDto<CultureResponseDto> responseDto = courseQueryService.getCultureCourses(user.getUserName(), domain);
-        return ApiResponse.onSuccess(responseDto);
+        return ResponseEntity.ok(responseDto);
     }
 }

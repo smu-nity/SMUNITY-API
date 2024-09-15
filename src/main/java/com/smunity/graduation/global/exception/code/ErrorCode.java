@@ -1,6 +1,5 @@
 package com.smunity.graduation.global.exception.code;
 
-import com.smunity.graduation.global.common.dto.ApiResponse;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
@@ -14,6 +13,7 @@ public enum ErrorCode implements BaseErrorCode {
     _BAD_REQUEST(HttpStatus.BAD_REQUEST, "COMMON400", "잘못된 요청입니다."),
     _UNAUTHORIZED(HttpStatus.UNAUTHORIZED, "COMMON401", "인증이 필요합니다."),
     _FORBIDDEN(HttpStatus.FORBIDDEN, "COMMON403", "금지된 요청입니다."),
+    VALIDATION_FAILED(HttpStatus.BAD_REQUEST, "VALID001", "입력값에 대한 검증에 실패했습니다."),
 
     // 멤버 관련 에러
     USER_NOT_FOUND(HttpStatus.BAD_REQUEST, "USER4001", "사용자가 없습니다."),
@@ -44,9 +44,4 @@ public enum ErrorCode implements BaseErrorCode {
     private final HttpStatus httpStatus;
     private final String code;
     private final String message;
-
-    @Override
-    public ApiResponse<Void> getErrorResponse() {
-        return ApiResponse.onFailure(code, message);
-    }
 }

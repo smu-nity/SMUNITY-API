@@ -6,8 +6,9 @@ import com.smunity.graduation.domain.qna.dto.AnswerRequestDto;
 import com.smunity.graduation.domain.qna.dto.AnswerResponseDto;
 import com.smunity.graduation.domain.qna.service.AnswerQueryService;
 import com.smunity.graduation.domain.qna.service.AnswerService;
-import com.smunity.graduation.global.common.dto.ApiResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -19,32 +20,32 @@ public class AnswerController {
     private final AnswerQueryService answerQueryService;
 
     @PostMapping
-    public ApiResponse<AnswerResponseDto> createAnswer(
+    public ResponseEntity<AnswerResponseDto> createAnswer(
             @PathVariable Long questionId,
             @RequestBody AnswerRequestDto requestDto,
             @AccountResolver User user) {
-        return ApiResponse.onSuccess(answerService.createAnswer(questionId, requestDto, user));
+        return ResponseEntity.status(HttpStatus.CREATED).body(answerService.createAnswer(questionId, requestDto, user));
     }
 
     @GetMapping
-    public ApiResponse<AnswerResponseDto> getAnswer(@PathVariable Long questionId) {
+    public ResponseEntity<AnswerResponseDto> getAnswer(@PathVariable Long questionId) {
         AnswerResponseDto answer = answerQueryService.getAnswer(questionId);
-        return ApiResponse.onSuccess(answer);
+        return ResponseEntity.ok(answer);
     }
 
     @PutMapping
-    public ApiResponse<AnswerResponseDto> updateAnswer(
+    public ResponseEntity<AnswerResponseDto> updateAnswer(
             @PathVariable Long questionId,
             @RequestBody AnswerRequestDto requestDto,
             @AccountResolver User user) {
-        return ApiResponse.onSuccess(answerService.updateAnswer(questionId, requestDto, user));
+        return ResponseEntity.status(HttpStatus.CREATED).body(answerService.updateAnswer(questionId, requestDto, user));
     }
 
     @DeleteMapping
-    public ApiResponse<Void> deleteAnswer(
+    public ResponseEntity<Void> deleteAnswer(
             @PathVariable Long questionId,
             @AccountResolver User user) {
         answerService.deleteAnswer(questionId, user);
-        return ApiResponse.noContent();
+        return ResponseEntity.noContent().build();
     }
 }

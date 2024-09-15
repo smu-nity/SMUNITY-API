@@ -3,9 +3,9 @@ package com.smunity.graduation.domain.subject.controller;
 import com.smunity.graduation.domain.subject.dto.CultureResponseDto;
 import com.smunity.graduation.domain.subject.dto.ResultResponseDto;
 import com.smunity.graduation.domain.subject.service.CultureQueryService;
-import com.smunity.graduation.global.common.dto.ApiResponse;
 import com.smunity.graduation.global.common.type.SubDomain;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -19,8 +19,8 @@ public class CultureController {
     private final CultureQueryService cultureQueryService;
 
     @GetMapping
-    public ApiResponse<ResultResponseDto<CultureResponseDto>> getCultures(@RequestParam(required = false) SubDomain subDomain) {
+    public ResponseEntity<ResultResponseDto<CultureResponseDto>> getCultures(@RequestParam(required = false) SubDomain subDomain) {
         ResultResponseDto<CultureResponseDto> responseDto = cultureQueryService.getCultures(subDomain);
-        return ApiResponse.onSuccess(responseDto);
+        return ResponseEntity.ok(responseDto);
     }
 }

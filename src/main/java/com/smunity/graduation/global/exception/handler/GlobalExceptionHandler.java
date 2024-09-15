@@ -1,82 +1,73 @@
 package com.smunity.graduation.global.exception.handler;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
+import com.smunity.graduation.global.common.dto.ErrorResponse;
 import com.smunity.graduation.global.exception.CustomException;
-import com.smunity.graduation.global.exception.code.GlobalErrorCode;
+import com.smunity.graduation.global.exception.code.BaseErrorCode;
+import com.smunity.graduation.global.exception.code.ErrorCode;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.MessageSourceResolvable;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.method.annotation.HandlerMethodValidationException;
 
-import com.smunity.graduation.global.common.dto.ApiResponse;
-import com.smunity.graduation.global.exception.code.BaseErrorCode;
-import com.smunity.graduation.global.exception.code.ErrorCode;
-
-import lombok.extern.slf4j.Slf4j;
+import java.util.Map;
+import java.util.Objects;
 
 @Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-	@ExceptionHandler({Exception.class})
-	public ResponseEntity<ApiResponse<String>> handleAllException(Exception e) {
-		log.error(">>>>> Internal Server Error : ", e);
-		BaseErrorCode errorCode = GlobalErrorCode.INTERNAL_SERVER_ERROR;
-		ApiResponse<String> errorResponse = ApiResponse.onFailure(
-			errorCode.getCode(),
-			errorCode.getMessage(),
-			e.getMessage()
-		);
-		return ResponseEntity.internalServerError().body(errorResponse);
-	}
+    // 사용자 정의 예외(GeneralException) 처리 메서드
+    @ExceptionHandler(CustomException.class)
+    protected ResponseEntity<ErrorResponse<Void>> handleGeneralException(CustomException ex) {
+        log.warn("[WARNING] {} : {}", ex.getClass(), ex.getMessage());
+        BaseErrorCode errorCode = ex.getErrorCode();
+        return ErrorResponse.handle(errorCode);
+    }
 
-	@ExceptionHandler({CustomException.class})
-	public ResponseEntity<ApiResponse<Void>> handleCustomException(CustomException e) {
-		log.warn(">>>>> Custom Exception : {}", e.getMessage());
-		BaseErrorCode errorCode = e.getErrorCode();
-		return ResponseEntity.status(errorCode.getHttpStatus()).body(errorCode.getErrorResponse());
-	}
+    // 요청 파라미터 검증 실패(MethodArgumentNotValidException) 처리 메서드
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    protected ResponseEntity<ErrorResponse<Map<String, String>>> handleMethodArgumentNotValidException(MethodArgumentNotValidException ex) {
+        log.warn("[WARNING] {} : {}", ex.getClass(), ex.getMessage());
+        ErrorCode errorCode = ErrorCode.VALIDATION_FAILED;
+        return ErrorResponse.handle(errorCode, ex.getFieldErrors());
+    }
 
-	@ExceptionHandler({DataIntegrityViolationException.class})
-	public ApiResponse<Object> handleIntegrityConstraint(DataIntegrityViolationException e) {
-		log.warn(">>>>> Data Integrity Violation Exception : {}", e.getMessage());
-		BaseErrorCode errorStatus = ErrorCode.USER_ALREADY_EXIST;
-		return ApiResponse.onFailure(
-			errorStatus.getCode(),
-			errorStatus.getMessage()
-		);
-	}
+    // 데이터 무결성 위반(DataIntegrityViolationException) 처리 메서드
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    protected ResponseEntity<ErrorResponse<Void>> handleDataIntegrityViolationException(DataIntegrityViolationException ex) {
+        log.warn("[WARNING] {} : {}", ex.getClass(), ex.getMessage());
+        ErrorCode errorCode = ErrorCode.VALIDATION_FAILED;
+        return ErrorResponse.handle(errorCode);
+    }
 
-	@ExceptionHandler(MethodArgumentNotValidException.class)
-	protected ResponseEntity<ApiResponse<Map<String, String>>> handleMethodArgumentNotValidException(
-		MethodArgumentNotValidException ex
-	) {
-		// 실패한 validation 을 담을 Map
-		Map<String, String> failedValidations = new HashMap<>();
-		List<FieldError> fieldErrors = ex.getBindingResult().getFieldErrors();
-		// fieldErrors 를 순회하며 failedValidations 에 담는다.
-		fieldErrors.forEach(error -> failedValidations.put(error.getField(), error.getDefaultMessage()));
-		ApiResponse<Map<String, String>> errorResponse = ApiResponse.onFailure(
-			GlobalErrorCode.VALIDATION_FAILED.getCode(),
-			GlobalErrorCode.VALIDATION_FAILED.getMessage(),
-			failedValidations);
-		return ResponseEntity.status(ex.getStatusCode()).body(errorResponse);
-	}
-	//
-	// @ExceptionHandler({SecurityCustomException.class})
-	// public ResponseEntity<ApiResponse<String>> handleAuthenticationException(Exception e) {
-	// 	log.error(">>>>> Security Server Error : ", e);
-	// 	BaseErrorCode errorCode = SecurityErrorCode.INTERNAL_TOKEN_SERVER_ERROR;
-	// 	ApiResponse<String> errorResponse = ApiResponse.onFailure(
-	// 		errorCode.getCode(),
-	// 		errorCode.getMessage(),
-	// 		e.getMessage()
-	// 	);
-	// 	return ResponseEntity.internalServerError().body(errorResponse);
-	// }
+    // 컨트롤러 메서드 파라미터의 유효성 검증 실패(HandlerMethodValidationException) 처리 메서드 - @PermissionCheckValidator
+    @ExceptionHandler(HandlerMethodValidationException.class)
+    protected ResponseEntity<ErrorResponse<Void>> handleHandlerMethodValidationException(HandlerMethodValidationException ex) {
+        log.warn("[WARNING] {} : {}", ex.getClass(), ex.getMessage());
+        BaseErrorCode errorCode = extractErrorCode(ex);
+        return ErrorResponse.handle(errorCode);
+    }
+
+    // 기타 모든 예외(Exception) 처리 메서드
+    @ExceptionHandler(Exception.class)
+    protected ResponseEntity<ErrorResponse<Void>> handleException(Exception ex) {
+        log.error("[ERROR] {} : {}", ex.getClass(), ex.getMessage());
+        ErrorCode errorCode = ErrorCode._INTERNAL_SERVER_ERROR;
+        return ErrorResponse.handle(errorCode);
+    }
+
+    // HandlerMethodValidationException 에서 ErrorCode 를 추출하는 메서드
+    private BaseErrorCode extractErrorCode(HandlerMethodValidationException ex) {
+        return ex.getAllValidationResults().stream()
+                .flatMap(result -> result.getResolvableErrors().stream())
+                .map(MessageSourceResolvable::getDefaultMessage)
+                .filter(Objects::nonNull)
+                .findFirst()
+                .map(ErrorCode::valueOf)
+                .orElseThrow(() -> new CustomException(ErrorCode._BAD_REQUEST));
+    }
 }
